@@ -60,3 +60,16 @@
 - Nenhum serviço pago autorizado.
 - Produção e prévia verificadas manualmente.
 - Titularidade definitiva das contas permanece pendente.
+
+## Estrutura compartilhada da interface
+
+- Cabeçalho e rodapé separados em componentes.
+- SiteLayout recebe o conteúdo da página pela propriedade children.
+- O layout contém o elemento main e organiza a altura da página.
+- Novos componentes usam arquivos com inicial minúscula,
+  mantendo os nomes dos componentes React com inicial maiúscula.
+- Cabeçalho usa o nome em texto enquanto a logo definitiva
+  permanece pendente de aprovação.
+- Verificação local relatada pelo desenvolvedor:
+  conteúdo exibido, ausência de rolagem horizontal em janela
+  estreita, lint e build concluídos sem erros.

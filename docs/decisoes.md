@@ -97,3 +97,37 @@
 - Prévia validada pelo desenvolvedor: navegação, acesso direto
   a `/catalogo`, atualização da página e teste no celular,
   sem rolagem horizontal.
+
+  ## Atualização das coleções e nomes
+
+- Coleções confirmadas com a cliente: Essência, Promessa,
+  Luz, Graça, Raízes e Infantil.
+- Essa lista substitui a lista de cinco coleções do PDF V1.
+- Materiais permanecem: Pérolas, Cristais e Raízes.
+- Fotos editadas estão organizadas por coleção e possuem
+  fundo padronizado em #F5EDE5.
+- O padrão dos nomes será definido com o desenvolvedor
+  no passo dos cards; ainda não há nomes finais aprovados.
+
+  ## Busca e filtros do catálogo
+
+- Busca por nome mantida após revisão visual.
+- Busca compacta e arredondada.
+- Atalhos visíveis: Todas, Essência, Graça e Luz,
+  sem faixa de rolagem horizontal.
+- Clicar novamente na coleção selecionada desmarca.
+- Todas limpa somente a coleção, preservando busca e material.
+- Ícone abaixo do cabeçalho abre painel lateral.
+- Painel contém todas as seis coleções e os três materiais.
+- Escolhas no painel são aplicadas por Ver peças.
+- Fechar pelo botão, Esc ou fundo descarta mudanças provisórias.
+- Limpar tudo prepara a remoção de busca e filtros,
+  efetivada ao confirmar em Ver peças.
+- Etiquetas permitem remover coleção e material individualmente.
+- Painel usa dialog nativo, com animação de entrada e respeito
+  à preferência de movimento reduzido; saída ainda imediata.
+- Interações locais verificadas pelo desenvolvedor.
+- Lint e build concluídos sem erros.
+- Compilação de prévia concluída com sucesso.
+- Busca, atalhos, painel e etiquetas verificados online
+  pelo desenvolvedor, inclusive no celular.

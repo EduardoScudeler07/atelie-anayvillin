@@ -94,4 +94,6 @@
 - Testes locais realizados pelo desenvolvedor:
   navegação, voltar/avançar, foco e acionamento por teclado,
   janela estreita sem rolagem horizontal, lint e build.
-- Acesso direto à rota na prévia do Cloudflare ainda pendente.
+- Prévia validada pelo desenvolvedor: navegação, acesso direto
+  a `/catalogo`, atualização da página e teste no celular,
+  sem rolagem horizontal.

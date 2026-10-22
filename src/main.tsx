@@ -5,9 +5,12 @@ import '@fontsource/playfair-display/500.css'
 import '@fontsource/montserrat/400.css'
 import './index.css'
 import App from './App.tsx'
+import { BrowserRouter } from 'react-router'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </StrictMode>,
 )

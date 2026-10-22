@@ -82,3 +82,16 @@
 - Compilação local passou após a correção.
 - Compilação no Cloudflare passou após a correção.
 - Conteúdo da prévia conferido pelo desenvolvedor.
+
+## Rotas e início visual do catálogo
+
+- React Router instalado e conectado por BrowserRouter.
+- Rota `/` preserva a apresentação provisória.
+- Rota `/catalogo` exibe título, subtítulo e divisor decorativo.
+- Cabeçalho permite navegar entre início e catálogo.
+- Desenvolvimento visual começa pelo catálogo, seguido
+  da página de produto e da Home.
+- Testes locais realizados pelo desenvolvedor:
+  navegação, voltar/avançar, foco e acionamento por teclado,
+  janela estreita sem rolagem horizontal, lint e build.
+- Acesso direto à rota na prévia do Cloudflare ainda pendente.

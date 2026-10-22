@@ -1,5 +1,5 @@
 .catalog-page {
-  padding-top: 40px;
+  padding-top: 12px;
   padding-bottom: 48px;
 }
 
@@ -30,17 +30,84 @@
 .catalog-divider {
   width: 96px;
   height: 1px;
-  margin: 28px auto 0;
+  margin: 20px auto 0;
   background-color: var(--color-accent);
 }
 
 @media (min-width: 768px) {
   .catalog-page {
-    padding-top: 64px;
+    padding-top: 12px;
     padding-bottom: 64px;
   }
 
   .catalog-description {
     font-size: 18px;
   }
+}
+
+.catalog-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 16px;
+}
+
+.catalog-filter-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: var(--color-text);
+  background-color: transparent;
+}
+
+.catalog-filter-trigger:hover {
+  background-color: var(--color-surface);
+}
+
+.catalog-filter-trigger:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+.catalog-active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 960px;
+  margin: 12px auto 0;
+}
+
+.catalog-filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+}
+
+.catalog-filter-tag > span:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.catalog-filter-tag > span:last-child {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.catalog-filter-tag:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
 }

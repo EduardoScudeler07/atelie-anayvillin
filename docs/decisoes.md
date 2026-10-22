@@ -128,4 +128,6 @@
   à preferência de movimento reduzido; saída ainda imediata.
 - Interações locais verificadas pelo desenvolvedor.
 - Lint e build concluídos sem erros.
-- Validação online dos novos controles ainda pendente.
+- Compilação de prévia concluída com sucesso.
+- Busca, atalhos, painel e etiquetas verificados online
+  pelo desenvolvedor, inclusive no celular.

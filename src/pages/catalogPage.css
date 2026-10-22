@@ -1,0 +1,46 @@
+.catalog-page {
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.catalog-intro {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.catalog-label {
+  margin-bottom: 12px;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.catalog-intro h1 {
+  margin-bottom: 16px;
+  font-size: clamp(32px, 6vw, 48px);
+}
+
+.catalog-description {
+  max-width: 520px;
+  margin: 0 auto;
+  font-size: 16px;
+}
+
+.catalog-divider {
+  width: 96px;
+  height: 1px;
+  margin: 28px auto 0;
+  background-color: var(--color-accent);
+}
+
+@media (min-width: 768px) {
+  .catalog-page {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  .catalog-description {
+    font-size: 18px;
+  }
+}

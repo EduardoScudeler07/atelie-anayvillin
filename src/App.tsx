@@ -1,20 +1,34 @@
+import { Route, Routes } from 'react-router'
 import SiteLayout from './layouts/siteLayout'
+import CatalogPage from './pages/catalogPage'
 import './App.css'
 
 function App() {
   return (
     <SiteLayout>
-      <div className="initial-page">
-        <section className="welcome" aria-labelledby="welcome-title">
-          <p className="welcome-label">Terços artesanais</p>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="initial-page">
+              <section
+                className="welcome"
+                aria-labelledby="welcome-title"
+              >
+                <p className="welcome-label">Terços artesanais</p>
 
-          <h1 id="welcome-title">Ateliê Anayvillin</h1>
+                <h1 id="welcome-title">Ateliê Anayvillin</h1>
 
-          <p className="welcome-description">
-            Nosso catálogo está em preparação.
-          </p>
-        </section>
-      </div>
+                <p className="welcome-description">
+                  Nosso catálogo está em preparação.
+                </p>
+              </section>
+            </div>
+          }
+        />
+
+        <Route path="/catalogo" element={<CatalogPage />} />
+      </Routes>
     </SiteLayout>
   )
 }

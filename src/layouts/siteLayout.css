@@ -29,3 +29,42 @@
   font-size: 14px;
   text-align: center;
 }
+
+.site-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.site-brand {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.site-brand:hover {
+  color: var(--color-text);
+}
+
+.site-nav-link {
+  display: inline-block;
+  padding: 8px 0;
+  color: var(--color-text);
+  font-size: 14px;
+  text-decoration: none;
+  text-underline-offset: 5px;
+}
+
+.site-nav-link:hover,
+.site-nav-link[aria-current='page'] {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+.site-brand:focus-visible,
+.site-nav-link:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 4px;
+  border-radius: 4px;
+}

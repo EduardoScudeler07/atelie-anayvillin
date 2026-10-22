@@ -4,8 +4,8 @@ Site institucional e catálogo digital de terços artesanais.
 
 ## Estado atual
 
-Etapa 1 em andamento: base local com página provisória.
-O site ainda não foi publicado.
+Etapa 2: página mínima publicada no Cloudflare Pages.
+Produção e prévia verificadas manualmente.
 
 ## Escopo da V1
 
@@ -87,11 +87,9 @@ nas etapas correspondentes.
 
 ## Infraestrutura proposta
 
-GitHub, Cloudflare Pages, Pages Functions, D1 e Cloudinary.
-
-Esses serviços ainda não foram configurados.
-Limites, condições de uso comercial e custos serão verificados
-antes da configuração.
+- GitHub e Cloudflare Pages configurados.
+- Pages Functions, D1 e Cloudinary ainda não configurados.
+- Limites, condições e custos serão revistos antes de adicionar serviços.
 
 ## Validação realizada
 
@@ -104,3 +102,39 @@ antes da configuração.
 
 Essas verificações não representam validação completa
 de acessibilidade, segurança ou dispositivos.
+
+## Publicação
+
+Produção: https://atelie-anayvillin.pages.dev
+
+Prévia verificada:
+https://bf0db261.atelie-anayvillin.pages.dev
+
+Esse link identifica uma publicação específica.
+Novas publicações de prévia podem gerar outros endereços.
+
+### Configuração do Cloudflare Pages
+
+- Repositório: EduardoScudeler07/atelie-anayvillin.
+- Branch de produção: `main`.
+- Branch usada para testes: `preview`.
+- Framework: React (Vite).
+- Comando de compilação: `npm run build`.
+- Diretório de saída: `dist`.
+- Diretório raiz: raiz do repositório.
+- Nenhuma variável de ambiente configurada nesta etapa.
+
+### Fluxo de atualização
+
+1. Desenvolver na branch `preview`.
+2. Executar lint e build antes do envio.
+3. Enviar os commits e conferir a publicação de prévia.
+4. Após aprovação, integrar as alterações à `main`.
+
+Envios à `main` atualizam automaticamente o site estável.
+
+### Verificações da publicação inicial
+
+- Produção aberta no computador e no celular pelo desenvolvedor.
+- Prévia aberta e conferida pelo desenvolvedor.
+- Cloudflare exibiu sucesso nos dois ambientes.

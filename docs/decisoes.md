@@ -47,5 +47,16 @@
 - Titularidade e acessos das contas externas.
 - Validação da infraestrutura proposta e dos planos gratuitos.
 - Definição de privacidade, domínio e backups.
-- Preparação do Git e conexão ao GitHub.
-- Publicação inicial e ambiente de prévia.
+
+## Publicação inicial
+
+- Repositório público autorizado para uso como portfólio.
+- Código versionado somente a partir da pasta `site`.
+- Cloudflare Pages conectado ao repositório do projeto.
+- `main` definida como branch de produção.
+- `preview` usada para revisão antes de atualizar produção.
+- Publicação automática após envio às branches configuradas.
+- Endereço gratuito `.pages.dev`, sem compra de domínio.
+- Nenhum serviço pago autorizado.
+- Produção e prévia verificadas manualmente.
+- Titularidade definitiva das contas permanece pendente.

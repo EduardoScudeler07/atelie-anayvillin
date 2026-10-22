@@ -80,4 +80,5 @@
   `SiteLayout.css` no import e `siteLayout.css` no arquivo.
 - Import corrigido para corresponder exatamente ao nome do arquivo.
 - Compilação local passou após a correção.
-- Validação no Cloudflare ainda pendente.
+- Compilação no Cloudflare passou após a correção.
+- Conteúdo da prévia conferido pelo desenvolvedor.

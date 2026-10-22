@@ -73,3 +73,11 @@
 - Verificação local relatada pelo desenvolvedor:
   conteúdo exibido, ausência de rolagem horizontal em janela
   estreita, lint e build concluídos sem erros.
+
+  ## Correção do import de estilos do layout
+
+- A compilação de prévia falhou por diferença entre
+  `SiteLayout.css` no import e `siteLayout.css` no arquivo.
+- Import corrigido para corresponder exatamente ao nome do arquivo.
+- Compilação local passou após a correção.
+- Validação no Cloudflare ainda pendente.

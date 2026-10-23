@@ -180,4 +180,8 @@
 - Descrições e contato oficial permanecem pendentes.
 - Número da cliente será incluído somente na revisão final.
 - Navegação e apresentação local verificadas pelo desenvolvedor.
-- Validação na prévia ainda pendente.
+- Lint e build concluídos sem erros.
+- Compilação da prévia passou.
+- Links dos cards, acesso direto, atualização da página,
+  produto inexistente e apresentação no celular verificados
+  na prévia pelo desenvolvedor.

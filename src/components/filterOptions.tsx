@@ -14,14 +14,14 @@ const collections = [
   { value: 'promessa', label: 'Promessa' },
   { value: 'luz', label: 'Luz' },
   { value: 'graca', label: 'Graça' },
-  { value: 'raizes', label: 'Raízes' },
+{ value: 'raizes', label: 'Raízes' },
   { value: 'infantil', label: 'Infantil' },
 ]
 
 const materials = [
   { value: 'perolas', label: 'Pérolas' },
   { value: 'cristais', label: 'Cristais' },
-  { value: 'raizes', label: 'Raízes' },
+ { value: 'madeira', label: 'Madeira' },
 ]
 
 function FilterOptions({

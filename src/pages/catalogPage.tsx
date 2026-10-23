@@ -14,11 +14,18 @@ const collectionLabels: Record<string, string> = {
   raizes: 'Raízes',
   infantil: 'Infantil',
 }
-
 const materialLabels: Record<string, string> = {
   perolas: 'Pérolas',
   cristais: 'Cristais',
-  raizes: 'Raízes',
+  madeira: 'Madeira',
+}
+
+function normalizeText(value: string) {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase('pt-BR')
+    .trim()
 }
 
 function CatalogPage() {
@@ -58,6 +65,22 @@ function CatalogPage() {
 
     setFiltersOpen(false)
   }
+
+  const normalizedSearch = normalizeText(search)
+
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = normalizeText(product.name).includes(
+      normalizedSearch,
+    )
+
+    const matchesCollection =
+      !collection || product.collection === collection
+
+    const matchesMaterial =
+      !material || product.materials.some((item) => item === material)
+
+    return matchesSearch && matchesCollection && matchesMaterial
+  })
 
   return (
     <div className="catalog-page container">
@@ -140,16 +163,28 @@ function CatalogPage() {
       )}
 
       <section className="catalog-products" aria-label="Terços do catálogo">
-        <div className="row g-3">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="col-6 col-md-4 col-lg-3"
-            >
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
+        <p className="catalog-results-count" role="status">
+          {filteredProducts.length === 1
+            ? '1 peça encontrada'
+            : `${filteredProducts.length} peças encontradas`}
+        </p>
+
+        {filteredProducts.length > 0 ? (
+          <div className="row g-3">
+            {filteredProducts.map((product) => (
+              <div
+                key={product.id}
+                className="col-6 col-md-4 col-lg-3"
+              >
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="catalog-empty">
+            Nenhuma peça encontrada. Tente outra busca ou remova um filtro.
+          </p>
+        )}
       </section>
 
       <FilterPanel open={filtersOpen} onClose={closeFilters}>

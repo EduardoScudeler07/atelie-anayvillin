@@ -154,3 +154,14 @@
 - Cabeçalho com espaçamento vertical de 12px.
 - Largura da logo: 180px; em telas menores que 576px, 145px.
 - Tamanho conferido visualmente pelo usuário.
+
+## Filtragem dos produtos
+
+- Busca por nome ignora diferenças de acentos e maiúsculas.
+- Busca, coleção e material são combinados para filtrar os cards.
+- Raízes permanece como coleção; Madeira identifica o material.
+- Catálogo mostra a quantidade de peças encontradas.
+- Combinações sem resultados exibem uma mensagem explicativa.
+- Testes locais de busca, filtros combinados e limpeza passaram.
+- Lint e build concluídos sem erros.
+- Validação da filtragem na prévia ainda pendente.

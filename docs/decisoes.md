@@ -196,4 +196,6 @@
 - Layout e navegação conferidos localmente pelo desenvolvedor,
   incluindo celular.
 - Lint e build concluídos sem erros.
-- Validação na prévia ainda pendente.
+- Compilação da prévia passou.
+- Home e acesso ao catálogo conferidos na prévia pelo
+  desenvolvedor, no computador e no celular.

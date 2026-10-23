@@ -168,3 +168,20 @@
 - Testes locais de busca, filtros combinados e limpeza passaram.
 - Lint e build concluídos sem erros.
 - Validação da filtragem na prévia ainda pendente.
+
+## Página individual do produto
+
+- Rota `/produto/:slug` consulta os dados locais.
+- Foto e nome dos cards abrem a peça correspondente.
+- Página segue a referência visual de produto, com foto inteira,
+  nome, coleção, materiais e indicação de encomenda.
+- Produto inexistente exibe mensagem e link para o catálogo.
+- Uma foto por produto neste passo, sem controles de galeria.
+- Descrições e contato oficial permanecem pendentes.
+- Número da cliente será incluído somente na revisão final.
+- Navegação e apresentação local verificadas pelo desenvolvedor.
+- Lint e build concluídos sem erros.
+- Compilação da prévia passou.
+- Links dos cards, acesso direto, atualização da página,
+  produto inexistente e apresentação no celular verificados
+  na prévia pelo desenvolvedor.

@@ -144,7 +144,10 @@
 - Nomes das amostras de Luz e Graça provisórios.
 - Amostra de cinco cards conferida visualmente pelo desenvolvedor.
 - Lint e build passaram após adicionar os cards e a logo.
-- Validação online desta atualização ainda pendente.
+- Logo, cinco cards e fotos revisados na prévia pelo desenvolvedor.
+- Busca, filtros combinados, contagem e estado sem resultados
+  verificados na prévia, inclusive no celular.
+- Compilação no Cloudflare concluída com sucesso.
 
 ## Logo no cabeçalho
 

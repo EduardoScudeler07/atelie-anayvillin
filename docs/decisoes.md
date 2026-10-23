@@ -199,3 +199,17 @@
 - Compilação da prévia passou.
 - Home e acesso ao catálogo conferidos na prévia pelo
   desenvolvedor, no computador e no celular.
+
+  ## Seção Nossas coleções
+
+- Cinco coleções na Home; Infantil fica para depois.
+- Descrições aprovadas pelo usuário.
+- Cards com foto, descrição e link para o catálogo filtrado.
+- Navegação manual por setas, indicadores e gesto horizontal.
+- Sem reprodução automática.
+- Coleção do catálogo sincronizada com o parâmetro colecao da URL.
+- Lint e build concluídos sem erros.
+- Prévia validada pelo desenvolvedor no celular:
+  gesto horizontal, rolagem vertical, setas, indicadores
+  e links para o catálogo filtrado funcionando.
+- Compilação no Cloudflare concluída com sucesso.

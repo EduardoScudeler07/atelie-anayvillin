@@ -1,8 +1,10 @@
 import { Link } from 'react-router'
 import './homePage.css'
+import CollectionsSection from '../components/collectionsSection'
 
 function HomePage() {
   return (
+    <>
     <section className="home-hero" aria-labelledby="home-title">
       <div className="container">
         <div className="home-hero-content">
@@ -21,6 +23,8 @@ function HomePage() {
         </div>
       </div>
     </section>
+    <CollectionsSection />
+    </>
   )
 }
 

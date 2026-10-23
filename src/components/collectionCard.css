@@ -1,0 +1,83 @@
+.collection-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background-color: var(--color-background);
+}
+
+.collection-card-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 14px;
+  background-color: var(--color-photo-background);
+}
+
+.collection-card-content {
+  min-width: 0;
+}
+
+.collection-card-title {
+  margin: 0 0 8px;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.collection-card-description {
+  margin-bottom: 12px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.collection-card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.collection-card-link:hover {
+  color: var(--color-text);
+  background-color: var(--color-surface);
+}
+
+.collection-card-link:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
+
+@media (min-width: 576px) {
+  .collection-card {
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .collection-card-title {
+    font-size: 28px;
+  }
+
+  .collection-card-description {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 359px) {
+  .collection-card {
+    grid-template-columns: 1fr;
+  }
+}

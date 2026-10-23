@@ -1,0 +1,89 @@
+.how-to-order-section {
+  padding: 48px 0;
+}
+
+.how-to-order-heading {
+  max-width: 600px;
+  margin: 0 auto 32px;
+  text-align: center;
+}
+
+.how-to-order-heading h2 {
+  margin: 0 0 16px;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 500;
+}
+
+.how-to-order-heading p {
+  font-size: 15px;
+}
+
+.how-to-order-list {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.how-to-order-step {
+  height: 100%;
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+}
+
+.how-to-order-number {
+  display: inline-block;
+  margin-bottom: 16px;
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+}
+
+.how-to-order-step h3 {
+  margin: 0 0 12px;
+  font-family: 'Playfair Display', serif;
+  font-size: 23px;
+  font-weight: 500;
+}
+
+.how-to-order-step p {
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.how-to-order-action {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.how-to-order-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 48px;
+  max-width: 100%;
+  padding: 12px 24px;
+  border: 1px solid var(--color-text);
+  border-radius: 999px;
+  color: var(--color-background);
+  background-color: var(--color-text);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.how-to-order-link:hover {
+  color: var(--color-text);
+  background-color: var(--color-surface);
+}
+
+.how-to-order-link:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 4px;
+}
+
+@media (min-width: 768px) {
+  .how-to-order-section {
+    padding: 64px 0;
+  }
+}

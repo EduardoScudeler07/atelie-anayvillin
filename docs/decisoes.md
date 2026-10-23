@@ -185,3 +185,15 @@
 - Links dos cards, acesso direto, atualização da página,
   produto inexistente e apresentação no celular verificados
   na prévia pelo desenvolvedor.
+
+  ## Abertura da Home
+
+- Chamada escolhida: “Cada laço, uma oração.
+  Cada terço, uma história.”
+- Apresentação centralizada, sem foto ou espaço reservado.
+- Fotografias entrarão na seção Nossas coleções.
+- Botão Conheça o catálogo direciona para /catalogo.
+- Layout e navegação conferidos localmente pelo desenvolvedor,
+  incluindo celular.
+- Lint e build concluídos sem erros.
+- Validação na prévia ainda pendente.

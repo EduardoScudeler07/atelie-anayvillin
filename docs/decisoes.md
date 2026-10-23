@@ -246,4 +246,7 @@
 - Visual e textos aprovados pelo usuário.
 - Contato por WhatsApp ainda não configurado.
 - Lint e build concluídos sem erros.
-- Validação da Home completa na prévia ainda pendente.
+- Home completa validada na prévia pelo desenvolvedor,
+  no computador e no celular: ordem das seções, foto,
+  links e carrossel funcionando, sem rolagem horizontal.
+- Compilação no Cloudflare concluída com sucesso.

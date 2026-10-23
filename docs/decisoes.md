@@ -209,4 +209,7 @@
 - Sem reprodução automática.
 - Coleção do catálogo sincronizada com o parâmetro colecao da URL.
 - Lint e build concluídos sem erros.
-- Testes de toque e validação online ainda pendentes.
+- Prévia validada pelo desenvolvedor no celular:
+  gesto horizontal, rolagem vertical, setas, indicadores
+  e links para o catálogo filtrado funcionando.
+- Compilação no Cloudflare concluída com sucesso.

@@ -213,3 +213,37 @@
   gesto horizontal, rolagem vertical, setas, indicadores
   e links para o catálogo filtrado funcionando.
 - Compilação no Cloudflare concluída com sucesso.
+
+## Seção Nossa história
+
+- Texto escolhido pelo usuário para implementação local.
+- Seção sem fotografia, abaixo de Nossas coleções.
+- Origem do ateliê ligada ao pedido da avó ainda precisa
+  ser confirmada com a cliente antes de publicar esta seção.
+- Apresentação visual aprovada pelo usuário.
+- Lint e build concluídos sem erros.
+- Origem do ateliê ligada ao pedido da avó confirmada
+  pelo usuário a partir do relato da cliente.
+
+## Personalização
+
+- Texto e chamada aprovados pelo usuário:
+  “Sua fé, sua história, seu terço.”
+- Opções confirmadas: cores, nomes, medalhas e materiais.
+- Foto usada: terco-graca/terco-transparente-azul.png.
+- Divulgação da personalização visível autorizada pelo usuário.
+- Arquivo de origem preservado; cópia exibida sem recorte.
+- Botão de contato será incluído na etapa de WhatsApp.
+- Apresentação visual aprovada pelo usuário.
+- Lint e build concluídos sem erros.
+
+## Como encomendar
+
+- Seção com três passos: encontrar uma inspiração,
+  conversar com o ateliê e combinar os detalhes.
+- Botão Encontre seu terço direciona ao catálogo.
+- Nenhum prazo ou condição comercial foi presumido.
+- Visual e textos aprovados pelo usuário.
+- Contato por WhatsApp ainda não configurado.
+- Lint e build concluídos sem erros.
+- Validação da Home completa na prévia ainda pendente.

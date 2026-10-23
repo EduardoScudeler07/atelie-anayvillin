@@ -1,6 +1,9 @@
 import { Link } from 'react-router'
 import './homePage.css'
 import CollectionsSection from '../components/collectionsSection'
+import StorySection from '../components/storySection'
+import CustomizationSection from '../components/customizationSection'
+import HowToOrderSection from '../components/howToOrderSection'
 
 function HomePage() {
   return (
@@ -24,6 +27,9 @@ function HomePage() {
       </div>
     </section>
     <CollectionsSection />
+    <StorySection />
+    <CustomizationSection />
+    <HowToOrderSection />
     </>
   )
 }

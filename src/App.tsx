@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router'
 import SiteLayout from './layouts/siteLayout'
 import CatalogPage from './pages/catalogPage'
+import ProductPage from './pages/productPage'
 import './App.css'
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         />
 
         <Route path="/catalogo" element={<CatalogPage />} />
+        <Route path="/produto/:slug" element={<ProductPage />} />
       </Routes>
     </SiteLayout>
   )

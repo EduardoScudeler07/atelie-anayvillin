@@ -2,6 +2,8 @@ import { useState } from 'react'
 import CatalogFilters from '../components/catalogFilters'
 import FilterPanel from '../components/filterPanel'
 import FilterOptions from '../components/filterOptions'
+import ProductCard from '../components/productCard'
+import { products } from '../data/products'
 import './catalogPage.css'
 
 const collectionLabels: Record<string, string> = {
@@ -136,6 +138,19 @@ function CatalogPage() {
           )}
         </div>
       )}
+
+      <section className="catalog-products" aria-label="Terços do catálogo">
+        <div className="row g-3">
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="col-6 col-md-4 col-lg-3"
+            >
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </div>
+      </section>
 
       <FilterPanel open={filtersOpen} onClose={closeFilters}>
         <FilterOptions

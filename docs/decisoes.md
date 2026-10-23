@@ -131,3 +131,26 @@
 - Compilação de prévia concluída com sucesso.
 - Busca, atalhos, painel e etiquetas verificados online
   pelo desenvolvedor, inclusive no celular.
+
+  ## Revisão das fotografias
+
+- Novo fundo das fotos: #EDE0D5, substituindo #F5EDE5.
+- Acervo editado organizado em cinco coleções.
+- Fotos de Infantil ficam para depois; a coleção permanece prevista.
+- Amostra local com uma foto de cada coleção.
+- Cópias para o site preservam as subpastas por coleção,
+  evitando conflito entre nomes de arquivos iguais.
+- Arquivos anteriores preservados.
+- Nomes das amostras de Luz e Graça provisórios.
+- Amostra de cinco cards conferida visualmente pelo desenvolvedor.
+- Lint e build passaram após adicionar os cards e a logo.
+- Validação online desta atualização ainda pendente.
+
+## Logo no cabeçalho
+
+- Logo horizontal confirmada pelo usuário como aprovada pela cliente.
+- Original preservado; cópia usada em public/images/marca.
+- Logo funciona como link para a Home.
+- Cabeçalho com espaçamento vertical de 12px.
+- Largura da logo: 180px; em telas menores que 576px, 145px.
+- Tamanho conferido visualmente pelo usuário.

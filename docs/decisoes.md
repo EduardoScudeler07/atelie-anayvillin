@@ -131,3 +131,40 @@
 - Compilação de prévia concluída com sucesso.
 - Busca, atalhos, painel e etiquetas verificados online
   pelo desenvolvedor, inclusive no celular.
+
+  ## Revisão das fotografias
+
+- Novo fundo das fotos: #EDE0D5, substituindo #F5EDE5.
+- Acervo editado organizado em cinco coleções.
+- Fotos de Infantil ficam para depois; a coleção permanece prevista.
+- Amostra local com uma foto de cada coleção.
+- Cópias para o site preservam as subpastas por coleção,
+  evitando conflito entre nomes de arquivos iguais.
+- Arquivos anteriores preservados.
+- Nomes das amostras de Luz e Graça provisórios.
+- Amostra de cinco cards conferida visualmente pelo desenvolvedor.
+- Lint e build passaram após adicionar os cards e a logo.
+- Logo, cinco cards e fotos revisados na prévia pelo desenvolvedor.
+- Busca, filtros combinados, contagem e estado sem resultados
+  verificados na prévia, inclusive no celular.
+- Compilação no Cloudflare concluída com sucesso.
+
+## Logo no cabeçalho
+
+- Logo horizontal confirmada pelo usuário como aprovada pela cliente.
+- Original preservado; cópia usada em public/images/marca.
+- Logo funciona como link para a Home.
+- Cabeçalho com espaçamento vertical de 12px.
+- Largura da logo: 180px; em telas menores que 576px, 145px.
+- Tamanho conferido visualmente pelo usuário.
+
+## Filtragem dos produtos
+
+- Busca por nome ignora diferenças de acentos e maiúsculas.
+- Busca, coleção e material são combinados para filtrar os cards.
+- Raízes permanece como coleção; Madeira identifica o material.
+- Catálogo mostra a quantidade de peças encontradas.
+- Combinações sem resultados exibem uma mensagem explicativa.
+- Testes locais de busca, filtros combinados e limpeza passaram.
+- Lint e build concluídos sem erros.
+- Validação da filtragem na prévia ainda pendente.

@@ -1,0 +1,80 @@
+.collections-section {
+  padding: 40px 0;
+  background-color: var(--color-surface);
+}
+
+.collections-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.collections-heading {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.collections-heading h2 {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 500;
+}
+
+.collections-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.collections-arrow,
+.collections-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: var(--color-text);
+  background: transparent;
+}
+
+.collections-arrow {
+  font-size: 22px;
+}
+
+.collections-indicators {
+  display: flex;
+}
+
+.collections-indicator span {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background-color: var(--color-text);
+  opacity: 0.3;
+}
+
+.collections-indicator[aria-pressed='true'] span {
+  width: 18px;
+  opacity: 1;
+}
+
+.collections-arrow:focus-visible,
+.collections-indicator:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+.collections-status {
+  margin-top: 4px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.collections-touch-area {
+  touch-action: pan-y pinch-zoom;
+}

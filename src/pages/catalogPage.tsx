@@ -4,6 +4,7 @@ import FilterPanel from '../components/filterPanel'
 import FilterOptions from '../components/filterOptions'
 import ProductCard from '../components/productCard'
 import { products } from '../data/products'
+import { useSearchParams } from 'react-router'
 import './catalogPage.css'
 
 const collectionLabels: Record<string, string> = {
@@ -30,13 +31,37 @@ function normalizeText(value: string) {
 
 function CatalogPage() {
   const [search, setSearch] = useState('')
-  const [collection, setCollection] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const requestedCollection = searchParams.get('colecao') ?? ''
   const [material, setMaterial] = useState('')
 
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [draftCollection, setDraftCollection] = useState('')
   const [draftMaterial, setDraftMaterial] = useState('')
   const [clearSearchOnApply, setClearSearchOnApply] = useState(false)
+
+  const collection = Object.prototype.hasOwnProperty.call(
+    collectionLabels,
+    requestedCollection,
+  )
+    ? requestedCollection
+    : ''
+
+
+  function setCollection(value: string) {
+    setSearchParams((currentParams) => {
+      const nextParams = new URLSearchParams(currentParams)
+
+      if (value) {
+        nextParams.set('colecao', value)
+      } else {
+        nextParams.delete('colecao')
+      }
+
+      return nextParams
+    })
+  }
 
   function openFilters() {
     setDraftCollection(collection)

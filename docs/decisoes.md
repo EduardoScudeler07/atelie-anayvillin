@@ -307,3 +307,29 @@
 - Dados conferidos por consulta nos dois ambientes.
 - Nenhum produto ou imagem adicionado nesta migração.
 - Site público permanece usando os dados locais.
+
+## API local de coleções
+
+- Pages Function em functions/api/colecoes.ts.
+- GET /api/colecoes retorna somente coleções ativas,
+  ordenadas por ordem e nome.
+- Métodos diferentes de GET recebem 405 e Allow: GET.
+- Falhas retornam mensagem genérica, sem detalhes internos.
+- TypeScript das Functions verificado separadamente.
+- Teste local retornou as cinco coleções oficiais.
+- Coleção fictícia dos testes desativada somente localmente.
+- Pages local iniciado com:
+  npx wrangler pages dev dist --d1 DB=DB --persist-to .wrangler/state
+- Pages dev não aceita nosso caminho personalizado de configuração.
+- React ainda não consome a API.
+- API remota ainda não publicada.
+
+## Ligação da API ao D1 de prévia
+
+- Binding DB configurado somente no ambiente Preview do Pages.
+- Banco selecionado: atelie-anayvillin-preview.
+- Ligação entrará em vigor na próxima publicação.
+- Produção não recebeu binding de banco.
+- Typescript das Functions, lint e build passaram localmente.
+- Arquivos gerados do Wrangler excluídos do lint.
+- Validação da API remota ainda pendente.

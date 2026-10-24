@@ -250,3 +250,34 @@
   no computador e no celular: ordem das seções, foto,
   links e carrossel funcionando, sem rolagem horizontal.
 - Compilação no Cloudflare concluída com sucesso.
+
+## Planejamento do D1
+
+- Modelo do catálogo aprovado com quatro tabelas:
+  colecoes, materiais, produtos e produto_imagens.
+- Um material por produto na V1.
+- Descrições próprias e editáveis, com tom afetivo.
+- Publicação exige descrição e foto.
+- Separação proposta entre local, prévia e produção.
+- Limites gratuitos consultados em 24/10/2026.
+- Nenhum banco criado ou SQL executado neste passo.
+- Detalhes e pendências em banco-de-dados.md.
+
+## Validação inicial do D1 local
+
+- Wrangler 4.152.0 instalado no projeto.
+- Configuração local em wrangler.local.jsonc.
+- Migração 0001_catalogo.sql aplicada somente localmente.
+- Quatro tabelas do catálogo criadas.
+- Produto de teste criado como rascunho, com data automática.
+- Publicação sem descrição bloqueada por CHECK.
+- Slug duplicado bloqueado por UNIQUE.
+- Coleção inexistente bloqueada por chave estrangeira.
+- Status inválido bloqueado por CHECK.
+- Exclusão de coleção em uso bloqueada por chave estrangeira.
+- Ordem das imagens validada localmente: duas imagens do mesmo
+  produto não podem ocupar a mesma posição.
+- Referência fictícia criada para o teste removida; consulta
+  confirmou zero imagens associadas ao produto de teste.
+- Dados de teste permanecem somente no banco local.
+- Nenhum banco remoto criado; site público permanece igual.

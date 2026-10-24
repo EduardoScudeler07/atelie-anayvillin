@@ -281,3 +281,16 @@
   confirmou zero imagens associadas ao produto de teste.
 - Dados de teste permanecem somente no banco local.
 - Nenhum banco remoto criado; site público permanece igual.
+
+## D1 remoto de prévia
+
+- Banco atelie-anayvillin-preview criado no Cloudflare.
+- Localização automática, sem jurisdição específica.
+- Configuração separada em wrangler.preview.jsonc.
+- Wrangler autenticado com leitura de conta e usuário
+  e acesso de escrita ao D1.
+- Migração 0001_catalogo.sql aplicada ao banco remoto de prévia.
+- Quatro tabelas do catálogo confirmadas por consulta.
+- Dados fictícios dos testes locais não foram importados.
+- Site ainda usa os dados locais; API não conectada.
+- Banco de produção ainda não criado.

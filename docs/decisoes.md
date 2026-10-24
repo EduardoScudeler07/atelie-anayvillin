@@ -294,3 +294,16 @@
 - Dados fictícios dos testes locais não foram importados.
 - Site ainda usa os dados locais; API não conectada.
 - Banco de produção ainda não criado.
+
+## Dados iniciais de coleções e materiais
+
+- Migração 0002_colecoes_materiais.sql aplicada localmente
+  e no banco remoto de prévia.
+- Seis coleções cadastradas com IDs estáveis.
+- Infantil cadastrada como inativa, sem descrição,
+  até a preparação de seu conteúdo.
+- Demais coleções ativas, com descrições aprovadas.
+- Materiais ativos: Pérolas, Cristais e Madeira.
+- Dados conferidos por consulta nos dois ambientes.
+- Nenhum produto ou imagem adicionado nesta migração.
+- Site público permanece usando os dados locais.

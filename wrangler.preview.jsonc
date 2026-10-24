@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "atelie-anayvillin-preview",
+  "compatibility_date": "2026-10-24",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "atelie-anayvillin-preview",
+      "database_id": "802730f4-8d6b-451a-a1a9-3db38a8ea47d",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

@@ -275,6 +275,9 @@
 - Coleção inexistente bloqueada por chave estrangeira.
 - Status inválido bloqueado por CHECK.
 - Exclusão de coleção em uso bloqueada por chave estrangeira.
-- Validação da ordem das imagens ainda pendente.
+- Ordem das imagens validada localmente: duas imagens do mesmo
+  produto não podem ocupar a mesma posição.
+- Referência fictícia criada para o teste removida; consulta
+  confirmou zero imagens associadas ao produto de teste.
 - Dados de teste permanecem somente no banco local.
 - Nenhum banco remoto criado; site público permanece igual.

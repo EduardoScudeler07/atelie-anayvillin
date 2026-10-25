@@ -348,3 +348,53 @@
 - API de coleções, Home e catálogo continuam funcionando.
 - Compilação no Cloudflare concluída com sucesso.
 - React continua usando os dados locais.
+
+## Primeiro teste do Cloudinary
+
+- Plano Free confirmado, sem cartão ou serviços pagos.
+- Pasta de mídia: atelie-anayvillin-preview.
+- Uma foto real enviada, preservando o arquivo local.
+- Arquivo: terco-essencia/terco-azul.png.
+- Public ID: terco-azul.
+- URL: https://res.cloudinary.com/lbspaasm/image/upload/v1792939118/terco-azul.png
+- Imagem PNG de 1200 × 1200, sem edições no Cloudinary.
+- Acesso público conferido pelo desenvolvedor em aba anônima.
+- Pasta e Public ID são informações distintas nesta configuração.
+- Nenhuma credencial adicionada ao projeto.
+- Public ID: essencia/terco-azul.
+- URL: https://res.cloudinary.com/lbspaasm/image/upload/v1792939118/essencia/terco-azul.png
+- Padrão de Public ID aprovado: colecao/nome-do-arquivo,
+  sem acentos e sem extensão.
+- Nova URL conferida pelo usuário em aba anônima.
+
+## Teste de entrega redimensionada
+
+- Testada a transformação c_limit,w_600 na foto terco-azul.
+- Peça exibida inteira, conforme conferência do usuário.
+- Arquivo enviado ao Cloudinary preservado.
+- Nenhuma imagem do site substituída neste passo.
+
+## Primeiro produto com imagem do Cloudinary
+
+- Terço Pérola Azul cadastrado somente no D1 local, como rascunho.
+- Coleção Essência e material Pérolas.
+- Descrição afetiva aprovada pelo usuário.
+- Imagem real do Cloudinary associada na posição 0.
+- Public ID: essencia/terco-azul.
+- Produto, classificação e imagem conferidos por consulta.
+- Arquivos de cadastro seguem o padrão:
+  numero_terco_colecao_material_cor.sql.
+
+  ## API local de produtos
+
+- GET /api/produtos lista somente produtos publicados,
+  com coleção e material ativos e foto de capa.
+- Retorna dados públicos, sem IDs internos ou status.
+- Rascunho não apareceu na resposta.
+- Publicação temporária local exibiu o Terço Pérola Azul.
+- Retorno a rascunho removeu a peça da resposta.
+- POST bloqueado com 405 e Allow: GET.
+- Produto permanece como rascunho no banco local.
+- Validação remota ainda pendente.
+- React continua usando os dados locais.
+- Site e banco remoto ainda não receberam esse cadastro.

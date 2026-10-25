@@ -332,4 +332,17 @@
 - Produção não recebeu binding de banco.
 - Typescript das Functions, lint e build passaram localmente.
 - Arquivos gerados do Wrangler excluídos do lint.
-- Validação da API remota ainda pendente.
+- API validada na prévia: cinco coleções ativas retornadas
+  na ordem correta, sem dados fictícios.
+- Home e catálogo continuam funcionando.
+- React ainda utiliza os dados locais.
+
+## API local de materiais
+
+- GET /api/materiais retorna materiais ativos em ordem alfabética.
+- Resposta local conferida: Cristais, Madeira e Pérolas.
+- Material fictício de teste desativado somente localmente.
+- POST bloqueado com 405 e Allow: GET.
+- TypeScript da função verificado sem erros.
+- Validação remota ainda pendente.
+- React continua usando os dados locais.

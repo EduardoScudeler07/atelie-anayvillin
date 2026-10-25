@@ -469,3 +469,17 @@
 - Retorno a rascunho voltou a exibir Produto não encontrado.
 - Produção permanece usando os dados locais.
 - Produção permanece usando os dados locais.
+## Integração local do catálogo
+
+- Hook useCatalogProducts carrega a lista pela API quando
+  VITE_USE_PRODUCT_API=true.
+- Configuração desativada mantém os dados locais.
+- Busca, filtros, etiquetas e painel preservados.
+- Estados de carregamento, erro, catálogo vazio e filtros
+  sem resultados implementados.
+- Card e página individual testados com publicação temporária local.
+- Produto retornado a rascunho após os testes.
+- Falha de carregamento testada sem binding DB.
+- Servidor normal restaurado.
+- Lint e build concluídos sem erros.
+- Validação da integração na prévia ainda pendente.

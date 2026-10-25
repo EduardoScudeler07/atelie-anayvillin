@@ -463,5 +463,9 @@
 - Produto retornado a rascunho após o teste.
 - Falha simulada sem binding DB exibiu mensagem de carregamento
   malsucedido, distinta de produto não encontrado.
-- Integração na prévia ainda pendente.
+- VITE_USE_PRODUCT_API=true configurada somente no Preview.
+- Página individual validada na prévia, inclusive no celular.
+- Publicação temporária exibiu foto e descrição corretamente.
+- Retorno a rascunho voltou a exibir Produto não encontrado.
+- Produção permanece usando os dados locais.
 - Produção permanece usando os dados locais.

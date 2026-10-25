@@ -397,4 +397,17 @@
 - Produto permanece como rascunho no banco local.
 - Validação remota ainda pendente.
 - React continua usando os dados locais.
-- Site e banco remoto ainda não receberam esse cadastro.
+- API validada na prévia: lista vazia, pois o banco remoto
+  ainda não recebeu produtos.
+- Home e catálogo continuam funcionando.
+- Compilação no Cloudflare concluída com sucesso.
+
+## Cadastro e publicação de teste na prévia
+
+- Terço Pérola Azul e sua imagem cadastrados no D1 remoto de prévia.
+- Dados conferidos por consulta.
+- Rascunho não apareceu em GET /api/produtos.
+- Publicação temporária exibiu a peça com os dados corretos.
+- Retorno a rascunho removeu a peça da resposta.
+- Produto permanece como rascunho na prévia.
+- Nenhuma alteração no banco ou site de produção.

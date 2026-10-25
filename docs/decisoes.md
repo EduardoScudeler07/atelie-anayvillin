@@ -450,3 +450,18 @@
 - Produto retornado a rascunho após o teste.
 - Lint e build concluídos sem erros.
 - Serviço ainda não conectado à página React.
+
+## Integração local da página de produto
+
+- Página individual consulta a API quando
+  VITE_USE_PRODUCT_API=true.
+- Opção ausente ou diferente de true mantém os dados locais.
+- .env.local usado somente no computador, fora do Git.
+- Rascunho exibiu Produto não encontrado.
+- Publicação temporária local exibiu foto do Cloudinary,
+  descrição, coleção e material.
+- Produto retornado a rascunho após o teste.
+- Falha simulada sem binding DB exibiu mensagem de carregamento
+  malsucedido, distinta de produto não encontrado.
+- Integração na prévia ainda pendente.
+- Produção permanece usando os dados locais.

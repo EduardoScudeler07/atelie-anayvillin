@@ -433,5 +433,9 @@
 - Publicação temporária local retornou 200 com os dados da peça.
 - Produto retornado a rascunho; consulta voltou a retornar 404.
 - POST bloqueado com 405 e Allow: GET.
-- Validação remota ainda pendente.
+- Consulta individual validada na prévia remota.
+- Rascunho e slug inexistente não foram expostos.
+- Publicação temporária retornou os dados e a foto da peça.
+- Produto retornado a rascunho e novamente oculto na API.
+- Home e catálogo continuam funcionando.
 - Página React ainda utiliza os dados locais.

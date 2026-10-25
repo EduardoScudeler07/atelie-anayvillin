@@ -344,5 +344,7 @@
 - Material fictício de teste desativado somente localmente.
 - POST bloqueado com 405 e Allow: GET.
 - TypeScript da função verificado sem erros.
-- Validação remota ainda pendente.
+- API de materiais validada na prévia: Cristais, Madeira e Pérolas.
+- API de coleções, Home e catálogo continuam funcionando.
+- Compilação no Cloudflare concluída com sucesso.
 - React continua usando os dados locais.

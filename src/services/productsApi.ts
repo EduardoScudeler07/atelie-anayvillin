@@ -2,6 +2,8 @@ import type {
   Collection,
   Material,
   Product,
+  ProductDetails,
+  ProductImage,
 } from '../types/product'
 
 const collections: readonly string[] = [
@@ -92,4 +94,94 @@ export async function getProducts(
   }
 
   return products
+}
+
+function parseImage(value: unknown): ProductImage {
+  if (
+    !isRecord(value) ||
+    !isHttpsUrl(value.url) ||
+    !isNonEmptyString(value.texto_alternativo) ||
+    typeof value.ordem !== 'number' ||
+    !Number.isInteger(value.ordem) ||
+    value.ordem < 0
+  ) {
+    throw new Error('A resposta do produto contém uma imagem inválida.')
+  }
+
+  return {
+    url: value.url,
+    alt: value.texto_alternativo,
+    order: value.ordem,
+  }
+}
+
+function parseProductDetails(value: unknown): ProductDetails {
+  if (
+    !isRecord(value) ||
+    !isNonEmptyString(value.descricao) ||
+    !Array.isArray(value.imagens) ||
+    value.imagens.length === 0
+  ) {
+    throw new Error('A resposta do produto contém dados inválidos.')
+  }
+
+  const images = value.imagens
+    .map(parseImage)
+    .sort((first, second) => first.order - second.order)
+
+  const orders = new Set(images.map((image) => image.order))
+
+  if (orders.size !== images.length) {
+    throw new Error('A resposta contém posições de imagens duplicadas.')
+  }
+
+  const cover = images[0]
+
+  const product = parseProduct({
+    ...value,
+    imagem_url: cover.url,
+    imagem_alt: cover.alt,
+  })
+
+  return {
+    ...product,
+    description: value.descricao,
+    images,
+  }
+}
+
+export async function getProductBySlug(
+  slug: string,
+  signal?: AbortSignal,
+): Promise<ProductDetails | null> {
+  if (!slug.trim()) {
+    throw new Error('Informe o endereço do produto.')
+  }
+
+  const response = await fetch(
+    `/api/produtos/${encodeURIComponent(slug)}`,
+    { signal },
+  )
+
+  if (response.status === 404) {
+    return null
+  }
+
+  if (!response.ok) {
+    throw new Error('Não foi possível carregar o produto.')
+  }
+
+  const data: unknown = await response.json()
+
+  if (!isRecord(data)) {
+    throw new Error('A resposta do produto está em um formato inválido.')
+  }
+
+  const product = parseProductDetails(data.produto)
+
+  if (product.slug !== slug) {
+    throw new Error('O produto recebido não corresponde ao solicitado.')
+  }
+
+  return product
 }

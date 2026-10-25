@@ -439,3 +439,14 @@
 - Produto retornado a rascunho e novamente oculto na API.
 - Home e catálogo continuam funcionando.
 - Página React ainda utiliza os dados locais.
+
+## Serviço React de produto individual
+
+- Tipos ProductImage e ProductDetails adicionados.
+- getProductBySlug consulta a API e adapta descrição e fotos.
+- Resposta 404 retorna null; outras falhas geram erro.
+- Imagens validadas e ordenadas; primeira usada como capa.
+- Rascunho e produto publicado testados localmente.
+- Produto retornado a rascunho após o teste.
+- Lint e build concluídos sem erros.
+- Serviço ainda não conectado à página React.

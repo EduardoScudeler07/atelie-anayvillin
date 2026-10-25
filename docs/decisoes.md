@@ -422,3 +422,16 @@
 - Produto retornado a rascunho após o teste.
 - Lint e build concluídos sem erros.
 - Serviço ainda não conectado ao catálogo.
+
+## API local de produto individual
+
+- GET /api/produtos/:slug consulta produto publicado,
+  com coleção e material ativos e pelo menos uma foto.
+- Retorna descrição e imagens ordenadas, sem ID interno.
+- Slug passado por consulta parametrizada.
+- Rascunho e slug inexistente retornaram 404.
+- Publicação temporária local retornou 200 com os dados da peça.
+- Produto retornado a rascunho; consulta voltou a retornar 404.
+- POST bloqueado com 405 e Allow: GET.
+- Validação remota ainda pendente.
+- Página React ainda utiliza os dados locais.

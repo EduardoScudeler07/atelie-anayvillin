@@ -411,3 +411,14 @@
 - Retorno a rascunho removeu a peça da resposta.
 - Produto permanece como rascunho na prévia.
 - Nenhuma alteração no banco ou site de produção.
+
+## Serviço React de leitura dos produtos
+
+- Serviço criado em src/services/productsApi.ts.
+- Consulta GET /api/produtos e adapta a resposta ao tipo Product.
+- Valida os campos recebidos e rejeita slugs duplicados.
+- Usa o slug como identificador visual, sem expor o ID do banco.
+- Lista vazia e adaptação do Terço Pérola Azul testadas localmente.
+- Produto retornado a rascunho após o teste.
+- Lint e build concluídos sem erros.
+- Serviço ainda não conectado ao catálogo.

@@ -487,3 +487,14 @@
 - Produto retornado a rascunho após o teste remoto.
 - Catálogo voltou ao estado vazio.
 - Produção permanece usando os dados locais.
+
+## Cadastro do Terço Pérola Branca
+
+- Nome e descrição aprovados pelo usuário.
+- Foto enviada sem edição ao Cloudinary.
+- Public ID: promessa/terco-branco.
+- URL pública conferida pelo usuário em aba anônima.
+- Cadastro aplicado e consultado no D1 local e remoto de prévia.
+- Coleção Promessa, material Pérolas e imagem na ordem 0.
+- Produto permanece como rascunho nos dois ambientes.
+- Produção não alterada.

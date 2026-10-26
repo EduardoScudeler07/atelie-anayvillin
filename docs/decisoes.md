@@ -482,4 +482,8 @@
 - Falha de carregamento testada sem binding DB.
 - Servidor normal restaurado.
 - Lint e build concluídos sem erros.
-- Validação da integração na prévia ainda pendente.
+- Integração validada na prévia, inclusive no celular:
+  card, busca, filtros e página individual funcionando.
+- Produto retornado a rascunho após o teste remoto.
+- Catálogo voltou ao estado vazio.
+- Produção permanece usando os dados locais.

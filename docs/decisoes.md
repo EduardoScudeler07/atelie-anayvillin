@@ -541,3 +541,15 @@
 - Cinco produtos retornados a rascunho após os testes.
 - Catálogo da prévia voltou ao estado vazio.
 - Produção permanece usando os dados locais.
+
+## Preparação do D1 de produção
+
+- Banco atelie-anayvillin-production criado separadamente da prévia.
+- Configuração em wrangler.production.jsonc.
+- Identificação do banco conferida antes das alterações.
+- Migrações 0001 e 0002 aplicadas sem erros.
+- Quatro tabelas, seis coleções e três materiais conferidos.
+- Infantil permanece inativa.
+- Consulta confirmou zero produtos.
+- Banco ainda não conectado ao Pages de produção.
+- Site público continua usando os dados locais.

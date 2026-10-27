@@ -791,3 +791,18 @@ Pendências:
 - Tratar liberação sem falha e conclusão de login válido.
 - Integrar ao Firebase e às rotas administrativas.
 - Validar o fluxo completo antes de publicar.
+
+### 2026-10-27 — Liberação de reservas sem registrar falha
+
+- Implementada liberação limitada às chaves e ao identificador
+  da própria reserva.
+- A operação não altera contadores nem bloqueios e não concede acesso.
+- Destinada a encerrar tentativas sem classificá-las como senha
+  incorreta, como em falhas de comunicação com o provedor.
+- Quatro testes passaram no banco local isolado:
+  - Liberação preserva os contadores.
+  - Repetição da liberação é segura.
+  - Execução antiga não remove reservas da substituta.
+  - Substituta consegue liberar suas próprias reservas.
+- Integração com Firebase e login ainda pendente.
+- Nenhum banco remoto foi alterado.

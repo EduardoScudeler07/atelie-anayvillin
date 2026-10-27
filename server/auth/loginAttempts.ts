@@ -227,3 +227,29 @@ export async function recordLoginFailure(
 
   return results[0].meta.changes === 2
 }
+
+export async function releaseLoginReservation(
+  db: D1Database,
+  reservation: LoginReservation,
+): Promise<void> {
+  if (
+    !HASH_PATTERN.test(reservation.usernameHash) ||
+    !HASH_PATTERN.test(reservation.ipHash) ||
+    !HASH_PATTERN.test(reservation.reservationHash)
+  ) {
+    throw new Error('Reserva inválida.')
+  }
+
+  await db.prepare(`
+    DELETE FROM reservas_login
+    WHERE reserva_hash = ?
+      AND (
+        (escopo = 'usuario' AND chave_hash = ?)
+        OR (escopo = 'ip' AND chave_hash = ?)
+      )
+  `).bind(
+    reservation.reservationHash,
+    reservation.usernameHash,
+    reservation.ipHash,
+  ).run()
+}

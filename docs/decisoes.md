@@ -531,3 +531,13 @@
 - Coleção Raízes, material Madeira e imagem na ordem 0.
 - Produto permanece como rascunho nos dois ambientes.
 - Cinco peças iniciais cadastradas; produção não alterada.
+
+## Revisão conjunta das cinco peças
+
+- Cinco produtos publicados temporariamente somente na prévia.
+- Fotos, nomes, descrições e links conferidos pelo desenvolvedor.
+- Busca e filtros por coleção e material verificados.
+- Apresentação conferida no computador e no celular.
+- Cinco produtos retornados a rascunho após os testes.
+- Catálogo da prévia voltou ao estado vazio.
+- Produção permanece usando os dados locais.

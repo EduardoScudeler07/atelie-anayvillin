@@ -553,3 +553,12 @@
 - Consulta confirmou zero produtos.
 - Banco ainda não conectado ao Pages de produção.
 - Site público continua usando os dados locais.
+
+## Cinco produtos iniciais no D1 de produção
+
+- Arquivos seeds 001 a 005 executados individualmente.
+- Cinco produtos cadastrados como rascunho.
+- Coleções, materiais e slugs conferidos por consulta.
+- Cada produto possui uma imagem associada.
+- Banco ainda não conectado ao Pages de produção.
+- Site público permanece usando os dados locais.

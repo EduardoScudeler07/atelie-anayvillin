@@ -747,3 +747,27 @@ Pendências:
 - Aquisição conjunta, expiração e proteção contra concorrência
   ainda serão implementadas e testadas no módulo do servidor.
 - Nenhuma alteração realizada nos bancos remotos.
+
+### 2026-10-27 — Aquisição de reservas de login
+
+- Implementada aquisição das reservas de usuário e IP em uma
+  transação no D1, com consultas parametrizadas.
+- Aquisições parciais são removidas sem alterar reservas de
+  outras tentativas.
+- Reservas vencidas podem ser substituídas.
+- Bloqueio vigente de usuário ou IP impede a aquisição.
+
+Validação no banco local isolado:
+- Aquisição conjunta e recusa de duplicatas.
+- Disputas por usuário e por IP sem reservas parciais.
+- Preservação das reservas da tentativa original.
+- Dez tentativas simultâneas com exatamente uma vencedora.
+- Substituição de reservas vencidas.
+- Recusa de usuário e IP bloqueados, preservando o bloqueio.
+- Os nove testes passaram.
+
+Pendências:
+- Implementar registro de falhas e liberação segura das reservas.
+- Conferir a posse e a validade da reserva ao concluir a tentativa.
+- Integrar ao Firebase e ao fluxo de login.
+- Nenhuma alteração realizada nos bancos remotos.

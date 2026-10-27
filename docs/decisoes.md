@@ -661,3 +661,17 @@
 - Administrador de teste permanece inativo no D1 local.
 - Limitação própria de tentativas ainda não implementada.
 - Produção não alterada.
+
+## Estrutura local de sessões
+
+- Migração 0004_sessoes_administrativas.sql aplicada localmente.
+- Tabela vazia e índices conferidos.
+- Datas de sessão armazenadas em segundos UTC.
+- Registro fictício com 24 horas aceito.
+- Tentativa de ampliar para 25 horas bloqueada por CHECK.
+- Prazo original de 86400 segundos preservado.
+- Registro fictício removido; consulta confirmou zero restantes.
+- Nenhum token real, cookie ou sessão autenticada criado.
+- Validação de inatividade, revogação e conta ativa
+  ainda será implementada na API.
+- Bancos remotos não alterados.

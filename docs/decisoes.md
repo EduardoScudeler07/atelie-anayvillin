@@ -562,3 +562,12 @@
 - Cada produto possui uma imagem associada.
 - Banco ainda não conectado ao Pages de produção.
 - Site público permanece usando os dados locais.
+
+## Ligação do Pages ao D1 de produção
+
+- Binding DB configurado no ambiente Production.
+- Banco selecionado: atelie-anayvillin-production.
+- Ligação terá efeito na próxima publicação de produção.
+- VITE_USE_PRODUCT_API ainda não ativada em produção.
+- Cinco produtos permanecem como rascunho no banco.
+- Interface pública permanece usando os dados locais.

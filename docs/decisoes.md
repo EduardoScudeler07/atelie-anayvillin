@@ -583,3 +583,33 @@
 - Prévia e produção usam bancos separados.
 - Para retornar aos dados locais: definir a opção como false
   e realizar nova publicação.
+
+  ## Prazos de autenticação
+
+- Sessão expira após 2 horas sem requisições administrativas
+  autenticadas ou 24 horas após o login, o que ocorrer primeiro.
+- Recuperação de acesso válida por 15 minutos, com uso único.
+- Logout, troca de senha e desativação podem encerrar
+  o acesso antes desses prazos.
+
+  ## Primeiro acesso
+
+- Contas criadas por procedimento controlado, sem cadastro público.
+- Cada pessoa recebe um link de uso único para definir sua senha.
+- Link válido por 15 minutos; se expirar, será necessário emitir outro.
+- Conta sem senha definida não pode autenticar.
+- Primeiro acesso não faz login automático.
+- Tokens não serão registrados em logs, Git ou documentação.
+
+## Avaliação do hash de senhas
+
+- PBKDF2-HMAC-SHA256 com 600 mil iterações testado no Node
+  e no runtime local do Cloudflare.
+- Senha correta, senha incorreta e salt individual verificados.
+- Teste remoto temporário preparado como Pages Function.
+- AUTH_PROBE_SECRET configurado somente no Preview.
+- Referência de hash usa exclusivamente dados fictícios.
+- TypeScript das Functions, lint e build passaram.
+- Viabilidade e consumo de CPU remoto ainda não confirmados.
+- Função auth-probe deve ser removida antes de merge na main.
+- Nenhuma conta administrativa criada.

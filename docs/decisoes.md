@@ -675,3 +675,35 @@
 - Validação de inatividade, revogação e conta ativa
   ainda será implementada na API.
 - Bancos remotos não alterados.
+
+### 2026-10-27 — Tokens e verificação de sessões administrativas
+
+- Implementada geração de tokens aleatórios de 32 bytes, em base64url.
+- Implementado hash SHA-256 do token, destinado ao armazenamento no D1.
+- A senha permanece sob responsabilidade do Firebase Authentication.
+- Implementada verificação de sessão com consultas parametrizadas.
+- Somente sessões não revogadas, dentro da validade e vinculadas a
+  administradores ativos são aceitas.
+- O limite de inatividade é de 2 horas. A validade absoluta máxima de
+  24 horas é limitada pela estrutura da tabela.
+- A atividade é atualizada na mesma operação que verifica as condições
+  da sessão, sem renovar sessões inválidas.
+- Configurações TypeScript adicionadas para os módulos do servidor
+  e os testes de autenticação.
+
+Validação realizada:
+- Testes de formato, hash e rejeição de tokens inválidos passaram.
+- Verificações de tipos passaram.
+- Testes executados em banco D1 local separado, em
+  .wrangler/session-tests.
+- Sessão válida aceita e atividade atualizada.
+- Sessões vencida, inativa e revogada recusadas.
+- Sessão de administrador desativado recusada.
+- Tokens inexistente e inválido recusados.
+- Sessão inativa não teve sua atividade renovada.
+
+Pendências:
+- Implementar login, limitação de tentativas e cookie protegido.
+- Integrar a verificação às rotas administrativas.
+- Implementar logout e proteções das operações de escrita.
+- Esta etapa não liberou acesso administrativo nem alterou bancos remotos.

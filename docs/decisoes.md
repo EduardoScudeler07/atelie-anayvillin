@@ -626,3 +626,26 @@
 - Segredo AUTH_PROBE_SECRET removido da configuração de Preview.
 - Próxima avaliação: serviço de autenticação gratuito,
   sem escolha ou contratação aprovada ainda.
+
+  ## Autenticação delegada ao Firebase
+
+- Usuário aprovou tela com Usuário e Senha.
+- Firebase Authentication escolhido para verificação de senhas.
+- Mapeamento de usuário realizado no servidor.
+- Sessões e autorização administrativa permanecem sob
+  controle da aplicação.
+- Decisão substitui armazenamento próprio de hash de senha.
+- Nenhuma conta administrativa criada nesta revisão.
+
+## Administrador de teste local
+
+- Firebase de prévia criado no plano Spark.
+- Método e-mail/senha habilitado internamente.
+- Política de senha configurada com mínimo de 15 caracteres.
+- Tela futura usará usuário, sem exigir e-mail no login.
+- Migração 0003_administradores.sql aplicada somente localmente.
+- Conta teste.eduardo associada ao UID do Firebase e conferida.
+- Administrador permanece inativo.
+- Cadastro privado em .private/, fora do Git e sem senha.
+- Nenhuma tabela administrativa aplicada aos bancos remotos.
+- Login e sessões ainda não implementados.

@@ -180,3 +180,32 @@ serão aprovados antes da implementação.
 - Segredo AUTH_PROBE_SECRET removido da configuração de Preview.
 - Próxima avaliação: serviço de autenticação gratuito,
   sem escolha ou contratação aprovada ainda.
+
+  ## Revisão da arquitetura — usuário e senha
+
+Esta seção substitui as propostas anteriores de login por
+e-mail visível e armazenamento próprio do hash de senha.
+
+- Interface apresenta Usuário e Senha.
+- Usuário associado internamente a uma identidade Firebase.
+- Firebase Authentication verifica e armazena as senhas.
+- D1 não armazena senha nem hash de senha.
+- Não haverá login com Google nesta versão.
+- Não haverá cadastro público de administradores.
+- Somente identidades previamente autorizadas e ativas
+  poderão receber uma sessão administrativa.
+- Associação por identificador estável do Firebase, não apenas
+  pelo e-mail informado em uma requisição.
+- Senha recebida somente por HTTPS e nunca registrada em logs.
+- Tokens do Firebase não serão enviados ao navegador
+  como credencial das nossas APIs administrativas.
+- Sessão própria por cookie protegido e controle no servidor.
+- Mantidos os prazos de 2 horas de inatividade e 24 horas máximas.
+- Mantido bloqueio de 15 minutos após 5 falhas em 15 minutos,
+  com proteção adicional por IP.
+- Recuperação assistida e primeiro acesso serão adaptados
+  aos mecanismos oficiais do provedor, sem compartilhar senhas.
+- Falha do provedor impede autenticação; não haverá
+  alternativa com senha local.
+- Usar plano Spark, sem vincular faturamento.
+- Produtos e imagens continuam no D1 e Cloudinary.

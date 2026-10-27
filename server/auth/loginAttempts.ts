@@ -117,3 +117,113 @@ export async function acquireLoginReservation(
     expiresAt,
   }
 }
+
+const FAILURE_WINDOW_SECONDS = 15 * 60
+const BLOCK_SECONDS = 15 * 60
+
+export async function recordLoginFailure(
+  db: D1Database,
+  reservation: LoginReservation,
+): Promise<boolean> {
+  if (
+    !HASH_PATTERN.test(reservation.usernameHash) ||
+    !HASH_PATTERN.test(reservation.ipHash) ||
+    !HASH_PATTERN.test(reservation.reservationHash)
+  ) {
+    throw new Error('Reserva inválida.')
+  }
+
+  const now = Math.floor(Date.now() / 1000)
+
+  const results = await db.batch([
+    db.prepare(`
+      INSERT INTO tentativas_login (
+        escopo,
+        chave_hash,
+        falhas,
+        janela_inicio_em,
+        bloqueado_ate,
+        atualizado_em
+      )
+      SELECT escopo, chave_hash, 1, ?, NULL, ?
+      FROM (
+        SELECT 'usuario' AS escopo, ? AS chave_hash
+        UNION ALL
+        SELECT 'ip', ?
+      )
+      WHERE (
+        SELECT COUNT(*)
+        FROM reservas_login
+        WHERE reserva_hash = ?
+          AND criado_em <= ?
+          AND expira_em > ?
+          AND (
+            (escopo = 'usuario' AND chave_hash = ?)
+            OR (escopo = 'ip' AND chave_hash = ?)
+          )
+      ) = 2
+      AND NOT EXISTS (
+        SELECT 1
+        FROM tentativas_login
+        WHERE (
+          (escopo = 'usuario' AND chave_hash = ?)
+          OR (escopo = 'ip' AND chave_hash = ?)
+        )
+        AND bloqueado_ate > ?
+      )
+      ON CONFLICT (escopo, chave_hash) DO UPDATE SET
+        falhas = CASE
+          WHEN excluded.atualizado_em
+            - tentativas_login.janela_inicio_em >= ${FAILURE_WINDOW_SECONDS}
+          THEN 1
+          ELSE tentativas_login.falhas + 1
+        END,
+
+        janela_inicio_em = CASE
+          WHEN excluded.atualizado_em
+            - tentativas_login.janela_inicio_em >= ${FAILURE_WINDOW_SECONDS}
+          THEN excluded.janela_inicio_em
+          ELSE tentativas_login.janela_inicio_em
+        END,
+
+        bloqueado_ate = CASE
+          WHEN excluded.atualizado_em
+            - tentativas_login.janela_inicio_em >= ${FAILURE_WINDOW_SECONDS}
+          THEN NULL
+          WHEN tentativas_login.falhas + 1 >= 5
+          THEN excluded.atualizado_em + ${BLOCK_SECONDS}
+          ELSE NULL
+        END,
+
+        atualizado_em = excluded.atualizado_em
+    `).bind(
+      now,
+      now,
+      reservation.usernameHash,
+      reservation.ipHash,
+      reservation.reservationHash,
+      now,
+      now,
+      reservation.usernameHash,
+      reservation.ipHash,
+      reservation.usernameHash,
+      reservation.ipHash,
+      now,
+    ),
+
+    db.prepare(`
+      DELETE FROM reservas_login
+      WHERE reserva_hash = ?
+        AND (
+          (escopo = 'usuario' AND chave_hash = ?)
+          OR (escopo = 'ip' AND chave_hash = ?)
+        )
+    `).bind(
+      reservation.reservationHash,
+      reservation.usernameHash,
+      reservation.ipHash,
+    ),
+  ])
+
+  return results[0].meta.changes === 2
+}

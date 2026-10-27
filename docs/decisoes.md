@@ -771,3 +771,23 @@ Pendências:
 - Conferir a posse e a validade da reserva ao concluir a tentativa.
 - Integrar ao Firebase e ao fluxo de login.
 - Nenhuma alteração realizada nos bancos remotos.
+
+### 2026-10-27 — Registro de falhas e bloqueio de login
+
+- Implementado registro de falhas para usuário e IP.
+- Exigidas as duas reservas válidas e pertencentes à tentativa.
+- Registro e liberação das reservas realizados em uma transação.
+- Quinta falha em uma janela de 15 minutos gera bloqueio de 15 minutos.
+- Janela vencida reinicia a contagem.
+- Tentativas vencidas ou já concluídas não registram novas falhas.
+- A liberação não remove reservas de uma tentativa substituta.
+
+Validação no banco local isolado:
+- Os 11 testes de contagem, bloqueio, expiração e proteção contra
+  tentativas antigas passaram.
+- Nenhum teste consultou o Firebase ou alterou bancos remotos.
+
+Pendências:
+- Tratar liberação sem falha e conclusão de login válido.
+- Integrar ao Firebase e às rotas administrativas.
+- Validar o fluxo completo antes de publicar.

@@ -509,3 +509,14 @@
 - Coleção Luz, material Cristais e imagem na ordem 0.
 - Produto permanece como rascunho nos dois ambientes.
 - Produção não alterada.
+
+## Cadastro do Terço Cristal Rosa Claro
+
+- Nome e descrição aprovados pelo usuário.
+- Foto enviada ao Cloudinary sem edição.
+- Public ID: graca/terco-rosa-claro.
+- URL pública conferida pelo usuário.
+- Cadastro aplicado e consultado no D1 local e remoto de prévia.
+- Coleção Graça, material Cristais e imagem na ordem 0.
+- Produto permanece como rascunho nos dois ambientes.
+- Produção não alterada.

@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "atelie-anayvillin-production",
+  "compatibility_date": "2026-10-24",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "atelie-anayvillin-production",
+      "database_id": "45aeaaef-6440-4293-be22-653b07d3cfce",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

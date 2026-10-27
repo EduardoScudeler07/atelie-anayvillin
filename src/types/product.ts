@@ -17,3 +17,14 @@ export type Product = {
   image: string
   imageAlt: string
 }
+
+export type ProductImage = {
+  url: string
+  alt: string
+  order: number
+}
+
+export type ProductDetails = Product & {
+  description: string
+  images: ProductImage[]
+}

@@ -307,3 +307,267 @@
 - Dados conferidos por consulta nos dois ambientes.
 - Nenhum produto ou imagem adicionado nesta migração.
 - Site público permanece usando os dados locais.
+
+## API local de coleções
+
+- Pages Function em functions/api/colecoes.ts.
+- GET /api/colecoes retorna somente coleções ativas,
+  ordenadas por ordem e nome.
+- Métodos diferentes de GET recebem 405 e Allow: GET.
+- Falhas retornam mensagem genérica, sem detalhes internos.
+- TypeScript das Functions verificado separadamente.
+- Teste local retornou as cinco coleções oficiais.
+- Coleção fictícia dos testes desativada somente localmente.
+- Pages local iniciado com:
+  npx wrangler pages dev dist --d1 DB=DB --persist-to .wrangler/state
+- Pages dev não aceita nosso caminho personalizado de configuração.
+- React ainda não consome a API.
+- API remota ainda não publicada.
+
+## Ligação da API ao D1 de prévia
+
+- Binding DB configurado somente no ambiente Preview do Pages.
+- Banco selecionado: atelie-anayvillin-preview.
+- Ligação entrará em vigor na próxima publicação.
+- Produção não recebeu binding de banco.
+- Typescript das Functions, lint e build passaram localmente.
+- Arquivos gerados do Wrangler excluídos do lint.
+- API validada na prévia: cinco coleções ativas retornadas
+  na ordem correta, sem dados fictícios.
+- Home e catálogo continuam funcionando.
+- React ainda utiliza os dados locais.
+
+## API local de materiais
+
+- GET /api/materiais retorna materiais ativos em ordem alfabética.
+- Resposta local conferida: Cristais, Madeira e Pérolas.
+- Material fictício de teste desativado somente localmente.
+- POST bloqueado com 405 e Allow: GET.
+- TypeScript da função verificado sem erros.
+- API de materiais validada na prévia: Cristais, Madeira e Pérolas.
+- API de coleções, Home e catálogo continuam funcionando.
+- Compilação no Cloudflare concluída com sucesso.
+- React continua usando os dados locais.
+
+## Primeiro teste do Cloudinary
+
+- Plano Free confirmado, sem cartão ou serviços pagos.
+- Pasta de mídia: atelie-anayvillin-preview.
+- Uma foto real enviada, preservando o arquivo local.
+- Arquivo: terco-essencia/terco-azul.png.
+- Public ID: terco-azul.
+- URL: https://res.cloudinary.com/lbspaasm/image/upload/v1792939118/terco-azul.png
+- Imagem PNG de 1200 × 1200, sem edições no Cloudinary.
+- Acesso público conferido pelo desenvolvedor em aba anônima.
+- Pasta e Public ID são informações distintas nesta configuração.
+- Nenhuma credencial adicionada ao projeto.
+- Public ID: essencia/terco-azul.
+- URL: https://res.cloudinary.com/lbspaasm/image/upload/v1792939118/essencia/terco-azul.png
+- Padrão de Public ID aprovado: colecao/nome-do-arquivo,
+  sem acentos e sem extensão.
+- Nova URL conferida pelo usuário em aba anônima.
+
+## Teste de entrega redimensionada
+
+- Testada a transformação c_limit,w_600 na foto terco-azul.
+- Peça exibida inteira, conforme conferência do usuário.
+- Arquivo enviado ao Cloudinary preservado.
+- Nenhuma imagem do site substituída neste passo.
+
+## Primeiro produto com imagem do Cloudinary
+
+- Terço Pérola Azul cadastrado somente no D1 local, como rascunho.
+- Coleção Essência e material Pérolas.
+- Descrição afetiva aprovada pelo usuário.
+- Imagem real do Cloudinary associada na posição 0.
+- Public ID: essencia/terco-azul.
+- Produto, classificação e imagem conferidos por consulta.
+- Arquivos de cadastro seguem o padrão:
+  numero_terco_colecao_material_cor.sql.
+
+  ## API local de produtos
+
+- GET /api/produtos lista somente produtos publicados,
+  com coleção e material ativos e foto de capa.
+- Retorna dados públicos, sem IDs internos ou status.
+- Rascunho não apareceu na resposta.
+- Publicação temporária local exibiu o Terço Pérola Azul.
+- Retorno a rascunho removeu a peça da resposta.
+- POST bloqueado com 405 e Allow: GET.
+- Produto permanece como rascunho no banco local.
+- Validação remota ainda pendente.
+- React continua usando os dados locais.
+- API validada na prévia: lista vazia, pois o banco remoto
+  ainda não recebeu produtos.
+- Home e catálogo continuam funcionando.
+- Compilação no Cloudflare concluída com sucesso.
+
+## Cadastro e publicação de teste na prévia
+
+- Terço Pérola Azul e sua imagem cadastrados no D1 remoto de prévia.
+- Dados conferidos por consulta.
+- Rascunho não apareceu em GET /api/produtos.
+- Publicação temporária exibiu a peça com os dados corretos.
+- Retorno a rascunho removeu a peça da resposta.
+- Produto permanece como rascunho na prévia.
+- Nenhuma alteração no banco ou site de produção.
+
+## Serviço React de leitura dos produtos
+
+- Serviço criado em src/services/productsApi.ts.
+- Consulta GET /api/produtos e adapta a resposta ao tipo Product.
+- Valida os campos recebidos e rejeita slugs duplicados.
+- Usa o slug como identificador visual, sem expor o ID do banco.
+- Lista vazia e adaptação do Terço Pérola Azul testadas localmente.
+- Produto retornado a rascunho após o teste.
+- Lint e build concluídos sem erros.
+- Serviço ainda não conectado ao catálogo.
+
+## API local de produto individual
+
+- GET /api/produtos/:slug consulta produto publicado,
+  com coleção e material ativos e pelo menos uma foto.
+- Retorna descrição e imagens ordenadas, sem ID interno.
+- Slug passado por consulta parametrizada.
+- Rascunho e slug inexistente retornaram 404.
+- Publicação temporária local retornou 200 com os dados da peça.
+- Produto retornado a rascunho; consulta voltou a retornar 404.
+- POST bloqueado com 405 e Allow: GET.
+- Consulta individual validada na prévia remota.
+- Rascunho e slug inexistente não foram expostos.
+- Publicação temporária retornou os dados e a foto da peça.
+- Produto retornado a rascunho e novamente oculto na API.
+- Home e catálogo continuam funcionando.
+- Página React ainda utiliza os dados locais.
+
+## Serviço React de produto individual
+
+- Tipos ProductImage e ProductDetails adicionados.
+- getProductBySlug consulta a API e adapta descrição e fotos.
+- Resposta 404 retorna null; outras falhas geram erro.
+- Imagens validadas e ordenadas; primeira usada como capa.
+- Rascunho e produto publicado testados localmente.
+- Produto retornado a rascunho após o teste.
+- Lint e build concluídos sem erros.
+- Serviço ainda não conectado à página React.
+
+## Integração local da página de produto
+
+- Página individual consulta a API quando
+  VITE_USE_PRODUCT_API=true.
+- Opção ausente ou diferente de true mantém os dados locais.
+- .env.local usado somente no computador, fora do Git.
+- Rascunho exibiu Produto não encontrado.
+- Publicação temporária local exibiu foto do Cloudinary,
+  descrição, coleção e material.
+- Produto retornado a rascunho após o teste.
+- Falha simulada sem binding DB exibiu mensagem de carregamento
+  malsucedido, distinta de produto não encontrado.
+- VITE_USE_PRODUCT_API=true configurada somente no Preview.
+- Página individual validada na prévia, inclusive no celular.
+- Publicação temporária exibiu foto e descrição corretamente.
+- Retorno a rascunho voltou a exibir Produto não encontrado.
+- Produção permanece usando os dados locais.
+- Produção permanece usando os dados locais.
+## Integração local do catálogo
+
+- Hook useCatalogProducts carrega a lista pela API quando
+  VITE_USE_PRODUCT_API=true.
+- Configuração desativada mantém os dados locais.
+- Busca, filtros, etiquetas e painel preservados.
+- Estados de carregamento, erro, catálogo vazio e filtros
+  sem resultados implementados.
+- Card e página individual testados com publicação temporária local.
+- Produto retornado a rascunho após os testes.
+- Falha de carregamento testada sem binding DB.
+- Servidor normal restaurado.
+- Lint e build concluídos sem erros.
+- Integração validada na prévia, inclusive no celular:
+  card, busca, filtros e página individual funcionando.
+- Produto retornado a rascunho após o teste remoto.
+- Catálogo voltou ao estado vazio.
+- Produção permanece usando os dados locais.
+
+## Cadastro do Terço Pérola Branca
+
+- Nome e descrição aprovados pelo usuário.
+- Foto enviada sem edição ao Cloudinary.
+- Public ID: promessa/terco-branco.
+- URL pública conferida pelo usuário em aba anônima.
+- Cadastro aplicado e consultado no D1 local e remoto de prévia.
+- Coleção Promessa, material Pérolas e imagem na ordem 0.
+- Produto permanece como rascunho nos dois ambientes.
+- Produção não alterada.
+
+## Cadastro do Terço Cristal Azul Royal
+
+- Nome e descrição aprovados pelo usuário.
+- Foto enviada ao Cloudinary sem edição.
+- Public ID: luz/terco-azul-royal.
+- URL pública conferida pelo usuário.
+- Cadastro aplicado e consultado no D1 local e remoto de prévia.
+- Coleção Luz, material Cristais e imagem na ordem 0.
+- Produto permanece como rascunho nos dois ambientes.
+- Produção não alterada.
+
+## Cadastro do Terço Cristal Rosa Claro
+
+- Nome e descrição aprovados pelo usuário.
+- Foto enviada ao Cloudinary sem edição.
+- Public ID: graca/terco-rosa-claro.
+- URL pública conferida pelo usuário.
+- Cadastro aplicado e consultado no D1 local e remoto de prévia.
+- Coleção Graça, material Cristais e imagem na ordem 0.
+- Produto permanece como rascunho nos dois ambientes.
+- Produção não alterada.
+
+## Cadastro do Terço Madeira Marrom
+
+- Nome e descrição aprovados pelo usuário.
+- Foto enviada ao Cloudinary sem edição.
+- Public ID: raizes/terco-marrom.
+- URL pública conferida pelo usuário.
+- Cadastro aplicado e consultado no D1 local e remoto de prévia.
+- Coleção Raízes, material Madeira e imagem na ordem 0.
+- Produto permanece como rascunho nos dois ambientes.
+- Cinco peças iniciais cadastradas; produção não alterada.
+
+## Revisão conjunta das cinco peças
+
+- Cinco produtos publicados temporariamente somente na prévia.
+- Fotos, nomes, descrições e links conferidos pelo desenvolvedor.
+- Busca e filtros por coleção e material verificados.
+- Apresentação conferida no computador e no celular.
+- Cinco produtos retornados a rascunho após os testes.
+- Catálogo da prévia voltou ao estado vazio.
+- Produção permanece usando os dados locais.
+
+## Preparação do D1 de produção
+
+- Banco atelie-anayvillin-production criado separadamente da prévia.
+- Configuração em wrangler.production.jsonc.
+- Identificação do banco conferida antes das alterações.
+- Migrações 0001 e 0002 aplicadas sem erros.
+- Quatro tabelas, seis coleções e três materiais conferidos.
+- Infantil permanece inativa.
+- Consulta confirmou zero produtos.
+- Banco ainda não conectado ao Pages de produção.
+- Site público continua usando os dados locais.
+
+## Cinco produtos iniciais no D1 de produção
+
+- Arquivos seeds 001 a 005 executados individualmente.
+- Cinco produtos cadastrados como rascunho.
+- Coleções, materiais e slugs conferidos por consulta.
+- Cada produto possui uma imagem associada.
+- Banco ainda não conectado ao Pages de produção.
+- Site público permanece usando os dados locais.
+
+## Ligação do Pages ao D1 de produção
+
+- Binding DB configurado no ambiente Production.
+- Banco selecionado: atelie-anayvillin-production.
+- Ligação terá efeito na próxima publicação de produção.
+- VITE_USE_PRODUCT_API ainda não ativada em produção.
+- Cinco produtos permanecem como rascunho no banco.
+- Interface pública permanece usando os dados locais.

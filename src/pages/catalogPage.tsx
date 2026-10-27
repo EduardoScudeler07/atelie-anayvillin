@@ -3,9 +3,11 @@ import CatalogFilters from '../components/catalogFilters'
 import FilterPanel from '../components/filterPanel'
 import FilterOptions from '../components/filterOptions'
 import ProductCard from '../components/productCard'
-import { products } from '../data/products'
+import { useCatalogProducts } from '../hooks/useCatalogProducts'
 import { useSearchParams } from 'react-router'
 import './catalogPage.css'
+
+
 
 const collectionLabels: Record<string, string> = {
   essencia: 'Essência',
@@ -30,6 +32,7 @@ function normalizeText(value: string) {
 }
 
 function CatalogPage() {
+  const catalog = useCatalogProducts()
   const [search, setSearch] = useState('')
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -93,7 +96,7 @@ function CatalogPage() {
 
   const normalizedSearch = normalizeText(search)
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = catalog.products.filter((product) => {
     const matchesSearch = normalizeText(product.name).includes(
       normalizedSearch,
     )
@@ -187,30 +190,52 @@ function CatalogPage() {
         </div>
       )}
 
-      <section className="catalog-products" aria-label="Terços do catálogo">
-        <p className="catalog-results-count" role="status">
-          {filteredProducts.length === 1
-            ? '1 peça encontrada'
-            : `${filteredProducts.length} peças encontradas`}
-        </p>
+      <section
+  className="catalog-products"
+  aria-label="Terços do catálogo"
+  aria-busy={catalog.status === 'loading'}
+>
+  {catalog.status === 'loading' ? (
+    <p className="catalog-empty" role="status">
+      Carregando as peças do catálogo…
+    </p>
+  ) : catalog.status === 'error' ? (
+    <p className="catalog-empty" role="alert">
+      Não foi possível carregar o catálogo. Tente atualizar a
+      página em alguns instantes.
+    </p>
+  ) : catalog.products.length === 0 ? (
+    <p className="catalog-empty" role="status">
+      Novas peças estão sendo preparadas para este catálogo.
+      Volte em breve para conhecer.
+    </p>
+  ) : (
+    <>
+      <p className="catalog-results-count" role="status">
+        {filteredProducts.length === 1
+          ? '1 peça encontrada'
+          : `${filteredProducts.length} peças encontradas`}
+      </p>
 
-        {filteredProducts.length > 0 ? (
-          <div className="row g-3">
-            {filteredProducts.map((product) => (
-              <div
-                key={product.id}
-                className="col-6 col-md-4 col-lg-3"
-              >
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="catalog-empty">
-            Nenhuma peça encontrada. Tente outra busca ou remova um filtro.
-          </p>
-        )}
-      </section>
+      {filteredProducts.length > 0 ? (
+        <div className="row g-3">
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              className="col-6 col-md-4 col-lg-3"
+            >
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="catalog-empty">
+          Nenhuma peça encontrada. Tente outra busca ou remova um filtro.
+        </p>
+      )}
+    </>
+  )}
+</section>
 
       <FilterPanel open={filtersOpen} onClose={closeFilters}>
         <FilterOptions

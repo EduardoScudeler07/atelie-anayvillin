@@ -734,3 +734,16 @@ Pendências:
 - Confirmado que a tabela permaneceu vazia após a rejeição.
 - Contagem, concorrência e bloqueio ainda não implementados.
 - Nenhuma alteração realizada nos bancos remotos.
+
+### 2026-10-27 — Reservas temporárias de login
+
+- Criada a migração 0006_reservas_login.sql.
+- Reservas identificadas por escopo e chave em hash.
+- Chave primária impede reservas duplicadas para o mesmo usuário ou IP.
+- Validade de cada reserva limitada a, no máximo, 60 segundos.
+- Migração aplicada somente ao banco local isolado de testes.
+- Testada a rejeição de uma reserva duplicada.
+- Registro fictício removido e tabela vazia confirmada.
+- Aquisição conjunta, expiração e proteção contra concorrência
+  ainda serão implementadas e testadas no módulo do servidor.
+- Nenhuma alteração realizada nos bancos remotos.

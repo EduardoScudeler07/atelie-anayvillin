@@ -721,3 +721,16 @@ Pendências:
 - Habilitado allowImportingTsExtensions para os imports usados
   pelos testes diretos no Node, mantendo noEmit.
 - Uso real no navegador e integração com login ainda pendentes.
+
+### 2026-10-27 — Estrutura para controle de tentativas de login
+
+- Criada a migração 0005_tentativas_login.sql.
+- Estrutura separa os controles por usuário e por IP, usando chaves
+  em formato hash, sem armazenar senhas.
+- Preparados contador de falhas, início da janela e prazo de bloqueio.
+- Regra planejada: 5 falhas em 15 minutos geram bloqueio de 15 minutos.
+- Migração aplicada somente ao banco local isolado de testes.
+- Testado que o banco rejeita contador negativo.
+- Confirmado que a tabela permaneceu vazia após a rejeição.
+- Contagem, concorrência e bloqueio ainda não implementados.
+- Nenhuma alteração realizada nos bancos remotos.

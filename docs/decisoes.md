@@ -707,3 +707,17 @@ Pendências:
 - Integrar a verificação às rotas administrativas.
 - Implementar logout e proteções das operações de escrita.
 - Esta etapa não liberou acesso administrativo nem alterou bancos remotos.
+
+### 2026-10-27 — Cookie de sessão administrativa
+
+- Criadas funções para montar, ler e remover o cookie de sessão.
+- Cookie __Host-atelie_admin com Path=/, HttpOnly, Secure,
+  SameSite=Strict e sem Domain.
+- Prazo do cookie de 24 horas, sem renovar a validade absoluta
+  da sessão no banco.
+- Leitura recusa tokens inválidos e cookies duplicados.
+- Apagar o cookie não substitui a revogação da sessão no D1.
+- Testes automatizados e verificação de tipos passaram.
+- Habilitado allowImportingTsExtensions para os imports usados
+  pelos testes diretos no Node, mantendo noEmit.
+- Uso real no navegador e integração com login ainda pendentes.

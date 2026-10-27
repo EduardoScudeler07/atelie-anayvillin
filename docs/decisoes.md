@@ -520,3 +520,14 @@
 - Coleção Graça, material Cristais e imagem na ordem 0.
 - Produto permanece como rascunho nos dois ambientes.
 - Produção não alterada.
+
+## Cadastro do Terço Madeira Marrom
+
+- Nome e descrição aprovados pelo usuário.
+- Foto enviada ao Cloudinary sem edição.
+- Public ID: raizes/terco-marrom.
+- URL pública conferida pelo usuário.
+- Cadastro aplicado e consultado no D1 local e remoto de prévia.
+- Coleção Raízes, material Madeira e imagem na ordem 0.
+- Produto permanece como rascunho nos dois ambientes.
+- Cinco peças iniciais cadastradas; produção não alterada.

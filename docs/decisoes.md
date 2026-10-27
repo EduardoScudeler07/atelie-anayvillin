@@ -571,3 +571,15 @@
 - VITE_USE_PRODUCT_API ainda não ativada em produção.
 - Cinco produtos permanecem como rascunho no banco.
 - Interface pública permanece usando os dados locais.
+
+## Ativação do catálogo integrado em produção
+
+- Cinco produtos aprovados publicados no D1 de produção.
+- Listagem e consulta individual verificadas na API pública.
+- VITE_USE_PRODUCT_API=true configurada em Production.
+- Produção recompilada após a configuração.
+- Catálogo, busca, filtros, fotos e descrições conferidos
+  pelo desenvolvedor, incluindo apresentação no celular.
+- Prévia e produção usam bancos separados.
+- Para retornar aos dados locais: definir a opção como false
+  e realizar nova publicação.

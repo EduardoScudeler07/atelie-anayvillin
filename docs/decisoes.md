@@ -649,3 +649,15 @@
 - Cadastro privado em .private/, fora do Git e sem senha.
 - Nenhuma tabela administrativa aplicada aos bancos remotos.
 - Login e sessões ainda não implementados.
+
+## Teste local de autenticação com Firebase
+
+- Script privado de execução local, sem rota pública de login.
+- Configuração carregada de .dev.vars, fora do Git.
+- Credenciais corretas aceitas e UID esperado conferido.
+- Uma tentativa com senha incorreta foi rejeitada.
+- Senha digitada de forma oculta; tokens não impressos ou gravados.
+- Nenhuma sessão administrativa criada.
+- Administrador de teste permanece inativo no D1 local.
+- Limitação própria de tentativas ainda não implementada.
+- Produção não alterada.

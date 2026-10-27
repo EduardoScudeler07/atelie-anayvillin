@@ -613,3 +613,16 @@
 - Viabilidade e consumo de CPU remoto ainda não confirmados.
 - Função auth-probe deve ser removida antes de merge na main.
 - Nenhuma conta administrativa criada.
+
+## Resultado do teste remoto de PBKDF2
+
+- Node e runtime local aceitaram 600 mil iterações.
+- Runtime remoto recusou valores acima de 100 mil,
+  retornando NotSupportedError.
+- PBKDF2-HMAC-SHA256 com os parâmetros avaliados não será
+  adotado nessa arquitetura.
+- Não reduzir a proteção para contornar a restrição.
+- Função temporária removida do código.
+- Segredo AUTH_PROBE_SECRET removido da configuração de Preview.
+- Próxima avaliação: serviço de autenticação gratuito,
+  sem escolha ou contratação aprovada ainda.

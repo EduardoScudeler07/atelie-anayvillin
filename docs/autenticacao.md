@@ -167,3 +167,16 @@ serão aprovados antes da implementação.
 - Conta sem senha definida não pode autenticar.
 - Primeiro acesso não faz login automático.
 - Tokens não serão registrados em logs, Git ou documentação.
+
+## Resultado do teste remoto de PBKDF2
+
+- Node e runtime local aceitaram 600 mil iterações.
+- Runtime remoto recusou valores acima de 100 mil,
+  retornando NotSupportedError.
+- PBKDF2-HMAC-SHA256 com os parâmetros avaliados não será
+  adotado nessa arquitetura.
+- Não reduzir a proteção para contornar a restrição.
+- Função temporária removida do código.
+- Segredo AUTH_PROBE_SECRET removido da configuração de Preview.
+- Próxima avaliação: serviço de autenticação gratuito,
+  sem escolha ou contratação aprovada ainda.

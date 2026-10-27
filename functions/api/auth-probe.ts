@@ -94,7 +94,14 @@ export const onRequest: PagesFunction<Env> = async ({
       tempoDecorridoMs: elapsed,
       observacao: 'Tempo decorrido não equivale ao consumo de CPU.',
     })
-  } catch {
-    return reply({ erro: 'Falha na verificação de teste.' }, 500)
-  }
+  } catch (error) {
+  console.error('AUTH_PROBE_FAILURE', {
+    name: error instanceof Error ? error.name : 'UnknownError',
+    message: error instanceof Error
+      ? error.message
+      : 'Falha sem descrição.',
+  })
+
+  return reply({ erro: 'Falha na verificação de teste.' }, 500)
+}
 }

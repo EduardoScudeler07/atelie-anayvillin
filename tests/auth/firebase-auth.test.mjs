@@ -25,7 +25,7 @@ async function expectStatus(response, expected) {
 }
 
 try {
-  // Confere a requisição e limita os dados retornados pelo módulo.
+  // Confere a requisição e os dados retornados pelo módulo.
   globalThis.fetch = async (url, options) => {
     const address = new URL(url)
 
@@ -38,7 +38,7 @@ try {
     assert.equal(address.searchParams.get('key'), input.webApiKey)
 
     assert.equal(options.method, 'POST')
-    assert.equal(options.redirect, 'error')
+    assert.equal(options.redirect, 'manual')
     assert.ok(options.signal instanceof AbortSignal)
 
     assert.deepEqual(JSON.parse(options.body), {
@@ -61,6 +61,20 @@ try {
   })
   console.log('PASSOU: requisição correta e retorno limitado ao UID.')
 
+  // Redirecionamentos não podem ser seguidos.
+  for (const status of [301, 302, 303, 307, 308]) {
+    await expectStatus(
+      new Response('', {
+        status,
+        headers: {
+          Location: 'https://outro.example',
+        },
+      }),
+      'unavailable',
+    )
+  }
+  console.log('PASSOU: respostas de redirecionamento recusadas.')
+
   for (const code of [
     'INVALID_LOGIN_CREDENTIALS',
     'INVALID_PASSWORD',
@@ -75,15 +89,22 @@ try {
   console.log('PASSOU: recusas de autenticação tratadas sem detalhes públicos.')
 
   await expectStatus(
-    jsonResponse({ error: { message: 'TOO_MANY_ATTEMPTS_TRY_LATER' } }, 400),
+    jsonResponse({
+      error: { message: 'TOO_MANY_ATTEMPTS_TRY_LATER' },
+    }, 400),
     'limited',
   )
   await expectStatus(new Response('', { status: 429 }), 'limited')
   console.log('PASSOU: limitações do provedor identificadas.')
 
-  await expectStatus(new Response('', { status: 503 }), 'unavailable')
   await expectStatus(
-    jsonResponse({ error: { message: 'API_KEY_INVALID' } }, 400),
+    new Response('', { status: 503 }),
+    'unavailable',
+  )
+  await expectStatus(
+    jsonResponse({
+      error: { message: 'API_KEY_INVALID' },
+    }, 400),
     'unavailable',
   )
   console.log('PASSOU: falhas de serviço ou configuração não são senha incorreta.')
@@ -108,6 +129,7 @@ try {
   globalThis.fetch = async () => {
     throw new Error('Falha de rede simulada')
   }
+
   assert.deepEqual(await signInWithFirebase(input), {
     status: 'unavailable',
   })
@@ -116,12 +138,14 @@ try {
   globalThis.fetch = async () => {
     throw new DOMException('Cancelamento simulado', 'AbortError')
   }
+
   assert.deepEqual(await signInWithFirebase(input), {
     status: 'unavailable',
   })
-  console.log('PASSOU: cancelamento da requisição tratado como indisponibilidade.')
+  console.log('PASSOU: cancelamento tratado como indisponibilidade.')
 
   let calls = 0
+
   globalThis.fetch = async () => {
     calls++
     throw new Error('Esta chamada não deveria acontecer')

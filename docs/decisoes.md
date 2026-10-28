@@ -882,3 +882,32 @@ Validação:
   não foram garantidos.
 - Rota pública, cookie no navegador e tela ainda pendentes.
 - Nenhum banco remoto foi alterado.
+
+### 2026-10-28 — Rota de login administrativo
+
+- Criada a rota POST /api/admin/login.
+- Exigidos origem autorizada, cabeçalho próprio e conteúdo JSON.
+- Corpo limitado a 2048 bytes efetivamente lidos.
+- Aceitos somente usuário e senha, com validação de formato e tamanho.
+- IP online obtido pelo cabeçalho do Cloudflare; substituição
+  explícita permitida somente no ambiente HTTP local.
+- Token enviado somente no cookie protegido, sem exposição no JSON.
+- Respostas de autenticação usam Cache-Control: no-store.
+
+Validação e correções:
+- Nove testes automatizados de requisição passaram.
+- Recusas locais verificadas: método 405, origem 403 e JSON inválido 400.
+- Corrigida incompatibilidade do Cloudflare com redirect: error.
+  Adotado redirect: manual, recusando respostas de redirecionamento.
+- Nove testes simulados do módulo Firebase passaram após a correção.
+- Conta de teste ativada somente no banco local.
+- Corrigido email de exemplo que havia permanecido no cadastro local.
+- Login real pela rota passou: resposta, atributos do cookie
+  e controle de cache conferidos.
+- Configurações e SQL com dados privados permaneceram fora do Git.
+
+Pendências:
+- Revogar a sessão local criada pelo teste.
+- Verificar cookie no navegador em HTTPS.
+- Implementar acesso protegido, logout e tela administrativa.
+- Nenhuma alteração realizada nos bancos remotos nesta etapa.

@@ -64,9 +64,12 @@ export async function signInWithFirebase(
         returnSecureToken: true,
       }),
       signal: controller.signal,
-      redirect: 'error',
+            redirect: 'manual',
     })
-
+        console.info('Firebase: resposta HTTP', response.status)
+        if (response.status >= 300 && response.status < 400) {
+      return { status: 'unavailable' }
+    }
     if (response.status === 429) {
       return { status: 'limited' }
     }
@@ -79,6 +82,25 @@ export async function signInWithFirebase(
 
     if (!response.ok) {
       const code = readErrorCode(payload)
+
+            const diagnosticCodes = new Set([
+        'INVALID_EMAIL',
+        'API_KEY_INVALID',
+        'API_KEY_SERVICE_BLOCKED',
+        'OPERATION_NOT_ALLOWED',
+        'CONFIGURATION_NOT_FOUND',
+        'PROJECT_NOT_FOUND',
+        'INVALID_LOGIN_CREDENTIALS',
+        'INVALID_PASSWORD',
+        'EMAIL_NOT_FOUND',
+        'USER_DISABLED',
+        'TOO_MANY_ATTEMPTS_TRY_LATER',
+      ])
+
+      console.warn(
+        'Firebase: codigo',
+        code && diagnosticCodes.has(code) ? code : 'nao listado',
+      )
 
       if (code === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
         return { status: 'limited' }
@@ -115,9 +137,24 @@ export async function signInWithFirebase(
       status: 'verified',
       uid: payload.localId,
     }
-  } catch {
-    // Não propaga erros que possam carregar URL ou dados da requisição.
+    } catch (error) {
+    const name = error instanceof Error ? error.name : ''
+
+    const knownNames = new Set([
+      'AbortError',
+      'TimeoutError',
+      'TypeError',
+      'SyntaxError',
+      'NotSupportedError',
+    ])
+
+    console.warn(
+      'Firebase: falha de comunicacao ou leitura',
+      knownNames.has(name) ? name : 'nao classificada',
+    )
+
     return { status: 'unavailable' }
+  
   } finally {
     clearTimeout(timeout)
   }

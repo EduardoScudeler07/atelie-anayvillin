@@ -85,7 +85,8 @@ export async function login(
       password: input.password,
     })
 
-    if (verification.status === 'unavailable') {
+        if (verification.status === 'unavailable') {
+      console.warn('Login: comunicacao com Firebase indisponivel.')
       return { status: 'unavailable' }
     }
 
@@ -122,9 +123,23 @@ export async function login(
       status: 'authenticated',
       session,
     }
-  } catch {
-    // Não inclui senha, tokens ou respostas do provedor em logs.
+    } catch (error) {
+    const message = error instanceof Error ? error.message : ''
+
+    if (message.includes('no such table')) {
+      console.warn('Login: tabela necessaria ausente no banco do servidor.')
+    } else if (
+      message === 'Configuração das chaves de login inválida.'
+    ) {
+      console.warn('Login: segredo de controle com formato invalido.')
+    } else if (message === 'IP de controle inválido.') {
+      console.warn('Login: IP de controle invalido.')
+    } else {
+      console.warn('Login: falha interna durante a autenticacao.')
+    }
+
     return { status: 'unavailable' }
+  
   } finally {
     if (reservation) {
       try {

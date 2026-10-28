@@ -947,3 +947,20 @@ Validação:
 - Cadastro e edição de peças ainda não implementados.
 - Validação em HTTPS na prévia ainda pendente.
 - Nenhuma publicação realizada nesta etapa.
+
+### 2026-10-28 — Preparação da autenticação na prévia
+
+- Renovada autorização do Wrangler com permissões restritas ao D1.
+- Migrações administrativas 0003 a 0006 aplicadas no banco de prévia.
+- Conta teste.eduardo cadastrada na prévia, inicialmente desativada.
+- SQL com email interno mantido na pasta privada, fora do Git.
+- Confirmado o endereço da branch:
+  https://preview.atelie-anayvillin.pages.dev
+- Configurados somente no ambiente Preview:
+  - ADMIN_ORIGIN como texto.
+  - FIREBASE_WEB_API_KEY como Secret.
+  - AUTH_RATE_LIMIT_SECRET como Secret exclusivo da prévia.
+- Valores secretos não registrados na documentação ou no Git.
+- Configurações terão efeito na próxima publicação.
+- Produção não alterada.
+- Ativação da conta e teste de login em HTTPS ainda pendentes.

@@ -860,3 +860,25 @@ Validação:
 - O script de geração não exibe nem substitui um segredo existente.
 - Alterar o segredo muda as chaves de controle de tentativas.
 - Nenhuma configuração remota foi alterada.
+
+### 2026-10-27 — Coordenação do fluxo de login
+
+- Integradas chaves de controle, reservas, busca do administrador,
+  autenticação pelo provedor, registro de falhas e criação de sessão.
+- Usuário inexistente ou desativado utiliza consulta com email
+  fictício de domínio reservado, sem criar conta.
+- UID confirmado deve corresponder ao administrador ativo.
+- Indisponibilidade e limitação do provedor não aumentam as falhas.
+- O token retornado destina-se exclusivamente à criação do cookie
+  pelo servidor e não deve ser enviado em JSON.
+
+Validação:
+- Os 12 testes passaram no D1 local isolado, com Firebase simulado.
+- Conferidos sucesso, recusas, indisponibilidade, limitação,
+  UID incorreto e desativação durante a autenticação.
+- Após cinco falhas, nova tentativa não consultou o provedor.
+- Cenários de recusa não criaram sessões nem deixaram reservas.
+- Tempos de resposta idênticos entre contas existentes e inexistentes
+  não foram garantidos.
+- Rota pública, cookie no navegador e tela ainda pendentes.
+- Nenhum banco remoto foi alterado.

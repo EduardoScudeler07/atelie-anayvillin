@@ -806,3 +806,26 @@ Pendências:
   - Substituta consegue liberar suas próprias reservas.
 - Integração com Firebase e login ainda pendente.
 - Nenhum banco remoto foi alterado.
+
+### 2026-10-27 — Criação de sessão administrativa
+
+- Implementada criação da sessão e liberação das reservas em uma
+  transação no D1.
+- Exigidos administrador ativo, UID correspondente, duas reservas
+  válidas da tentativa e ausência de bloqueios vigentes.
+- Somente o hash do token é armazenado no banco.
+- Sessão criada com validade absoluta de 24 horas.
+- Contadores de falhas não são zerados por essa função.
+- O UID deverá vir da futura confirmação confiável do Firebase,
+  nunca diretamente do navegador.
+
+Validação no banco local isolado:
+- Os 11 testes passaram.
+- Conferidos criação, hash, prazo e reconhecimento da sessão.
+- Recusados UID incorreto, administrador desativado, reserva
+  vencida ou reutilizada e bloqueios aplicados durante a tentativa.
+- Dez conclusões simultâneas da mesma reserva criaram somente
+  uma sessão.
+- Dados fictícios removidos pelos testes.
+- Firebase e cookie ainda não integrados ao login.
+- Nenhum banco remoto foi alterado.

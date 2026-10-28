@@ -80,3 +80,22 @@ export async function verifySession(
     username: administrator.usuario,
   }
 }
+
+export async function revokeSession(
+  db: D1Database,
+  token: unknown,
+): Promise<void> {
+  if (!isSessionToken(token)) {
+    return
+  }
+
+  const tokenHash = await hashSessionToken(token)
+  const now = Math.floor(Date.now() / 1000)
+
+  await db.prepare(`
+    UPDATE sessoes_administrativas
+    SET revogada_em = MAX(criado_em, ?)
+    WHERE token_hash = ?
+      AND revogada_em IS NULL
+  `).bind(now, tokenHash).run()
+}

@@ -911,3 +911,23 @@ Pendências:
 - Verificar cookie no navegador em HTTPS.
 - Implementar acesso protegido, logout e tela administrativa.
 - Nenhuma alteração realizada nos bancos remotos nesta etapa.
+
+### 2026-10-28 — Logout administrativo
+
+- Implementada revogação da sessão no D1 sem renovar sua atividade.
+- Criada a rota POST /api/admin/logout com validação de origem
+  e leitura do token exclusivamente pelo cookie.
+- Logout solicita remoção do cookie e usa Cache-Control: no-store.
+- Repetir o logout é permitido, inclusive sem sessão válida.
+- Falha de banco não é apresentada como logout concluído.
+
+Validação:
+- Cinco testes de revogação passaram no banco isolado.
+- Testadas revogação, repetição, tokens inválidos e conta desativada.
+- Teste real das rotas confirmou login, resposta de logout,
+  remoção do cookie e repetição.
+- Corrigido o envio do cookie pelo cliente PowerShell de teste.
+- Revogação da sessão confirmada por consulta ao D1 local.
+- Sessões locais anteriores da conta de teste também foram revogadas.
+- Nenhum banco remoto foi alterado.
+- Uso pelo navegador em HTTPS ainda pendente.

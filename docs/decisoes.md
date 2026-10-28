@@ -846,3 +846,17 @@ Validação:
 - Uma tentativa real com senha incorreta foi recusada.
 - Nenhuma sessão administrativa ou cookie foi criado.
 - Integração com reservas, contadores e rota de login ainda pendente.
+
+### 2026-10-27 — Chaves de controle das tentativas de login
+
+- Implementada normalização do usuário para minúsculas.
+- Implementadas chaves HMAC-SHA-256 separadas por usuário e IP.
+- Oito testes automatizados passaram.
+- A verificação de formato do IP é básica; sua origem confiável
+  deverá ser garantida pela futura rota no Cloudflare.
+- Gerado segredo aleatório local de 32 bytes.
+- AUTH_RATE_LIMIT_SECRET armazenado somente em .dev.vars,
+  arquivo confirmado como ignorado pelo Git.
+- O script de geração não exibe nem substitui um segredo existente.
+- Alterar o segredo muda as chaves de controle de tentativas.
+- Nenhuma configuração remota foi alterada.

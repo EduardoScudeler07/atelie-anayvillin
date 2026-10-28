@@ -980,3 +980,18 @@ Validação:
 - Fluxo completo confirmado pelo usuário.
 - Produção permanece sem alteração.
 - Cadastro e edição de peças são a próxima entrega.
+
+### 2026-10-28 — Listagem administrativa de peças
+
+- Criada verificação reutilizável de sessão para rotas administrativas.
+- Criada GET /api/admin/produtos, com acesso restrito a administradores.
+- Listagem inclui rascunhos, publicados, arquivados e peças sem foto.
+- Consulta paginada em 20 itens, com parâmetros SQL vinculados.
+- Criado serviço no React com validação da resposta.
+- Painel mostra foto, nome, coleção, material e situação.
+- Implementados carregamento, erro, nova tentativa e paginação.
+- Sessão recusada encaminha a interface ao login.
+- Tipos, lint e build passaram.
+- Proteção sem cookie e listagem autenticada conferidas localmente.
+- Nenhuma peça foi alterada.
+- Publicação e conferência desta listagem na prévia ainda pendentes.

@@ -1,0 +1,119 @@
+.admin-products {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-border);
+}
+
+.admin-products h2 {
+  margin: 0 0 12px;
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+}
+
+.admin-products-count {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.admin-product-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-product-row {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-product-image,
+.admin-product-placeholder {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  background: var(--color-photo-background);
+}
+
+.admin-product-image {
+  display: block;
+  object-fit: contain;
+}
+
+.admin-product-placeholder {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: 11px;
+}
+
+.admin-product-information {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.admin-product-information h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.admin-product-information p {
+  font-size: 12px;
+}
+
+.admin-product-status {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.admin-product-status-rascunho {
+  color: #654b22;
+  background: #f4e8cf;
+}
+
+.admin-product-status-publicado {
+  color: #31533b;
+  background: #dfebe0;
+}
+
+.admin-product-status-arquivado {
+  color: #555;
+  background: #e9e6e3;
+}
+
+.admin-products-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 24px;
+  font-size: 13px;
+}
+
+@media (max-width: 575px) {
+  .admin-product-row {
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 10px 14px;
+  }
+
+  .admin-product-status {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .admin-products-pagination {
+    justify-content: center;
+  }
+
+  .admin-products-pagination .admin-button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}

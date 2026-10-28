@@ -829,3 +829,20 @@ Validação no banco local isolado:
 - Dados fictícios removidos pelos testes.
 - Firebase e cookie ainda não integrados ao login.
 - Nenhum banco remoto foi alterado.
+
+### 2026-10-27 — Comunicação com Firebase Authentication
+
+- Implementada autenticação por email e senha exclusivamente no servidor.
+- Configurado prazo de 15 segundos para a requisição.
+- Separados os resultados: confirmado, recusado, limitado e indisponível.
+- Falhas de rede, configuração ou serviço não são classificadas
+  como credenciais incorretas.
+- O módulo retorna somente o UID quando confirma a autenticação.
+- Senhas e tokens não são registrados pelo módulo.
+
+Validação:
+- Oito testes simulados passaram.
+- Conta de teste real autenticada com o UID esperado.
+- Uma tentativa real com senha incorreta foi recusada.
+- Nenhuma sessão administrativa ou cookie foi criado.
+- Integração com reservas, contadores e rota de login ainda pendente.

@@ -5,6 +5,7 @@ import {
   getAdminProducts,
   type AdminProductPage,
 } from '../services/adminProductsApi'
+import AdminProductForm from './adminProductForm'
 import './adminProducts.css'
 
 type ListState =
@@ -22,6 +23,8 @@ function AdminProducts() {
   const navigate = useNavigate()
   const [page, setPage] = useState(1)
   const [retry, setRetry] = useState(0)
+  const [showForm, setShowForm] = useState(false)
+  const [notice, setNotice] = useState('')
   const [state, setState] = useState<ListState>({
     status: 'loading',
   })
@@ -55,110 +58,156 @@ function AdminProducts() {
   }
 
   return (
-    <section className="admin-products" aria-labelledby="admin-products-title">
-      <h2 id="admin-products-title">Peças cadastradas</h2>
+    <section
+      className="admin-products"
+      aria-labelledby="admin-products-title"
+    >
+      <div className="admin-products-heading">
+        <h2 id="admin-products-title">Peças cadastradas</h2>
 
-      {state.status === 'loading' && (
-        <p role="status">Carregando peças…</p>
+        <button
+          type="button"
+          className="admin-button"
+          disabled={showForm}
+          aria-expanded={showForm}
+          aria-controls="admin-create-product"
+          onClick={() => {
+            setNotice('')
+            setShowForm(true)
+          }}
+        >
+          Nova peça
+        </button>
+      </div>
+
+      {notice && (
+        <p className="admin-success" role="status">
+          {notice}
+        </p>
       )}
 
-      {state.status === 'error' && (
-        <>
-          <p className="admin-error" role="alert">
-            Não foi possível carregar as peças.
-          </p>
-
-          <button
-            type="button"
-            className="admin-button"
-            onClick={() => {
+      <div id="admin-create-product" hidden={!showForm}>
+        {showForm && (
+          <AdminProductForm
+            onCancel={() => setShowForm(false)}
+            onCreated={(product) => {
+              setNotice(`Rascunho “${product.name}” salvo.`)
+              setShowForm(false)
               setState({ status: 'loading' })
+              setPage(1)
               setRetry((current) => current + 1)
             }}
-          >
-            Tentar novamente
-          </button>
-        </>
-      )}
+          />
+        )}
+      </div>
 
-      {state.status === 'ready' && (
+      {!showForm && (
         <>
-          <p className="admin-products-count">
-            {state.data.total === 1
-              ? '1 peça cadastrada'
-              : `${state.data.total} peças cadastradas`}
-          </p>
-
-          {state.data.products.length === 0 ? (
-            <p>Nenhuma peça encontrada nesta página.</p>
-          ) : (
-            <ul className="admin-product-list">
-              {state.data.products.map((product) => (
-                <li className="admin-product-row" key={product.id}>
-                  {product.image ? (
-                    <img
-                      className="admin-product-image"
-                      src={product.image}
-                      alt={product.imageAlt ?? product.name}
-                      width="64"
-                      height="64"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  ) : (
-                    <span className="admin-product-placeholder">
-                      Sem foto
-                    </span>
-                  )}
-
-                  <div className="admin-product-information">
-                    <h3>{product.name}</h3>
-                    <p>{product.collection} · {product.material}</p>
-                  </div>
-
-                  <span
-                    className={`admin-product-status admin-product-status-${product.status}`}
-                  >
-                    {statusLabels[product.status]}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          {state.status === 'loading' && (
+            <p role="status">Carregando peças…</p>
           )}
 
-          <nav
-            className="admin-products-pagination"
-            aria-label="Páginas das peças cadastradas"
-          >
-            <button
-              type="button"
-              className="admin-button"
-              disabled={page <= 1}
-              onClick={() => changePage(page - 1)}
-            >
-              Anterior
-            </button>
+          {state.status === 'error' && (
+            <>
+              <p className="admin-error" role="alert">
+                Não foi possível carregar as peças.
+              </p>
 
-            <span aria-live="polite">
-              Página {page} de{' '}
-              {Math.max(
-                1,
-                Math.ceil(state.data.total / state.data.pageSize),
+              <button
+                type="button"
+                className="admin-button"
+                onClick={() => {
+                  setState({ status: 'loading' })
+                  setRetry((current) => current + 1)
+                }}
+              >
+                Tentar novamente
+              </button>
+            </>
+          )}
+
+          {state.status === 'ready' && (
+            <>
+              <p className="admin-products-count">
+                {state.data.total === 1
+                  ? '1 peça cadastrada'
+                  : `${state.data.total} peças cadastradas`}
+              </p>
+
+              {state.data.products.length === 0 ? (
+                <p>Nenhuma peça encontrada nesta página.</p>
+              ) : (
+                <ul className="admin-product-list">
+                  {state.data.products.map((product) => (
+                    <li className="admin-product-row" key={product.id}>
+                      {product.image ? (
+                        <img
+                          className="admin-product-image"
+                          src={product.image}
+                          alt={product.imageAlt ?? product.name}
+                          width="64"
+                          height="64"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      ) : (
+                        <span className="admin-product-placeholder">
+                          Sem foto
+                        </span>
+                      )}
+
+                      <div className="admin-product-information">
+                        <h3>{product.name}</h3>
+                        <p>
+                          {product.collection} · {product.material}
+                        </p>
+                      </div>
+
+                      <span
+                        className={`admin-product-status admin-product-status-${product.status}`}
+                      >
+                        {statusLabels[product.status]}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               )}
-            </span>
 
-            <button
-              type="button"
-              className="admin-button"
-              disabled={
-                page >= 10000 ||
-                page * state.data.pageSize >= state.data.total
-              }
-              onClick={() => changePage(page + 1)}
-            >
-              Próxima
-            </button>
-          </nav>
+              <nav
+                className="admin-products-pagination"
+                aria-label="Páginas das peças cadastradas"
+              >
+                <button
+                  type="button"
+                  className="admin-button"
+                  disabled={page <= 1}
+                  onClick={() => changePage(page - 1)}
+                >
+                  Anterior
+                </button>
+
+                <span aria-live="polite">
+                  Página {page} de{' '}
+                  {Math.max(
+                    1,
+                    Math.ceil(state.data.total / state.data.pageSize),
+                  )}
+                </span>
+
+                <button
+                  type="button"
+                  className="admin-button"
+                  disabled={
+                    page >= 10000 ||
+                    page * state.data.pageSize >= state.data.total
+                  }
+                  onClick={() => changePage(page + 1)}
+                >
+                  Próxima
+                </button>
+              </nav>
+            </>
+          )}
         </>
       )}
     </section>

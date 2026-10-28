@@ -1,4 +1,5 @@
 import { normalizeLoginUsername } from './loginKeys.ts'
+
 export const MAX_ADMIN_BODY_BYTES = 2048
 
 function reject(
@@ -21,6 +22,7 @@ function reject(
 export function validateAdminRequest(
   request: Request,
   allowedOrigin: string,
+  maxBodyBytes: number = MAX_ADMIN_BODY_BYTES,
 ): Response | null {
   if (request.method !== 'POST') {
     return reject(405, 'Método não permitido.', {
@@ -75,7 +77,7 @@ export function validateAdminRequest(
       return reject(400, 'Requisição inválida.')
     }
 
-    if (Number(contentLength) > MAX_ADMIN_BODY_BYTES) {
+    if (Number(contentLength) > maxBodyBytes) {
       return reject(413, 'Conteúdo muito grande.')
     }
   }
@@ -142,7 +144,7 @@ export async function readLoginBody(
       offset += chunk.byteLength
     }
 
-        const text = new TextDecoder('utf-8', {
+    const text = new TextDecoder('utf-8', {
       fatal: true,
       ignoreBOM: false,
     }).decode(bytes)

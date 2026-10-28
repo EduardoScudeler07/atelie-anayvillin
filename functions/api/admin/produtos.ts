@@ -1,4 +1,10 @@
 import { requireAdmin } from '../../../server/auth/requireAdmin.ts'
+import { validateAdminRequest } from '../../../server/auth/adminRequest.ts'
+import {
+  MAX_PRODUCT_BODY_BYTES,
+  readDraftProductInput,
+} from '../../../server/admin/productInput.ts'
+import { createDraftProduct } from '../../../server/admin/createDraftProduct.ts'
 
 type Env = {
   DB: D1Database
@@ -38,17 +44,46 @@ export const onRequest: PagesFunction<Env> = async ({
   request,
   env,
 }) => {
-  if (request.method !== 'GET') {
+  if (request.method !== 'GET' && request.method !== 'POST') {
     return json(
       { erro: 'Método não permitido.' },
       405,
-      { Allow: 'GET' },
+      { Allow: 'GET, POST' },
     )
   }
 
   try {
+    if (request.method === 'POST') {
+      const rejected = validateAdminRequest(
+        request,
+        env.ADMIN_ORIGIN,
+        MAX_PRODUCT_BODY_BYTES,
+      )
+
+      if (rejected) return rejected
+    }
+
     const authorization = await requireAdmin(request, env)
     if (!authorization.ok) return authorization.response
+
+    if (request.method === 'POST') {
+      const body = await readDraftProductInput(request)
+      if (!body.ok) return body.response
+
+      const result = await createDraftProduct(env.DB, body.input)
+
+      if (!result.ok) {
+        return json(
+          { erro: 'A coleção ou o material não está disponível.' },
+          400,
+        )
+      }
+
+      return json(
+        { produto: result.product },
+        201,
+      )
+    }
 
     const address = new URL(request.url)
     const pageValue = address.searchParams.get('pagina') ?? '1'
@@ -106,7 +141,7 @@ export const onRequest: PagesFunction<Env> = async ({
     })
   } catch {
     return json(
-      { erro: 'Não foi possível carregar as peças.' },
+      { erro: 'Não foi possível concluir a operação com as peças.' },
       503,
     )
   }

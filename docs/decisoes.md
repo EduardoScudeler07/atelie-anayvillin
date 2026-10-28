@@ -995,3 +995,22 @@ Validação:
 - Proteção sem cookie e listagem autenticada conferidas localmente.
 - Nenhuma peça foi alterada.
 - Publicação e conferência desta listagem na prévia ainda pendentes.
+
+### 2026-10-28 — Cadastro administrativo de rascunhos
+
+- Implementado POST protegido em /api/admin/produtos.
+- Cadastro aceita somente nome, coleção, material e descrição.
+- Status definido no servidor como rascunho.
+- Coleção e material devem ser compatíveis e estar ativos.
+- Identificador gerado no servidor; conflitos de slug recebem sufixo.
+- Requisição de cadastro limitada a 16 KB, mantendo login em 2 KB.
+- Formulário carrega opções ativas e ajusta materiais pela coleção.
+- Salvamento apresenta confirmação e atualiza a listagem.
+- Tipos, lint, build e testes anteriores da requisição passaram.
+- Dez testes da API passaram no banco isolado.
+- Conferidos acesso, origem, campos extras, combinações inválidas,
+  coleção inativa, gravação, conflitos e ausência no catálogo público.
+- Cadastro e persistência conferidos no navegador local.
+- Testado rascunho com nome provisório Terço Pérola Azul Claro.
+- Cadastro sem fotos; edição, upload e publicação ainda pendentes.
+- Nenhuma alteração realizada nos bancos remotos nesta entrega.

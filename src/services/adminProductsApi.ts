@@ -145,3 +145,141 @@ export async function getAdminProducts(
     total: pagination.total,
   }
 }
+
+export type DraftProductFields = {
+  name: string
+  collectionSlug: string
+  materialSlug: string
+  description: string
+}
+
+export type CreatedDraftProduct = {
+  id: string
+  name: string
+  slug: string
+}
+
+export async function saveDraftProduct(
+  fields: DraftProductFields,
+): Promise<CreatedDraftProduct> {
+  const response = await fetch('/api/admin/produtos', {
+    method: 'POST',
+    credentials: 'same-origin',
+    cache: 'no-store',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Atelie-Admin': '1',
+    },
+    body: JSON.stringify({
+      nome: fields.name,
+      colecao_slug: fields.collectionSlug,
+      material_slug: fields.materialSlug,
+      descricao: fields.description,
+    }),
+  })
+
+  if (response.status === 401) {
+    throw new AdminSessionExpiredError()
+  }
+
+  const payload: unknown = await response.json()
+
+  if (!response.ok) {
+    if (
+      response.status === 400 &&
+      isObject(payload) &&
+      typeof payload.erro === 'string' &&
+      payload.erro.length <= 200
+    ) {
+      throw new Error(payload.erro)
+    }
+
+    throw new Error(
+      'Não foi possível confirmar o cadastro. Confira a listagem antes de tentar novamente.',
+    )
+  }
+
+  if (
+    response.status !== 201 ||
+    !isObject(payload) ||
+    !isObject(payload.produto) ||
+    typeof payload.produto.id !== 'string' ||
+    typeof payload.produto.nome !== 'string' ||
+    typeof payload.produto.slug !== 'string' ||
+    payload.produto.status !== 'rascunho'
+  ) {
+    throw new Error(
+      'Não foi possível confirmar o cadastro. Confira a listagem.',
+    )
+  }
+
+  return {
+    id: payload.produto.id,
+    name: payload.produto.nome,
+    slug: payload.produto.slug,
+  }
+}
+
+export type ProductOption = {
+  name: string
+  slug: string
+}
+
+async function readProductOptions(
+  path: '/api/colecoes' | '/api/materiais',
+  field: 'colecoes' | 'materiais',
+  signal?: AbortSignal,
+): Promise<ProductOption[]> {
+  const response = await fetch(path, {
+    credentials: 'same-origin',
+    cache: 'no-store',
+    signal,
+  })
+
+  if (!response.ok) {
+    throw new Error('Não foi possível carregar as opções.')
+  }
+
+  const payload: unknown = await response.json()
+
+  if (!isObject(payload) || !Array.isArray(payload[field])) {
+    throw new Error('Opções inesperadas.')
+  }
+
+  const options = payload[field].map((value: unknown) => {
+    if (
+      !isObject(value) ||
+      typeof value.nome !== 'string' ||
+      typeof value.slug !== 'string' ||
+      !value.nome.trim() ||
+      !value.slug.trim()
+    ) {
+      throw new Error('Opção inválida.')
+    }
+
+    return {
+      name: value.nome,
+      slug: value.slug,
+    }
+  })
+
+  if (new Set(options.map((option) => option.slug)).size !== options.length) {
+    throw new Error('Opções duplicadas.')
+  }
+
+  return options
+}
+
+export async function getDraftProductOptions(
+  signal?: AbortSignal,
+): Promise<{
+  collections: ProductOption[]
+  materials: ProductOption[]
+}> {
+  const [collections, materials] = await Promise.all([
+    readProductOptions('/api/colecoes', 'colecoes', signal),
+    readProductOptions('/api/materiais', 'materiais', signal),
+  ])
+
+  return { collections, materials }
+}

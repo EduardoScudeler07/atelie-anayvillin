@@ -964,3 +964,19 @@ Validação:
 - Configurações terão efeito na próxima publicação.
 - Produção não alterada.
 - Ativação da conta e teste de login em HTTPS ainda pendentes.
+
+### 2026-10-28 — Validação da autenticação na prévia HTTPS
+
+- Publicação da branch preview concluída com sucesso.
+- Consulta sem sessão retorna autenticado: false.
+- Acesso a /admin sem sessão encaminha ao login.
+- Conta teste.eduardo ativada somente no banco de prévia.
+- Login real com Firebase conferido no navegador.
+- Sessão permanece válida após atualizar a página.
+- Consulta autenticada retorna somente identificação básica,
+  sem token.
+- Logout conferido: consulta passa a retornar autenticado: false
+  e /admin volta ao login.
+- Fluxo completo confirmado pelo usuário.
+- Produção permanece sem alteração.
+- Cadastro e edição de peças são a próxima entrega.

@@ -931,3 +931,19 @@ Validação:
 - Sessões locais anteriores da conta de teste também foram revogadas.
 - Nenhum banco remoto foi alterado.
 - Uso pelo navegador em HTTPS ainda pendente.
+
+### 2026-10-28 — Tela de login e área administrativa inicial
+
+- Criada consulta GET /api/admin/session, com verificação no D1.
+- Resposta autenticada contém somente nome e usuário.
+- Criado serviço de comunicação do React com login, sessão e logout.
+- Token administrado pelo cookie HttpOnly, sem localStorage.
+- Criadas as páginas /admin/login e /admin.
+- Área administrativa verifica a sessão antes de mostrar seu conteúdo.
+- Adicionado botão de saída.
+- Navegação pública permanece sem link administrativo.
+- Tipos do servidor, lint e build passaram.
+- Acesso local conferido no navegador.
+- Cadastro e edição de peças ainda não implementados.
+- Validação em HTTPS na prévia ainda pendente.
+- Nenhuma publicação realizada nesta etapa.

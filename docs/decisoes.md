@@ -1044,3 +1044,15 @@ Validação:
 - Publicados e arquivados não podem ser modificados por esta edição.
 - Nenhum banco remoto foi alterado nesta etapa.
 - Validação da edição na prévia ainda pendente.
+
+### 2026-10-29 — Edição validada na prévia HTTPS
+
+- Publicação da edição de rascunhos concluída na branch preview.
+- Formulário abriu com os dados atuais da peça.
+- Com autorização, alterada temporariamente a descrição do
+  rascunho Terço Pérola Azul Claro.
+- Salvamento e permanência após reabrir foram confirmados.
+- Texto provisório removido e descrição vazia conferida.
+- Peça permaneceu como rascunho.
+- Administração acessada pelo endereço autorizado da branch preview.
+- Produção não alterada.  

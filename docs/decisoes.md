@@ -1157,3 +1157,51 @@ Validação:
 - Mensagem preenchida sem envio automático.
 - Número configurado somente no ambiente Preview.
 - Produção e contato da cliente não alterados.
+
+### 2026-10-29 — Acervo da coleção Essência cadastrado
+
+- Coleção Essência com seis peças em produção.
+- Terço Pérola Azul permanece publicado.
+- Azul Claro, Branca com Rosas, Preta, Verde Claro e Verde Escuro
+  mantidos como rascunho.
+- Novos cadastros com descrição, foto real e texto alternativo.
+- Dados e fotos conferidos após atualizar a página.
+- Publicação dos rascunhos aguarda revisão.
+
+### 2026-10-29 — Acervo da coleção Promessa cadastrado
+
+- Coleção Promessa com seis peças em produção.
+- Terço Pérola Branca permanece publicado.
+- Azul, Lilás, Marrom, Preta e Rosa Claro mantidos como rascunho.
+- Novos cadastros com descrição, foto real e texto alternativo.
+- Dados e fotos conferidos após atualizar a página.
+- Publicação dos rascunhos aguarda revisão.
+
+### 2026-10-29 — Acervo da coleção Luz cadastrado
+
+- Coleção Luz com sete peças em produção.
+- Terço Cristal Azul Royal permanece publicado.
+- Seis novas peças mantidas como rascunho, com descrição,
+  foto real e texto alternativo.
+- “Tons de Azul”, “Tons de Rosa” e “Tons de Vermelho”
+  identificam variações de cores, mantendo o material Cristais.
+- Dados e fotos conferidos após atualizar a página.
+- Publicação dos rascunhos aguarda revisão.
+
+### 2026-10-29 — Acervo da coleção Graça cadastrado
+
+- Coleção Graça com nove peças em produção.
+- Terço Cristal Rosa Claro permanece publicado.
+- Oito novas peças mantidas como rascunho, com descrição,
+  foto real e texto alternativo.
+- Dados e fotos conferidos após atualizar a página.
+- Publicação dos rascunhos aguarda revisão.
+
+### 2026-10-29 — Conferência do acervo disponível
+
+- Acervo de produção com 29 peças: 5 publicadas e 24 rascunhos.
+- Essência: 6; Promessa: 6; Luz: 7; Graça: 9; Raízes: 1.
+- Raízes mantém somente o Terço Madeira Marrom já publicado.
+- Nenhum cadastro duplicado necessário para Raízes.
+- Infantil permanece adiado.
+- Novas peças aguardam revisão antes da publicação.

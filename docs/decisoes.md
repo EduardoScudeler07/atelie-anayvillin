@@ -1149,3 +1149,11 @@ Validação:
 - Publicação na prévia com o número de teste ainda pendente.
 - Número da cliente será configurado somente após os testes
   e com autorização.
+
+  ### 2026-10-29 — WhatsApp validado na prévia
+
+- Botão conferido em HTTPS com o número de teste de Eduardo.
+- Destino, nome da peça, coleção, acentos e link conferidos.
+- Mensagem preenchida sem envio automático.
+- Número configurado somente no ambiente Preview.
+- Produção e contato da cliente não alterados.

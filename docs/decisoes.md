@@ -1099,3 +1099,28 @@ Validação:
 - Retorno a rascunho preservou descrição e foto e liberou a edição.
 - Peça mantida como rascunho ao final do teste.
 - Produção não alterada.
+
+### 2026-10-29 — Banco de produção preparado para o painel
+
+- Backup SQL exportado para a pasta .private, ignorada pelo Git.
+- Arquivo de backup conferido como existente e não vazio.
+- Restauração do backup ainda não testada.
+- Migrações 0003 a 0007 aplicadas em produção.
+- Confirmadas 5 peças publicadas após as migrações.
+- Catálogo oficial conferido após a aplicação.
+- Administradores e autenticação de produção ainda não configurados.
+
+### 2026-10-29 — Configuração administrativa de produção
+
+- Criado projeto Firebase separado para produção.
+- Habilitado login por e-mail e senha, com política de 15 a 128 caracteres.
+- Conta de Eduardo vinculada ao D1 e ativada com autorização.
+- Senha mantida exclusivamente no Firebase.
+- Configurados ADMIN_ORIGIN, FIREBASE_WEB_API_KEY e
+  AUTH_RATE_LIMIT_SECRET no Cloudflare Production.
+- Criado preset assinado atelie_produtos_production.
+- Configurada pasta atelie-anayvillin-production/produtos.
+- Configurações do Cloudinary cadastradas em Production.
+- SQL administrativo e segredo gerado mantidos em .private,
+  fora do Git.
+- Login e upload no painel oficial ainda aguardam publicação e teste.

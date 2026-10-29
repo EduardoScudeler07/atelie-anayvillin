@@ -1,0 +1,242 @@
+.admin-products {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-border);
+}
+
+.admin-products h2 {
+  margin: 0 0 12px;
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+}
+
+.admin-products-count {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.admin-product-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-product-row {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-product-image,
+.admin-product-placeholder {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  background: var(--color-photo-background);
+}
+
+.admin-product-image {
+  display: block;
+  object-fit: contain;
+}
+
+.admin-product-placeholder {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: 11px;
+}
+
+.admin-product-information {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.admin-product-information h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.admin-product-information p {
+  font-size: 12px;
+}
+
+.admin-product-status {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.admin-product-status-rascunho {
+  color: #654b22;
+  background: #f4e8cf;
+}
+
+.admin-product-status-publicado {
+  color: #31533b;
+  background: #dfebe0;
+}
+
+.admin-product-status-arquivado {
+  color: #555;
+  background: #e9e6e3;
+}
+
+.admin-products-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 24px;
+  font-size: 13px;
+}
+
+@media (max-width: 575px) {
+  .admin-product-row {
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 10px 14px;
+  }
+
+  .admin-product-status {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .admin-products-pagination {
+    justify-content: center;
+  }
+
+  .admin-products-pagination .admin-button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
+.admin-products-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.admin-products-heading h2 {
+  margin: 0;
+}
+
+.admin-product-form h3 {
+  margin: 0 0 12px;
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+}
+
+.admin-form-note {
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.admin-product-form fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.admin-product-form select,
+.admin-product-form textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--color-text);
+  background: var(--color-background);
+  font: inherit;
+  font-size: 16px;
+}
+
+.admin-product-form select {
+  min-height: 46px;
+}
+
+.admin-product-form textarea {
+  resize: vertical;
+}
+
+.admin-product-form select:focus-visible,
+.admin-product-form textarea:focus-visible,
+.admin-link-button:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 4px;
+}
+
+.admin-form-count {
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.admin-form-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.admin-link-button {
+  min-height: 44px;
+  padding: 8px;
+  border: 0;
+  color: var(--color-text);
+  background: transparent;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.admin-link-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+
+
+.admin-success {
+  margin-bottom: 20px;
+  padding: 14px;
+  border: 1px solid #b6cdb8;
+  border-radius: 10px;
+  color: #31533b;
+  background: #dfebe0;
+  overflow-wrap: anywhere;
+}
+
+.admin-product-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 180px;
+}
+
+.admin-product-controls .admin-link-button {
+  font-size: 13px;
+}
+
+@media (max-width: 575px) {
+  .admin-product-controls {
+    grid-column: 2;
+    justify-self: start;
+    justify-content: flex-start;
+    max-width: 100%;
+  }
+}

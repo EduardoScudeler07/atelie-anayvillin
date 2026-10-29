@@ -32,3 +32,6 @@ dist-ssr
 .dev.vars
 .dev.vars.*
 .wrangler/
+
+# Arquivos privados de configuração e cadastro
+.private/

@@ -7,7 +7,9 @@
     "types": ["./types.d.ts"],
     "strict": true,
     "noEmit": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true
   },
-  "include": ["./**/*.ts"]
+  "include": ["./**/*.ts", "../server/**/*.ts"]
 }

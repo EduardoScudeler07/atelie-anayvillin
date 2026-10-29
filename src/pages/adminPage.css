@@ -1,0 +1,107 @@
+.admin-page {
+  padding-top: 40px;
+  padding-bottom: 48px;
+}
+
+.admin-card {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 40px);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background: var(--color-background);
+}
+
+.admin-card-wide {
+  max-width: 720px;
+}
+
+.admin-label {
+  margin-bottom: 12px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.admin-title {
+  margin-bottom: 28px;
+  font-size: clamp(28px, 5vw, 38px);
+  overflow-wrap: anywhere;
+}
+
+.admin-field {
+  margin-bottom: 20px;
+}
+
+.admin-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.admin-field input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--color-text);
+  background: var(--color-background);
+  font: inherit;
+  font-size: 16px;
+}
+
+.admin-button {
+  min-height: 44px;
+  padding: 10px 22px;
+  border: 1px solid var(--color-text);
+  border-radius: 999px;
+  color: var(--color-background);
+  background: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.admin-submit {
+  width: 100%;
+}
+
+.admin-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.admin-field input:focus-visible,
+.admin-button:focus-visible,
+.admin-link:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 4px;
+}
+
+.admin-error {
+  margin: 16px 0;
+  color: #842d2d;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.admin-welcome {
+  margin-bottom: 24px;
+  overflow-wrap: anywhere;
+}
+
+.admin-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.admin-link {
+  color: var(--color-text);
+  text-underline-offset: 4px;
+}

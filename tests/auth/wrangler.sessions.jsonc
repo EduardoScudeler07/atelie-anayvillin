@@ -1,0 +1,13 @@
+{
+  "name": "atelie-session-tests",
+  "main": "./session-worker.ts",
+  "compatibility_date": "2026-10-26",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "atelie-session-tests",
+      "database_id": "00000000-0000-0000-0000-000000000004",
+      "migrations_dir": "../../migrations"
+    }
+  ]
+}

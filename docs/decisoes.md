@@ -571,3 +571,556 @@
 - VITE_USE_PRODUCT_API ainda não ativada em produção.
 - Cinco produtos permanecem como rascunho no banco.
 - Interface pública permanece usando os dados locais.
+
+## Ativação do catálogo integrado em produção
+
+- Cinco produtos aprovados publicados no D1 de produção.
+- Listagem e consulta individual verificadas na API pública.
+- VITE_USE_PRODUCT_API=true configurada em Production.
+- Produção recompilada após a configuração.
+- Catálogo, busca, filtros, fotos e descrições conferidos
+  pelo desenvolvedor, incluindo apresentação no celular.
+- Prévia e produção usam bancos separados.
+- Para retornar aos dados locais: definir a opção como false
+  e realizar nova publicação.
+
+  ## Prazos de autenticação
+
+- Sessão expira após 2 horas sem requisições administrativas
+  autenticadas ou 24 horas após o login, o que ocorrer primeiro.
+- Recuperação de acesso válida por 15 minutos, com uso único.
+- Logout, troca de senha e desativação podem encerrar
+  o acesso antes desses prazos.
+
+  ## Primeiro acesso
+
+- Contas criadas por procedimento controlado, sem cadastro público.
+- Cada pessoa recebe um link de uso único para definir sua senha.
+- Link válido por 15 minutos; se expirar, será necessário emitir outro.
+- Conta sem senha definida não pode autenticar.
+- Primeiro acesso não faz login automático.
+- Tokens não serão registrados em logs, Git ou documentação.
+
+## Avaliação do hash de senhas
+
+- PBKDF2-HMAC-SHA256 com 600 mil iterações testado no Node
+  e no runtime local do Cloudflare.
+- Senha correta, senha incorreta e salt individual verificados.
+- Teste remoto temporário preparado como Pages Function.
+- AUTH_PROBE_SECRET configurado somente no Preview.
+- Referência de hash usa exclusivamente dados fictícios.
+- TypeScript das Functions, lint e build passaram.
+- Viabilidade e consumo de CPU remoto ainda não confirmados.
+- Função auth-probe deve ser removida antes de merge na main.
+- Nenhuma conta administrativa criada.
+
+## Resultado do teste remoto de PBKDF2
+
+- Node e runtime local aceitaram 600 mil iterações.
+- Runtime remoto recusou valores acima de 100 mil,
+  retornando NotSupportedError.
+- PBKDF2-HMAC-SHA256 com os parâmetros avaliados não será
+  adotado nessa arquitetura.
+- Não reduzir a proteção para contornar a restrição.
+- Função temporária removida do código.
+- Segredo AUTH_PROBE_SECRET removido da configuração de Preview.
+- Próxima avaliação: serviço de autenticação gratuito,
+  sem escolha ou contratação aprovada ainda.
+
+  ## Autenticação delegada ao Firebase
+
+- Usuário aprovou tela com Usuário e Senha.
+- Firebase Authentication escolhido para verificação de senhas.
+- Mapeamento de usuário realizado no servidor.
+- Sessões e autorização administrativa permanecem sob
+  controle da aplicação.
+- Decisão substitui armazenamento próprio de hash de senha.
+- Nenhuma conta administrativa criada nesta revisão.
+
+## Administrador de teste local
+
+- Firebase de prévia criado no plano Spark.
+- Método e-mail/senha habilitado internamente.
+- Política de senha configurada com mínimo de 15 caracteres.
+- Tela futura usará usuário, sem exigir e-mail no login.
+- Migração 0003_administradores.sql aplicada somente localmente.
+- Conta teste.eduardo associada ao UID do Firebase e conferida.
+- Administrador permanece inativo.
+- Cadastro privado em .private/, fora do Git e sem senha.
+- Nenhuma tabela administrativa aplicada aos bancos remotos.
+- Login e sessões ainda não implementados.
+
+## Teste local de autenticação com Firebase
+
+- Script privado de execução local, sem rota pública de login.
+- Configuração carregada de .dev.vars, fora do Git.
+- Credenciais corretas aceitas e UID esperado conferido.
+- Uma tentativa com senha incorreta foi rejeitada.
+- Senha digitada de forma oculta; tokens não impressos ou gravados.
+- Nenhuma sessão administrativa criada.
+- Administrador de teste permanece inativo no D1 local.
+- Limitação própria de tentativas ainda não implementada.
+- Produção não alterada.
+
+## Estrutura local de sessões
+
+- Migração 0004_sessoes_administrativas.sql aplicada localmente.
+- Tabela vazia e índices conferidos.
+- Datas de sessão armazenadas em segundos UTC.
+- Registro fictício com 24 horas aceito.
+- Tentativa de ampliar para 25 horas bloqueada por CHECK.
+- Prazo original de 86400 segundos preservado.
+- Registro fictício removido; consulta confirmou zero restantes.
+- Nenhum token real, cookie ou sessão autenticada criado.
+- Validação de inatividade, revogação e conta ativa
+  ainda será implementada na API.
+- Bancos remotos não alterados.
+
+### 2026-10-27 — Tokens e verificação de sessões administrativas
+
+- Implementada geração de tokens aleatórios de 32 bytes, em base64url.
+- Implementado hash SHA-256 do token, destinado ao armazenamento no D1.
+- A senha permanece sob responsabilidade do Firebase Authentication.
+- Implementada verificação de sessão com consultas parametrizadas.
+- Somente sessões não revogadas, dentro da validade e vinculadas a
+  administradores ativos são aceitas.
+- O limite de inatividade é de 2 horas. A validade absoluta máxima de
+  24 horas é limitada pela estrutura da tabela.
+- A atividade é atualizada na mesma operação que verifica as condições
+  da sessão, sem renovar sessões inválidas.
+- Configurações TypeScript adicionadas para os módulos do servidor
+  e os testes de autenticação.
+
+Validação realizada:
+- Testes de formato, hash e rejeição de tokens inválidos passaram.
+- Verificações de tipos passaram.
+- Testes executados em banco D1 local separado, em
+  .wrangler/session-tests.
+- Sessão válida aceita e atividade atualizada.
+- Sessões vencida, inativa e revogada recusadas.
+- Sessão de administrador desativado recusada.
+- Tokens inexistente e inválido recusados.
+- Sessão inativa não teve sua atividade renovada.
+
+Pendências:
+- Implementar login, limitação de tentativas e cookie protegido.
+- Integrar a verificação às rotas administrativas.
+- Implementar logout e proteções das operações de escrita.
+- Esta etapa não liberou acesso administrativo nem alterou bancos remotos.
+
+### 2026-10-27 — Cookie de sessão administrativa
+
+- Criadas funções para montar, ler e remover o cookie de sessão.
+- Cookie __Host-atelie_admin com Path=/, HttpOnly, Secure,
+  SameSite=Strict e sem Domain.
+- Prazo do cookie de 24 horas, sem renovar a validade absoluta
+  da sessão no banco.
+- Leitura recusa tokens inválidos e cookies duplicados.
+- Apagar o cookie não substitui a revogação da sessão no D1.
+- Testes automatizados e verificação de tipos passaram.
+- Habilitado allowImportingTsExtensions para os imports usados
+  pelos testes diretos no Node, mantendo noEmit.
+- Uso real no navegador e integração com login ainda pendentes.
+
+### 2026-10-27 — Estrutura para controle de tentativas de login
+
+- Criada a migração 0005_tentativas_login.sql.
+- Estrutura separa os controles por usuário e por IP, usando chaves
+  em formato hash, sem armazenar senhas.
+- Preparados contador de falhas, início da janela e prazo de bloqueio.
+- Regra planejada: 5 falhas em 15 minutos geram bloqueio de 15 minutos.
+- Migração aplicada somente ao banco local isolado de testes.
+- Testado que o banco rejeita contador negativo.
+- Confirmado que a tabela permaneceu vazia após a rejeição.
+- Contagem, concorrência e bloqueio ainda não implementados.
+- Nenhuma alteração realizada nos bancos remotos.
+
+### 2026-10-27 — Reservas temporárias de login
+
+- Criada a migração 0006_reservas_login.sql.
+- Reservas identificadas por escopo e chave em hash.
+- Chave primária impede reservas duplicadas para o mesmo usuário ou IP.
+- Validade de cada reserva limitada a, no máximo, 60 segundos.
+- Migração aplicada somente ao banco local isolado de testes.
+- Testada a rejeição de uma reserva duplicada.
+- Registro fictício removido e tabela vazia confirmada.
+- Aquisição conjunta, expiração e proteção contra concorrência
+  ainda serão implementadas e testadas no módulo do servidor.
+- Nenhuma alteração realizada nos bancos remotos.
+
+### 2026-10-27 — Aquisição de reservas de login
+
+- Implementada aquisição das reservas de usuário e IP em uma
+  transação no D1, com consultas parametrizadas.
+- Aquisições parciais são removidas sem alterar reservas de
+  outras tentativas.
+- Reservas vencidas podem ser substituídas.
+- Bloqueio vigente de usuário ou IP impede a aquisição.
+
+Validação no banco local isolado:
+- Aquisição conjunta e recusa de duplicatas.
+- Disputas por usuário e por IP sem reservas parciais.
+- Preservação das reservas da tentativa original.
+- Dez tentativas simultâneas com exatamente uma vencedora.
+- Substituição de reservas vencidas.
+- Recusa de usuário e IP bloqueados, preservando o bloqueio.
+- Os nove testes passaram.
+
+Pendências:
+- Implementar registro de falhas e liberação segura das reservas.
+- Conferir a posse e a validade da reserva ao concluir a tentativa.
+- Integrar ao Firebase e ao fluxo de login.
+- Nenhuma alteração realizada nos bancos remotos.
+
+### 2026-10-27 — Registro de falhas e bloqueio de login
+
+- Implementado registro de falhas para usuário e IP.
+- Exigidas as duas reservas válidas e pertencentes à tentativa.
+- Registro e liberação das reservas realizados em uma transação.
+- Quinta falha em uma janela de 15 minutos gera bloqueio de 15 minutos.
+- Janela vencida reinicia a contagem.
+- Tentativas vencidas ou já concluídas não registram novas falhas.
+- A liberação não remove reservas de uma tentativa substituta.
+
+Validação no banco local isolado:
+- Os 11 testes de contagem, bloqueio, expiração e proteção contra
+  tentativas antigas passaram.
+- Nenhum teste consultou o Firebase ou alterou bancos remotos.
+
+Pendências:
+- Tratar liberação sem falha e conclusão de login válido.
+- Integrar ao Firebase e às rotas administrativas.
+- Validar o fluxo completo antes de publicar.
+
+### 2026-10-27 — Liberação de reservas sem registrar falha
+
+- Implementada liberação limitada às chaves e ao identificador
+  da própria reserva.
+- A operação não altera contadores nem bloqueios e não concede acesso.
+- Destinada a encerrar tentativas sem classificá-las como senha
+  incorreta, como em falhas de comunicação com o provedor.
+- Quatro testes passaram no banco local isolado:
+  - Liberação preserva os contadores.
+  - Repetição da liberação é segura.
+  - Execução antiga não remove reservas da substituta.
+  - Substituta consegue liberar suas próprias reservas.
+- Integração com Firebase e login ainda pendente.
+- Nenhum banco remoto foi alterado.
+
+### 2026-10-27 — Criação de sessão administrativa
+
+- Implementada criação da sessão e liberação das reservas em uma
+  transação no D1.
+- Exigidos administrador ativo, UID correspondente, duas reservas
+  válidas da tentativa e ausência de bloqueios vigentes.
+- Somente o hash do token é armazenado no banco.
+- Sessão criada com validade absoluta de 24 horas.
+- Contadores de falhas não são zerados por essa função.
+- O UID deverá vir da futura confirmação confiável do Firebase,
+  nunca diretamente do navegador.
+
+Validação no banco local isolado:
+- Os 11 testes passaram.
+- Conferidos criação, hash, prazo e reconhecimento da sessão.
+- Recusados UID incorreto, administrador desativado, reserva
+  vencida ou reutilizada e bloqueios aplicados durante a tentativa.
+- Dez conclusões simultâneas da mesma reserva criaram somente
+  uma sessão.
+- Dados fictícios removidos pelos testes.
+- Firebase e cookie ainda não integrados ao login.
+- Nenhum banco remoto foi alterado.
+
+### 2026-10-27 — Comunicação com Firebase Authentication
+
+- Implementada autenticação por email e senha exclusivamente no servidor.
+- Configurado prazo de 15 segundos para a requisição.
+- Separados os resultados: confirmado, recusado, limitado e indisponível.
+- Falhas de rede, configuração ou serviço não são classificadas
+  como credenciais incorretas.
+- O módulo retorna somente o UID quando confirma a autenticação.
+- Senhas e tokens não são registrados pelo módulo.
+
+Validação:
+- Oito testes simulados passaram.
+- Conta de teste real autenticada com o UID esperado.
+- Uma tentativa real com senha incorreta foi recusada.
+- Nenhuma sessão administrativa ou cookie foi criado.
+- Integração com reservas, contadores e rota de login ainda pendente.
+
+### 2026-10-27 — Chaves de controle das tentativas de login
+
+- Implementada normalização do usuário para minúsculas.
+- Implementadas chaves HMAC-SHA-256 separadas por usuário e IP.
+- Oito testes automatizados passaram.
+- A verificação de formato do IP é básica; sua origem confiável
+  deverá ser garantida pela futura rota no Cloudflare.
+- Gerado segredo aleatório local de 32 bytes.
+- AUTH_RATE_LIMIT_SECRET armazenado somente em .dev.vars,
+  arquivo confirmado como ignorado pelo Git.
+- O script de geração não exibe nem substitui um segredo existente.
+- Alterar o segredo muda as chaves de controle de tentativas.
+- Nenhuma configuração remota foi alterada.
+
+### 2026-10-27 — Coordenação do fluxo de login
+
+- Integradas chaves de controle, reservas, busca do administrador,
+  autenticação pelo provedor, registro de falhas e criação de sessão.
+- Usuário inexistente ou desativado utiliza consulta com email
+  fictício de domínio reservado, sem criar conta.
+- UID confirmado deve corresponder ao administrador ativo.
+- Indisponibilidade e limitação do provedor não aumentam as falhas.
+- O token retornado destina-se exclusivamente à criação do cookie
+  pelo servidor e não deve ser enviado em JSON.
+
+Validação:
+- Os 12 testes passaram no D1 local isolado, com Firebase simulado.
+- Conferidos sucesso, recusas, indisponibilidade, limitação,
+  UID incorreto e desativação durante a autenticação.
+- Após cinco falhas, nova tentativa não consultou o provedor.
+- Cenários de recusa não criaram sessões nem deixaram reservas.
+- Tempos de resposta idênticos entre contas existentes e inexistentes
+  não foram garantidos.
+- Rota pública, cookie no navegador e tela ainda pendentes.
+- Nenhum banco remoto foi alterado.
+
+### 2026-10-28 — Rota de login administrativo
+
+- Criada a rota POST /api/admin/login.
+- Exigidos origem autorizada, cabeçalho próprio e conteúdo JSON.
+- Corpo limitado a 2048 bytes efetivamente lidos.
+- Aceitos somente usuário e senha, com validação de formato e tamanho.
+- IP online obtido pelo cabeçalho do Cloudflare; substituição
+  explícita permitida somente no ambiente HTTP local.
+- Token enviado somente no cookie protegido, sem exposição no JSON.
+- Respostas de autenticação usam Cache-Control: no-store.
+
+Validação e correções:
+- Nove testes automatizados de requisição passaram.
+- Recusas locais verificadas: método 405, origem 403 e JSON inválido 400.
+- Corrigida incompatibilidade do Cloudflare com redirect: error.
+  Adotado redirect: manual, recusando respostas de redirecionamento.
+- Nove testes simulados do módulo Firebase passaram após a correção.
+- Conta de teste ativada somente no banco local.
+- Corrigido email de exemplo que havia permanecido no cadastro local.
+- Login real pela rota passou: resposta, atributos do cookie
+  e controle de cache conferidos.
+- Configurações e SQL com dados privados permaneceram fora do Git.
+
+Pendências:
+- Revogar a sessão local criada pelo teste.
+- Verificar cookie no navegador em HTTPS.
+- Implementar acesso protegido, logout e tela administrativa.
+- Nenhuma alteração realizada nos bancos remotos nesta etapa.
+
+### 2026-10-28 — Logout administrativo
+
+- Implementada revogação da sessão no D1 sem renovar sua atividade.
+- Criada a rota POST /api/admin/logout com validação de origem
+  e leitura do token exclusivamente pelo cookie.
+- Logout solicita remoção do cookie e usa Cache-Control: no-store.
+- Repetir o logout é permitido, inclusive sem sessão válida.
+- Falha de banco não é apresentada como logout concluído.
+
+Validação:
+- Cinco testes de revogação passaram no banco isolado.
+- Testadas revogação, repetição, tokens inválidos e conta desativada.
+- Teste real das rotas confirmou login, resposta de logout,
+  remoção do cookie e repetição.
+- Corrigido o envio do cookie pelo cliente PowerShell de teste.
+- Revogação da sessão confirmada por consulta ao D1 local.
+- Sessões locais anteriores da conta de teste também foram revogadas.
+- Nenhum banco remoto foi alterado.
+- Uso pelo navegador em HTTPS ainda pendente.
+
+### 2026-10-28 — Tela de login e área administrativa inicial
+
+- Criada consulta GET /api/admin/session, com verificação no D1.
+- Resposta autenticada contém somente nome e usuário.
+- Criado serviço de comunicação do React com login, sessão e logout.
+- Token administrado pelo cookie HttpOnly, sem localStorage.
+- Criadas as páginas /admin/login e /admin.
+- Área administrativa verifica a sessão antes de mostrar seu conteúdo.
+- Adicionado botão de saída.
+- Navegação pública permanece sem link administrativo.
+- Tipos do servidor, lint e build passaram.
+- Acesso local conferido no navegador.
+- Cadastro e edição de peças ainda não implementados.
+- Validação em HTTPS na prévia ainda pendente.
+- Nenhuma publicação realizada nesta etapa.
+
+### 2026-10-28 — Preparação da autenticação na prévia
+
+- Renovada autorização do Wrangler com permissões restritas ao D1.
+- Migrações administrativas 0003 a 0006 aplicadas no banco de prévia.
+- Conta teste.eduardo cadastrada na prévia, inicialmente desativada.
+- SQL com email interno mantido na pasta privada, fora do Git.
+- Confirmado o endereço da branch:
+  https://preview.atelie-anayvillin.pages.dev
+- Configurados somente no ambiente Preview:
+  - ADMIN_ORIGIN como texto.
+  - FIREBASE_WEB_API_KEY como Secret.
+  - AUTH_RATE_LIMIT_SECRET como Secret exclusivo da prévia.
+- Valores secretos não registrados na documentação ou no Git.
+- Configurações terão efeito na próxima publicação.
+- Produção não alterada.
+- Ativação da conta e teste de login em HTTPS ainda pendentes.
+
+### 2026-10-28 — Validação da autenticação na prévia HTTPS
+
+- Publicação da branch preview concluída com sucesso.
+- Consulta sem sessão retorna autenticado: false.
+- Acesso a /admin sem sessão encaminha ao login.
+- Conta teste.eduardo ativada somente no banco de prévia.
+- Login real com Firebase conferido no navegador.
+- Sessão permanece válida após atualizar a página.
+- Consulta autenticada retorna somente identificação básica,
+  sem token.
+- Logout conferido: consulta passa a retornar autenticado: false
+  e /admin volta ao login.
+- Fluxo completo confirmado pelo usuário.
+- Produção permanece sem alteração.
+- Cadastro e edição de peças são a próxima entrega.
+
+### 2026-10-28 — Listagem administrativa de peças
+
+- Criada verificação reutilizável de sessão para rotas administrativas.
+- Criada GET /api/admin/produtos, com acesso restrito a administradores.
+- Listagem inclui rascunhos, publicados, arquivados e peças sem foto.
+- Consulta paginada em 20 itens, com parâmetros SQL vinculados.
+- Criado serviço no React com validação da resposta.
+- Painel mostra foto, nome, coleção, material e situação.
+- Implementados carregamento, erro, nova tentativa e paginação.
+- Sessão recusada encaminha a interface ao login.
+- Tipos, lint e build passaram.
+- Proteção sem cookie e listagem autenticada conferidas localmente.
+- Nenhuma peça foi alterada.
+- Publicação e conferência desta listagem na prévia ainda pendentes.
+
+### 2026-10-28 — Cadastro administrativo de rascunhos
+
+- Implementado POST protegido em /api/admin/produtos.
+- Cadastro aceita somente nome, coleção, material e descrição.
+- Status definido no servidor como rascunho.
+- Coleção e material devem ser compatíveis e estar ativos.
+- Identificador gerado no servidor; conflitos de slug recebem sufixo.
+- Requisição de cadastro limitada a 16 KB, mantendo login em 2 KB.
+- Formulário carrega opções ativas e ajusta materiais pela coleção.
+- Salvamento apresenta confirmação e atualiza a listagem.
+- Tipos, lint, build e testes anteriores da requisição passaram.
+- Dez testes da API passaram no banco isolado.
+- Conferidos acesso, origem, campos extras, combinações inválidas,
+  coleção inativa, gravação, conflitos e ausência no catálogo público.
+- Cadastro e persistência conferidos no navegador local.
+- Testado rascunho com nome provisório Terço Pérola Azul Claro.
+- Cadastro sem fotos; edição, upload e publicação ainda pendentes.
+- Nenhuma alteração realizada nos bancos remotos nesta entrega.
+
+### 2026-10-28 — Cadastro de rascunho validado na prévia
+
+- Publicação do cadastro de rascunhos concluída na branch preview.
+- Formulário e opções conferidos em HTTPS.
+- Com autorização, cadastrado Terço Pérola Azul Claro na prévia,
+  coleção Essência, material Pérolas, sem descrição ou foto.
+- Confirmadas gravação, permanência após atualizar e ausência
+  no catálogo público da prévia.
+- Nome permanece provisório, sujeito à revisão antes de publicar.
+- Produção não alterada.
+
+### 2026-10-29 — Edição administrativa de rascunhos
+
+- Criadas consulta e atualização protegidas por identificador.
+- Edição permite nome, coleção, material e descrição.
+- Identificador, slug, fotos e situação são preservados.
+- Coleção e material precisam continuar ativos e compatíveis.
+- Salvamento exige a versão carregada, enviada em If-Match.
+- Versão antiga é recusada para evitar sobrescrita silenciosa.
+- Formulário reutilizado para criação e edição.
+- Botão Editar disponível somente nos rascunhos.
+- Tipos, lint e build passaram.
+- Dez testes da API passaram no banco isolado.
+- Teste concorrente confirmou uma gravação e quatro recusas.
+- Carregamento, salvamento e reabertura conferidos no navegador local.
+- Texto provisório do teste removido ao finalizar.
+- Publicados e arquivados não podem ser modificados por esta edição.
+- Nenhum banco remoto foi alterado nesta etapa.
+- Validação da edição na prévia ainda pendente.
+
+### 2026-10-29 — Edição validada na prévia HTTPS
+
+- Publicação da edição de rascunhos concluída na branch preview.
+- Formulário abriu com os dados atuais da peça.
+- Com autorização, alterada temporariamente a descrição do
+  rascunho Terço Pérola Azul Claro.
+- Salvamento e permanência após reabrir foram confirmados.
+- Texto provisório removido e descrição vazia conferida.
+- Peça permaneceu como rascunho.
+- Administração acessada pelo endereço autorizado da branch preview.
+- Produção não alterada.  
+
+### 2026-10-29 — Upload de fotos pelo painel administrativo
+
+- Upload permitido somente para administradores autenticados
+  e produtos em rascunho.
+- O servidor valida o arquivo antes de enviá-lo ao Cloudinary.
+- Formatos aceitos: JPEG, PNG e WebP, com limite de 5 MiB.
+- Texto alternativo obrigatório.
+- Upload assinado no servidor; segredo não enviado ao navegador.
+- Fotos recebem identificadores únicos, sem sobrescrever arquivos.
+- Novas fotos são acrescentadas à galeria, preservando a capa.
+- Migração 0007 aplicada nos ambientes locais de desenvolvimento
+  e testes. Aplicação na prévia remota ainda pendente.
+- Testes de acesso, validação, concorrência e associação passaram.
+- Upload de uma fotografia real e sua permanência após reabrir
+  a galeria foram conferidos no painel local.
+- Fotos originais preservadas.
+- Publicação na prévia e organização das fotos serão feitas
+  nas próximas etapas. Produção não alterada.
+
+  ### 2026-10-29 — Publicação e arquivamento pelo painel
+
+- Adicionada revisão antes de publicar, arquivar ou voltar a rascunho.
+- Publicação exige nome, descrição, foto e coleção/material compatíveis
+  e ativos.
+- Ações exigem sessão administrativa válida e origem autorizada.
+- Versões antigas são recusadas para evitar sobrescrever alterações.
+- Arquivamento e retorno a rascunho preservam dados, endereço e fotos.
+- Testes no banco isolado passaram, incluindo acessos indevidos,
+  dados incompletos e confirmações simultâneas.
+- Ciclo completo conferido no painel e catálogo locais.
+- Terço Pérola Azul Claro permaneceu como rascunho ao final.
+- Nenhuma peça ou configuração remota alterada nesta etapa.
+
+### 2026-10-29 — Publicação e arquivamento validados na prévia
+
+- Revisão e confirmação conferidas em HTTPS.
+- Terço Pérola Azul Claro publicado temporariamente na prévia.
+- Presença no catálogo e página individual conferidas.
+- Arquivamento retirou a peça do catálogo.
+- Retorno a rascunho preservou descrição e foto e liberou a edição.
+- Peça mantida como rascunho ao final do teste.
+- Produção não alterada.
+
+### 2026-10-29 — Banco de produção preparado para o painel
+
+- Backup SQL exportado para a pasta .private, ignorada pelo Git.
+- Arquivo de backup conferido como existente e não vazio.
+- Restauração do backup ainda não testada.
+- Migrações 0003 a 0007 aplicadas em produção.
+- Confirmadas 5 peças publicadas após as migrações.
+- Catálogo oficial conferido após a aplicação.
+- Administradores e autenticação de produção ainda não configurados.
+
+### 2026-10-29 — Configuração administrativa de produção
+
+- Criado projeto Firebase separado para produção.
+- Habilitado login por e-mail e senha, com política de 15 a 128 caracteres.
+- Conta de Eduardo vinculada ao D1 e ativada com autorização.
+- Senha mantida exclusivamente no Firebase.
+- Configurados ADMIN_ORIGIN, FIREBASE_WEB_API_KEY e
+  AUTH_RATE_LIMIT_SECRET no Cloudflare Production.
+- Criado preset assinado atelie_produtos_production.
+- Configurada pasta atelie-anayvillin-production/produtos.
+- Configurações do Cloudinary cadastradas em Production.
+- SQL administrativo e segredo gerado mantidos em .private,
+  fora do Git.
+- Login e upload no painel oficial ainda aguardam publicação e teste.

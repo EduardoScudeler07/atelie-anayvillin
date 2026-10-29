@@ -1135,3 +1135,17 @@ Validação:
 - Nova peça mantida como rascunho.
 - Publicação, arquivamento e retorno a rascunho previamente
   validados no ambiente de prévia.
+
+  ### 2026-10-29 — Contato pelo WhatsApp na página da peça
+
+- Adicionado botão “Encomendar pelo WhatsApp”, com ícone e sem seta.
+- Mensagem inclui nome, coleção e link da peça.
+- Mensagem preenchida para revisão, sem envio automático.
+- Número configurado por VITE_WHATSAPP_NUMBER.
+- Número ausente ou com formato inválido oculta o botão.
+- Número de teste mantido no arquivo local, fora do Git.
+- Destino e mensagem conferidos localmente com o número de Eduardo.
+- Lint e build concluídos sem erros.
+- Publicação na prévia com o número de teste ainda pendente.
+- Número da cliente será configurado somente após os testes
+  e com autorização.

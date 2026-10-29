@@ -6,9 +6,14 @@ import {
   type AdminProductPage,
   type CreatedDraftProduct,
 } from '../services/adminProductsApi'
+import type {
+  ProductStatus,
+  ProductStatusAction,
+} from '../services/adminProductStatusApi'
 import AdminProductForm from './adminProductForm'
 import AdminDraftEditor from './adminDraftEditor'
 import AdminProductImages from './adminProductImages'
+import AdminProductStatus from './adminProductStatus'
 import './adminProducts.css'
 
 type ListState =
@@ -24,6 +29,11 @@ type EditorState =
       id: string
       name: string
       canUpload: boolean
+    }
+  | {
+      mode: 'status'
+      id: string
+      action: ProductStatusAction
     }
   | null
 
@@ -71,6 +81,12 @@ function AdminProducts() {
     setPage(nextPage)
   }
 
+  function closeEditor() {
+    setEditor(null)
+    setState({ status: 'loading' })
+    setRetry((current) => current + 1)
+  }
+
   function handleSaved(product: CreatedDraftProduct) {
     const editing = editor?.mode === 'edit'
 
@@ -80,18 +96,28 @@ function AdminProducts() {
         : `Rascunho “${product.name}” salvo.`,
     )
 
-    setEditor(null)
-    setState({ status: 'loading' })
-
     if (!editing) setPage(1)
 
-    setRetry((current) => current + 1)
+    closeEditor()
   }
 
-  function closePhotos() {
-    setEditor(null)
-    setState({ status: 'loading' })
-    setRetry((current) => current + 1)
+  function handleStatusChanged(
+    name: string,
+    status: ProductStatus,
+  ) {
+    setNotice(
+      `Situação de “${name}” atualizada: ${statusLabels[status]}.`,
+    )
+
+    closeEditor()
+  }
+
+  function openStatusReview(
+    id: string,
+    action: ProductStatusAction,
+  ) {
+    setNotice('')
+    setEditor({ mode: 'status', id, action })
   }
 
   return (
@@ -127,7 +153,7 @@ function AdminProducts() {
         {editor?.mode === 'create' && (
           <AdminProductForm
             key="create"
-            onCancel={() => setEditor(null)}
+            onCancel={closeEditor}
             onCreated={handleSaved}
           />
         )}
@@ -136,7 +162,7 @@ function AdminProducts() {
           <AdminDraftEditor
             key={editor.id}
             id={editor.id}
-            onCancel={() => setEditor(null)}
+            onCancel={closeEditor}
             onSaved={handleSaved}
           />
         )}
@@ -147,7 +173,17 @@ function AdminProducts() {
             productId={editor.id}
             productName={editor.name}
             canUpload={editor.canUpload}
-            onClose={closePhotos}
+            onClose={closeEditor}
+          />
+        )}
+
+        {editor?.mode === 'status' && (
+          <AdminProductStatus
+            key={`status:${editor.id}:${editor.action}`}
+            productId={editor.id}
+            action={editor.action}
+            onCancel={closeEditor}
+            onChanged={handleStatusChanged}
           />
         )}
       </div>
@@ -190,7 +226,10 @@ function AdminProducts() {
               ) : (
                 <ul className="admin-product-list">
                   {state.data.products.map((product) => (
-                    <li className="admin-product-row" key={product.id}>
+                    <li
+                      className="admin-product-row"
+                      key={product.id}
+                    >
                       {product.image ? (
                         <img
                           className="admin-product-image"
@@ -228,7 +267,10 @@ function AdminProducts() {
                             aria-label={`Editar ${product.name}`}
                             onClick={() => {
                               setNotice('')
-                              setEditor({ mode: 'edit', id: product.id })
+                              setEditor({
+                                mode: 'edit',
+                                id: product.id,
+                              })
                             }}
                           >
                             Editar
@@ -245,12 +287,61 @@ function AdminProducts() {
                               mode: 'photos',
                               id: product.id,
                               name: product.name,
-                              canUpload: product.status === 'rascunho',
+                              canUpload:
+                                product.status === 'rascunho',
                             })
                           }}
                         >
                           Fotos
                         </button>
+
+                        {product.status === 'rascunho' && (
+                          <button
+                            type="button"
+                            className="admin-link-button"
+                            aria-label={`Revisar publicação de ${product.name}`}
+                            onClick={() =>
+                              openStatusReview(
+                                product.id,
+                                'publicar',
+                              )
+                            }
+                          >
+                            Publicar
+                          </button>
+                        )}
+
+                        {product.status !== 'arquivado' && (
+                          <button
+                            type="button"
+                            className="admin-link-button"
+                            aria-label={`Revisar arquivamento de ${product.name}`}
+                            onClick={() =>
+                              openStatusReview(
+                                product.id,
+                                'arquivar',
+                              )
+                            }
+                          >
+                            Arquivar
+                          </button>
+                        )}
+
+                        {product.status !== 'rascunho' && (
+                          <button
+                            type="button"
+                            className="admin-link-button"
+                            aria-label={`Voltar ${product.name} a rascunho`}
+                            onClick={() =>
+                              openStatusReview(
+                                product.id,
+                                'voltar-rascunho',
+                              )
+                            }
+                          >
+                            Voltar a rascunho
+                          </button>
+                        )}
                       </div>
                     </li>
                   ))}
@@ -274,7 +365,9 @@ function AdminProducts() {
                   Página {page} de{' '}
                   {Math.max(
                     1,
-                    Math.ceil(state.data.total / state.data.pageSize),
+                    Math.ceil(
+                      state.data.total / state.data.pageSize,
+                    ),
                   )}
                 </span>
 

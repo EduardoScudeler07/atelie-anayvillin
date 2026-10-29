@@ -1075,3 +1075,17 @@ Validação:
 - Fotos originais preservadas.
 - Publicação na prévia e organização das fotos serão feitas
   nas próximas etapas. Produção não alterada.
+
+  ### 2026-10-29 — Publicação e arquivamento pelo painel
+
+- Adicionada revisão antes de publicar, arquivar ou voltar a rascunho.
+- Publicação exige nome, descrição, foto e coleção/material compatíveis
+  e ativos.
+- Ações exigem sessão administrativa válida e origem autorizada.
+- Versões antigas são recusadas para evitar sobrescrever alterações.
+- Arquivamento e retorno a rascunho preservam dados, endereço e fotos.
+- Testes no banco isolado passaram, incluindo acessos indevidos,
+  dados incompletos e confirmações simultâneas.
+- Ciclo completo conferido no painel e catálogo locais.
+- Terço Pérola Azul Claro permaneceu como rascunho ao final.
+- Nenhuma peça ou configuração remota alterada nesta etapa.

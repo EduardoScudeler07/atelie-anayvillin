@@ -8,6 +8,7 @@ import {
 } from '../services/adminProductsApi'
 import AdminProductForm from './adminProductForm'
 import AdminDraftEditor from './adminDraftEditor'
+import AdminProductImages from './adminProductImages'
 import './adminProducts.css'
 
 type ListState =
@@ -18,6 +19,12 @@ type ListState =
 type EditorState =
   | { mode: 'create' }
   | { mode: 'edit'; id: string }
+  | {
+      mode: 'photos'
+      id: string
+      name: string
+      canUpload: boolean
+    }
   | null
 
 const statusLabels = {
@@ -81,6 +88,12 @@ function AdminProducts() {
     setRetry((current) => current + 1)
   }
 
+  function closePhotos() {
+    setEditor(null)
+    setState({ status: 'loading' })
+    setRetry((current) => current + 1)
+  }
+
   return (
     <section
       className="admin-products"
@@ -125,6 +138,16 @@ function AdminProducts() {
             id={editor.id}
             onCancel={() => setEditor(null)}
             onSaved={handleSaved}
+          />
+        )}
+
+        {editor?.mode === 'photos' && (
+          <AdminProductImages
+            key={`photos:${editor.id}`}
+            productId={editor.id}
+            productName={editor.name}
+            canUpload={editor.canUpload}
+            onClose={closePhotos}
           />
         )}
       </div>
@@ -211,6 +234,23 @@ function AdminProducts() {
                             Editar
                           </button>
                         )}
+
+                        <button
+                          type="button"
+                          className="admin-link-button"
+                          aria-label={`Fotos de ${product.name}`}
+                          onClick={() => {
+                            setNotice('')
+                            setEditor({
+                              mode: 'photos',
+                              id: product.id,
+                              name: product.name,
+                              canUpload: product.status === 'rascunho',
+                            })
+                          }}
+                        >
+                          Fotos
+                        </button>
                       </div>
                     </li>
                   ))}

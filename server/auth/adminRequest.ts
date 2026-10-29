@@ -23,6 +23,9 @@ export function validateAdminRequest(
   request: Request,
   allowedOrigin: string,
   maxBodyBytes: number = MAX_ADMIN_BODY_BYTES,
+  allowedContentType:
+    | 'application/json'
+    | 'multipart/form-data' = 'application/json',
 ): Response | null {
   if (request.method !== 'POST') {
     return reject(405, 'Método não permitido.', {
@@ -66,7 +69,7 @@ export function validateAdminRequest(
     .trim()
     .toLowerCase()
 
-  if (contentType !== 'application/json') {
+  if (contentType !== allowedContentType) {
     return reject(415, 'Formato de conteúdo não permitido.')
   }
 

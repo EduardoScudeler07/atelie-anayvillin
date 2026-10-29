@@ -1056,3 +1056,22 @@ Validação:
 - Peça permaneceu como rascunho.
 - Administração acessada pelo endereço autorizado da branch preview.
 - Produção não alterada.  
+
+### 2026-10-29 — Upload de fotos pelo painel administrativo
+
+- Upload permitido somente para administradores autenticados
+  e produtos em rascunho.
+- O servidor valida o arquivo antes de enviá-lo ao Cloudinary.
+- Formatos aceitos: JPEG, PNG e WebP, com limite de 5 MiB.
+- Texto alternativo obrigatório.
+- Upload assinado no servidor; segredo não enviado ao navegador.
+- Fotos recebem identificadores únicos, sem sobrescrever arquivos.
+- Novas fotos são acrescentadas à galeria, preservando a capa.
+- Migração 0007 aplicada nos ambientes locais de desenvolvimento
+  e testes. Aplicação na prévia remota ainda pendente.
+- Testes de acesso, validação, concorrência e associação passaram.
+- Upload de uma fotografia real e sua permanência após reabrir
+  a galeria foram conferidos no painel local.
+- Fotos originais preservadas.
+- Publicação na prévia e organização das fotos serão feitas
+  nas próximas etapas. Produção não alterada.

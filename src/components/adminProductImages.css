@@ -1,0 +1,97 @@
+.admin-images h3 {
+  margin: 0 0 12px;
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  overflow-wrap: anywhere;
+}
+
+.admin-image-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(100%, 160px), 1fr)
+  );
+  gap: 16px;
+  margin: 24px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-image-card {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+}
+
+.admin-image-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 8px;
+  background: var(--color-photo-background);
+}
+
+.admin-image-card p {
+  margin-top: 10px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.admin-image-cover {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  color: #31533b;
+  background: #dfebe0;
+  font-size: 12px;
+}
+
+.admin-image-upload {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+}
+
+.admin-image-upload h4 {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.admin-image-upload fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.admin-image-upload textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  color: var(--color-text);
+  background: var(--color-background);
+  font: inherit;
+  font-size: 16px;
+  resize: vertical;
+}
+
+.admin-image-upload textarea:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 4px;
+}
+
+.admin-image-upload input[type='file'] {
+  max-width: 100%;
+  font-size: 13px;
+}
+
+.admin-images-footer {
+  margin-top: 24px;
+}

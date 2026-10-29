@@ -1124,3 +1124,14 @@ Validação:
 - SQL administrativo e segredo gerado mantidos em .private,
   fora do Git.
 - Login e upload no painel oficial ainda aguardam publicação e teste.
+
+### 2026-10-29 — Painel administrativo validado em produção
+
+- Login, permanência da sessão após atualizar e saída conferidos.
+- Cinco peças publicadas preservadas no catálogo oficial.
+- Terço Pérola Azul Claro cadastrado como rascunho em produção.
+- Upload da foto real concluído e permanência conferida.
+- Painel com seis peças; catálogo público com cinco.
+- Nova peça mantida como rascunho.
+- Publicação, arquivamento e retorno a rascunho previamente
+  validados no ambiente de prévia.

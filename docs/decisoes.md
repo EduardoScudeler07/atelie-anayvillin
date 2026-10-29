@@ -1089,3 +1089,13 @@ Validação:
 - Ciclo completo conferido no painel e catálogo locais.
 - Terço Pérola Azul Claro permaneceu como rascunho ao final.
 - Nenhuma peça ou configuração remota alterada nesta etapa.
+
+### 2026-10-29 — Publicação e arquivamento validados na prévia
+
+- Revisão e confirmação conferidas em HTTPS.
+- Terço Pérola Azul Claro publicado temporariamente na prévia.
+- Presença no catálogo e página individual conferidas.
+- Arquivamento retirou a peça do catálogo.
+- Retorno a rascunho preservou descrição e foto e liberou a edição.
+- Peça mantida como rascunho ao final do teste.
+- Produção não alterada.

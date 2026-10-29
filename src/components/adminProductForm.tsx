@@ -5,11 +5,14 @@ import {
   AdminSessionExpiredError,
   getDraftProductOptions,
   saveDraftProduct,
+  updateAdminDraft,
   type CreatedDraftProduct,
+  type EditableDraftProduct,
   type ProductOption,
 } from '../services/adminProductsApi'
 
 type Props = {
+  initialProduct?: EditableDraftProduct
   onCreated: (product: CreatedDraftProduct) => void
   onCancel: () => void
 }
@@ -32,12 +35,25 @@ const collectionMaterials: Record<string, readonly string[]> = {
   infantil: ['perolas', 'cristais'],
 }
 
-function AdminProductForm({ onCreated, onCancel }: Props) {
+function AdminProductForm({
+  initialProduct,
+  onCreated,
+  onCancel,
+}: Props) {
   const navigate = useNavigate()
-  const [name, setName] = useState('')
-  const [collection, setCollection] = useState('')
-  const [material, setMaterial] = useState('')
-  const [description, setDescription] = useState('')
+  const editing = initialProduct !== undefined
+
+  const [name, setName] = useState(initialProduct?.name ?? '')
+  const [collection, setCollection] = useState(
+    initialProduct?.collectionSlug ?? '',
+  )
+  const [material, setMaterial] = useState(
+    initialProduct?.materialSlug ?? '',
+  )
+  const [description, setDescription] = useState(
+    initialProduct?.description ?? '',
+  )
+
   const [options, setOptions] = useState<OptionsState>({
     status: 'loading',
   })
@@ -79,7 +95,6 @@ function AdminProductForm({ onCreated, onCancel }: Props) {
     setCollection(value)
 
     const matches = availableMaterials(value)
-
     setMaterial(matches.length === 1 ? matches[0].slug : '')
   }
 
@@ -91,12 +106,16 @@ function AdminProductForm({ onCreated, onCancel }: Props) {
     setError('')
 
     try {
-      const product = await saveDraftProduct({
+      const fields = {
         name,
         collectionSlug: collection,
         materialSlug: material,
         description,
-      })
+      }
+
+      const product = initialProduct
+        ? await updateAdminDraft(initialProduct, fields)
+        : await saveDraftProduct(fields)
 
       onCreated(product)
     } catch (cause) {
@@ -108,7 +127,7 @@ function AdminProductForm({ onCreated, onCancel }: Props) {
       setError(
         cause instanceof Error
           ? cause.message
-          : 'Não foi possível confirmar o cadastro.',
+          : 'Não foi possível confirmar o salvamento.',
       )
     } finally {
       setBusy(false)
@@ -117,10 +136,12 @@ function AdminProductForm({ onCreated, onCancel }: Props) {
 
   return (
     <div className="admin-product-form">
-      <h3>Nova peça</h3>
+      <h3>{editing ? 'Editar rascunho' : 'Nova peça'}</h3>
 
       <p className="admin-form-note">
-        Salve como rascunho para revisar antes de publicar.
+        {editing
+          ? 'Salve suas alterações para manter a peça em rascunho.'
+          : 'Salve como rascunho para revisar antes de publicar.'}
       </p>
 
       {options.status === 'loading' && (
@@ -244,7 +265,11 @@ function AdminProductForm({ onCreated, onCancel }: Props) {
               className="admin-button"
               disabled={busy || !collection || !material}
             >
-              {busy ? 'Salvando…' : 'Salvar rascunho'}
+              {busy
+                ? 'Salvando…'
+                : editing
+                  ? 'Salvar alterações'
+                  : 'Salvar rascunho'}
             </button>
 
             <button

@@ -283,3 +283,143 @@ export async function getDraftProductOptions(
 
   return { collections, materials }
 }
+
+export type EditableDraftProduct = DraftProductFields & {
+  id: string
+  slug: string
+  updatedAt: string
+}
+
+export async function getAdminDraft(
+  id: string,
+  signal?: AbortSignal,
+): Promise<EditableDraftProduct> {
+  if (!/^[A-Za-z0-9_-]{1,100}$/.test(id)) {
+    throw new Error('Identificador de peça inválido.')
+  }
+
+  const response = await fetch(
+    `/api/admin/produtos/${encodeURIComponent(id)}`,
+    {
+      credentials: 'same-origin',
+      cache: 'no-store',
+      signal,
+    },
+  )
+
+  if (response.status === 401) {
+    throw new AdminSessionExpiredError()
+  }
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error('Peça não encontrada.')
+    }
+
+    if (response.status === 409) {
+      throw new Error('Esta edição está disponível somente para rascunhos.')
+    }
+
+    throw new Error('Não foi possível carregar a peça.')
+  }
+
+  const payload: unknown = await response.json()
+
+  if (!isObject(payload) || !isObject(payload.produto)) {
+    throw new Error('Resposta de peça inesperada.')
+  }
+
+  const product = payload.produto
+
+  if (
+    product.id !== id ||
+    product.status !== 'rascunho' ||
+    typeof product.nome !== 'string' ||
+    typeof product.slug !== 'string' ||
+    typeof product.descricao !== 'string' ||
+    typeof product.colecao_slug !== 'string' ||
+    typeof product.material_slug !== 'string' ||
+    typeof product.atualizado_em !== 'string' ||
+    !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(
+      product.atualizado_em,
+    )
+  ) {
+    throw new Error('Dados de edição inesperados.')
+  }
+
+  return {
+    id,
+    name: product.nome,
+    slug: product.slug,
+    description: product.descricao,
+    collectionSlug: product.colecao_slug,
+    materialSlug: product.material_slug,
+    updatedAt: product.atualizado_em,
+  }
+}
+
+export async function updateAdminDraft(
+  original: EditableDraftProduct,
+  fields: DraftProductFields,
+): Promise<CreatedDraftProduct> {
+  const response = await fetch(
+    `/api/admin/produtos/${encodeURIComponent(original.id)}`,
+    {
+      method: 'POST',
+      credentials: 'same-origin',
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Atelie-Admin': '1',
+        'If-Match': JSON.stringify(original.updatedAt),
+      },
+      body: JSON.stringify({
+        nome: fields.name,
+        colecao_slug: fields.collectionSlug,
+        material_slug: fields.materialSlug,
+        descricao: fields.description,
+      }),
+    },
+  )
+
+  if (response.status === 401) {
+    throw new AdminSessionExpiredError()
+  }
+
+  const payload: unknown = await response.json().catch(() => null)
+
+  if (!response.ok) {
+    if (
+      [400, 409, 428].includes(response.status) &&
+      isObject(payload) &&
+      typeof payload.erro === 'string' &&
+      payload.erro.length <= 200
+    ) {
+      throw new Error(payload.erro)
+    }
+
+    throw new Error(
+      'Não foi possível confirmar a alteração. Reabra a peça para conferir.',
+    )
+  }
+
+  if (
+    response.status !== 200 ||
+    !isObject(payload) ||
+    !isObject(payload.produto) ||
+    payload.produto.id !== original.id ||
+    payload.produto.slug !== original.slug ||
+    payload.produto.status !== 'rascunho' ||
+    typeof payload.produto.nome !== 'string'
+  ) {
+    throw new Error(
+      'Não foi possível confirmar a alteração. Reabra a peça para conferir.',
+    )
+  }
+
+  return {
+    id: original.id,
+    name: payload.produto.nome,
+    slug: original.slug,
+  }
+}

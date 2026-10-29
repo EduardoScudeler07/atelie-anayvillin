@@ -4,14 +4,21 @@ import {
   AdminSessionExpiredError,
   getAdminProducts,
   type AdminProductPage,
+  type CreatedDraftProduct,
 } from '../services/adminProductsApi'
 import AdminProductForm from './adminProductForm'
+import AdminDraftEditor from './adminDraftEditor'
 import './adminProducts.css'
 
 type ListState =
   | { status: 'loading' }
   | { status: 'ready'; data: AdminProductPage }
   | { status: 'error' }
+
+type EditorState =
+  | { mode: 'create' }
+  | { mode: 'edit'; id: string }
+  | null
 
 const statusLabels = {
   rascunho: 'Rascunho',
@@ -23,7 +30,7 @@ function AdminProducts() {
   const navigate = useNavigate()
   const [page, setPage] = useState(1)
   const [retry, setRetry] = useState(0)
-  const [showForm, setShowForm] = useState(false)
+  const [editor, setEditor] = useState<EditorState>(null)
   const [notice, setNotice] = useState('')
   const [state, setState] = useState<ListState>({
     status: 'loading',
@@ -57,6 +64,23 @@ function AdminProducts() {
     setPage(nextPage)
   }
 
+  function handleSaved(product: CreatedDraftProduct) {
+    const editing = editor?.mode === 'edit'
+
+    setNotice(
+      editing
+        ? `Alterações de “${product.name}” salvas.`
+        : `Rascunho “${product.name}” salvo.`,
+    )
+
+    setEditor(null)
+    setState({ status: 'loading' })
+
+    if (!editing) setPage(1)
+
+    setRetry((current) => current + 1)
+  }
+
   return (
     <section
       className="admin-products"
@@ -68,12 +92,12 @@ function AdminProducts() {
         <button
           type="button"
           className="admin-button"
-          disabled={showForm}
-          aria-expanded={showForm}
-          aria-controls="admin-create-product"
+          disabled={editor !== null}
+          aria-expanded={editor !== null}
+          aria-controls="admin-product-editor"
           onClick={() => {
             setNotice('')
-            setShowForm(true)
+            setEditor({ mode: 'create' })
           }}
         >
           Nova peça
@@ -86,22 +110,26 @@ function AdminProducts() {
         </p>
       )}
 
-      <div id="admin-create-product" hidden={!showForm}>
-        {showForm && (
+      <div id="admin-product-editor" hidden={editor === null}>
+        {editor?.mode === 'create' && (
           <AdminProductForm
-            onCancel={() => setShowForm(false)}
-            onCreated={(product) => {
-              setNotice(`Rascunho “${product.name}” salvo.`)
-              setShowForm(false)
-              setState({ status: 'loading' })
-              setPage(1)
-              setRetry((current) => current + 1)
-            }}
+            key="create"
+            onCancel={() => setEditor(null)}
+            onCreated={handleSaved}
+          />
+        )}
+
+        {editor?.mode === 'edit' && (
+          <AdminDraftEditor
+            key={editor.id}
+            id={editor.id}
+            onCancel={() => setEditor(null)}
+            onSaved={handleSaved}
           />
         )}
       </div>
 
-      {!showForm && (
+      {editor === null && (
         <>
           {state.status === 'loading' && (
             <p role="status">Carregando peças…</p>
@@ -163,11 +191,27 @@ function AdminProducts() {
                         </p>
                       </div>
 
-                      <span
-                        className={`admin-product-status admin-product-status-${product.status}`}
-                      >
-                        {statusLabels[product.status]}
-                      </span>
+                      <div className="admin-product-controls">
+                        <span
+                          className={`admin-product-status admin-product-status-${product.status}`}
+                        >
+                          {statusLabels[product.status]}
+                        </span>
+
+                        {product.status === 'rascunho' && (
+                          <button
+                            type="button"
+                            className="admin-link-button"
+                            aria-label={`Editar ${product.name}`}
+                            onClick={() => {
+                              setNotice('')
+                              setEditor({ mode: 'edit', id: product.id })
+                            }}
+                          >
+                            Editar
+                          </button>
+                        )}
+                      </div>
                     </li>
                   ))}
                 </ul>

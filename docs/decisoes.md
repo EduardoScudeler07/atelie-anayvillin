@@ -1014,3 +1014,33 @@ Validação:
 - Testado rascunho com nome provisório Terço Pérola Azul Claro.
 - Cadastro sem fotos; edição, upload e publicação ainda pendentes.
 - Nenhuma alteração realizada nos bancos remotos nesta entrega.
+
+### 2026-10-28 — Cadastro de rascunho validado na prévia
+
+- Publicação do cadastro de rascunhos concluída na branch preview.
+- Formulário e opções conferidos em HTTPS.
+- Com autorização, cadastrado Terço Pérola Azul Claro na prévia,
+  coleção Essência, material Pérolas, sem descrição ou foto.
+- Confirmadas gravação, permanência após atualizar e ausência
+  no catálogo público da prévia.
+- Nome permanece provisório, sujeito à revisão antes de publicar.
+- Produção não alterada.
+
+### 2026-10-29 — Edição administrativa de rascunhos
+
+- Criadas consulta e atualização protegidas por identificador.
+- Edição permite nome, coleção, material e descrição.
+- Identificador, slug, fotos e situação são preservados.
+- Coleção e material precisam continuar ativos e compatíveis.
+- Salvamento exige a versão carregada, enviada em If-Match.
+- Versão antiga é recusada para evitar sobrescrita silenciosa.
+- Formulário reutilizado para criação e edição.
+- Botão Editar disponível somente nos rascunhos.
+- Tipos, lint e build passaram.
+- Dez testes da API passaram no banco isolado.
+- Teste concorrente confirmou uma gravação e quatro recusas.
+- Carregamento, salvamento e reabertura conferidos no navegador local.
+- Texto provisório do teste removido ao finalizar.
+- Publicados e arquivados não podem ser modificados por esta edição.
+- Nenhum banco remoto foi alterado nesta etapa.
+- Validação da edição na prévia ainda pendente.

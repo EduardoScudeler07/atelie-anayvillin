@@ -1268,3 +1268,25 @@ Validação:
   direciona para /catalogo usando React Router.
 - Navegação conferida localmente; lint e build sem erros.
 - Validação na prévia ainda pendente.
+
+### 2026-10-30 — Navegação e contato definitivo validados
+
+- Botão inicial direciona ao catálogo.
+- Número autorizado da cliente configurado em Production.
+- Destino e mensagens dos links da peça e do rodapé conferidos.
+- Site conferido no celular real, sem rolagem horizontal.
+- Rolagem relatada no simulador do navegador permanece
+  pendente de investigação por largura.
+
+  ### 2026-10-30 — Conferências finais e restauração do backup
+
+- Navegação por teclado, foco e controles dos filtros conferidos.
+- Painel e consultas administrativas recusam acesso sem sessão.
+- Backup atualizado exportado para .private, fora do Git.
+- Restauração executada em banco local isolado.
+- PRAGMA quick_check retornou ok.
+- PRAGMA foreign_key_check não retornou violações.
+- Conferidas 29 peças publicadas e 29 referências de imagens.
+- Nenhuma peça sem foto; contagens por coleção corretas.
+- Teste de restauração não alterou a produção.
+- Backup SQL não inclui os arquivos binários das fotos.

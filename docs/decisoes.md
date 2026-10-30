@@ -1205,3 +1205,12 @@ Validação:
 - Nenhum cadastro duplicado necessário para Raízes.
 - Infantil permanece adiado.
 - Novas peças aguardam revisão antes da publicação.
+
+### 2026-10-29 — Publicação do acervo revisado
+
+- Publicados os 24 rascunhos após revisão e autorização.
+- Catálogo oficial com 29 peças publicadas:
+  Essência 6, Promessa 6, Luz 7, Graça 9 e Raízes 1.
+- Contagens por coleção e total conferidas no catálogo.
+- Páginas individuais de novas peças conferidas.
+- Infantil permanece adiado.

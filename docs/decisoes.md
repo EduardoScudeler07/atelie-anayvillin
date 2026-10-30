@@ -1227,3 +1227,10 @@ Validação:
   de mensagens.
 - Lint e build concluídos sem erros.
 - Contato definitivo da cliente ainda pendente.
+
+### 2026-10-29 — Refinamentos conferidos na prévia
+
+- Transições das coleções e fechamento do filtro conferidos em HTTPS.
+- Rodapé e destinos dos links conferidos.
+- Nenhum problema relatado na conferência da prévia.
+- Produção ainda não atualizada com estes refinamentos.

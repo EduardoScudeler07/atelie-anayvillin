@@ -1,211 +1,165 @@
 # Autenticação administrativa — V1
 
-## Objetivo
+## Implementação atual
 
-Proteger o painel e todas as operações administrativas da API.
+A interface solicita usuário e senha.
 
-O catálogo público continua acessível sem cadastro.
+O servidor consulta o administrador autorizado no D1 e utiliza
+o e-mail interno associado a ele para autenticar no Firebase.
 
-## Contas e permissões
+O acesso administrativo exige:
+- credenciais aceitas pelo Firebase;
+- UID correspondente ao administrador cadastrado;
+- conta ativa no D1;
+- controles de tentativas e reservas válidos.
 
-- Duas contas individuais: cliente e desenvolvedor.
-- Login por e-mail e senha.
-- Sem cadastro público.
-- Mesmas permissões para gerenciar o catálogo.
-- Contas podem ser desativadas.
-- A criação de contas será um procedimento controlado,
-  separado da API pública.
-- Alterações de senha, conta e recuperação exigem
-  verificações próprias; não são permissões comuns do catálogo.
+Criar uma conta no Firebase, sozinho, não concede acesso ao painel.
+
+## Responsável
+
+Eduardo administra e atualiza o catálogo.
+A conta da cliente foi adiada conforme alinhamento.
+
+Não existe cadastro público de administradores pelo site.
 
 ## Senhas
 
-- Nunca armazenar senha em texto puro.
-- Usar algoritmo próprio para senhas, com salt individual.
-- Algoritmo e parâmetros serão escolhidos e testados
-  no ambiente Cloudflare antes da implementação.
-- Não usar SHA-256 sozinho para armazenar senhas.
-- Não registrar senhas em logs, Git ou arquivos SQL.
-- Permitir uso de gerenciadores de senhas e colagem.
-- Definir limites de tamanho sem truncar silenciosamente.
-- Não remover espaços nem modificar a senha recebida.
+- Firebase Authentication verifica e armazena as senhas.
+- O D1 não armazena senha nem hash de senha.
+- Política de produção configurada para 15 a 128 caracteres.
+- A senha não é normalizada, aparada ou truncada pelo servidor.
+- Não registrar senhas em logs, código, SQL ou documentação.
+- O navegador não recebe os tokens do Firebase como credenciais
+  das APIs administrativas.
+- Não existe alternativa de autenticação por senha local
+  caso o provedor esteja indisponível.
 
-## Proteção contra injeção SQL
-
-- Validar tipo, tamanho e formato das entradas.
-- Usar consultas parametrizadas com bind.
-- Nunca concatenar entrada do usuário ao SQL.
-- Símbolos e aspas na senha serão tratados como dados.
-- A segurança não depende de proibir caracteres especiais.
-
-## Limitação de tentativas
-
-Política aprovada:
-
-- Cinco falhas em uma janela de 15 minutos.
-- Após a quinta falha, bloquear novas tentativas
-  da conta por 15 minutos.
-- Aplicar também proteção por origem/IP.
-- Contadores e bloqueios controlados no servidor.
-- Não depender de estado no navegador.
-- Não bloquear contas permanentemente por falhas de login.
-- Requisições concorrentes não podem contornar o limite.
-- Mensagens e respostas não devem revelar
-  se um e-mail está cadastrado.
-- Nunca registrar a senha nas tentativas.
-- Definir retenção mínima necessária dos dados de proteção.
-
-Os detalhes dos contadores, desbloqueio e limites por IP
-serão revisados antes da implementação.
+Os experimentos de armazenamento próprio com PBKDF2 foram abandonados.
+O motivo e a mudança de arquitetura permanecem no registro de decisões.
 
 ## Sessões
 
-- Token aleatório gerado com fonte criptográfica segura.
-- Cookie contém o token; banco armazena somente seu hash.
-- Não guardar token em localStorage ou sessionStorage.
-- Cookie HttpOnly, Secure em HTTPS e SameSite.
-- Cookie sem Domain, limitado ao host correspondente.
-- Validade, inatividade e revogação verificadas no servidor.
-- Durações serão definidas antes da implementação.
-- Login bem-sucedido gera uma nova sessão.
-- Logout revoga a sessão atual e remove o cookie.
-- Troca ou recuperação de senha invalida todas
-  as sessões anteriores da conta.
-- Desativar uma conta impede o uso de suas sessões.
-- Respostas administrativas não devem ser armazenadas em cache.
+Após autenticação e autorização, o servidor gera uma sessão própria.
 
-A configuração de cookies no desenvolvimento HTTP local
-será separada da configuração HTTPS de publicação.
+- Token aleatório com 32 bytes gerados por fonte criptográfica segura.
+- Cookie contém o token.
+- D1 armazena somente o hash SHA-256 desse token.
+- Token não fica em localStorage ou sessionStorage.
+- Cookie: __Host-atelie_admin.
+- Atributos: Path=/, HttpOnly, Secure e SameSite=Strict.
+- Sem atributo Domain.
+- Prazo absoluto de 24 horas.
+- Inatividade máxima de 2 horas.
+- Verificação de expiração, revogação e administrador ativo no servidor.
+- Logout revoga a sessão atual e solicita remoção do cookie.
+- Desativar o administrador impede o uso das suas sessões.
 
-## Autorização e requisições administrativas
+SHA-256 é usado para identificar tokens aleatórios de sessão,
+não para armazenar senhas.
 
-- Verificar sessão e conta ativa em toda operação protegida.
-- Não confiar apenas na proteção das páginas React.
-- Verificar a origem e aplicar proteção CSRF adequada
-  nas operações que alteram dados, incluindo os fluxos de acesso.
-- GET não deve criar, editar, publicar ou excluir registros.
-- Consultas e alterações devem validar as entradas no servidor.
-- Retornar erros sem detalhes internos ou credenciais.
-- Uploads futuros também exigirão autorização e validação.
+## Troca e recuperação de senha
 
-## Recuperação assistida
+Não há tela própria de recuperação ou troca de senha nesta versão.
+A alteração de senha é feita pelos mecanismos do Firebase.
 
-Decisão: recuperação assistida na V1, sem serviço de e-mail.
+As sessões administrativas são próprias do site.
+Portanto, trocar a senha no Firebase não revoga automaticamente
+as sessões já emitidas no D1.
 
-Fluxo proposto:
+Em recuperação de acesso ou suspeita de comprometimento:
 
-1. Receber a solicitação por contato previamente combinado.
-2. Confirmar a identidade antes de autorizar a recuperação.
-3. Emitir um acesso temporário, de uso único e validade curta.
-4. Entregar esse acesso pelo canal privado combinado.
-5. A pessoa define a nova senha sem compartilhá-la.
-6. Invalidar sessões anteriores ao concluir a redefinição.
+1. Confirmar a identidade do responsável.
+2. Se necessário, desativar o administrador no D1.
+3. Revogar suas sessões administrativas no D1.
+4. Redefinir a senha pelos mecanismos do Firebase.
+5. Conferir a identidade vinculada e a situação da conta.
+6. Reativar somente após autorização e conferência.
 
-Regras:
+Esse procedimento é operacional e controlado.
+Não executar alterações de conta ou revogações por tentativa.
 
-- Armazenar somente o hash do token de recuperação.
-- Consumo do token deve ser atômico e impedir reutilização.
-- Não ativar a conta automaticamente se estiver desativada.
-- Não registrar tokens em logs ou documentação.
-- Não depender de uma rota pública capaz de emitir
-  recuperações para qualquer conta.
-- A recuperação não fará login automático.
-- Recuperação do próprio desenvolvedor terá procedimento
-  controlado pela conta Cloudflare, sem depender
-  de uma sessão administrativa ainda válida.
+Reativar uma conta não substitui a revogação das sessões antigas.
 
-Prazos, canal de entrega e comandos de recuperação
-serão aprovados antes da implementação.
+## Tentativas de login
+
+- Cinco falhas em uma janela de 15 minutos.
+- Bloqueio de 15 minutos após a quinta falha.
+- Proteção por usuário e por IP.
+- Contadores controlados no servidor.
+- Chaves de controle derivadas com HMAC-SHA256 e segredo do ambiente.
+- Reservas temporárias evitam que concorrência contorne o controle.
+- Uma mesma tentativa não deve registrar a falha repetidamente.
+- Indisponibilidade do provedor não é tratada como senha incorreta.
+- Respostas de recusa não informam se o usuário está cadastrado.
+
+O segredo de controle deve ser diferente entre os ambientes.
+
+Não há rotina agendada de limpeza dessas tabelas nesta entrega.
+A manutenção e a retenção dos registros devem ser acompanhadas.
+
+## Rotas
+
+- POST /api/admin/login: autentica e cria sessão.
+- GET /api/admin/session: verifica o acesso atual.
+- POST /api/admin/logout: revoga a sessão atual.
+- /api/admin/produtos e suas rotas:
+  operações de catálogo protegidas por sessão.
+
+As respostas administrativas usam Cache-Control: no-store.
+
+O GET de sessão pode atualizar a atividade de uma sessão válida.
+Consultas GET não publicam, editam ou arquivam produtos.
+
+## Origem e validação
+
+- APIs protegidas verificam sessão e administrador ativo.
+- Requisições de alteração verificam a origem autorizada.
+- Exigido o cabeçalho X-Atelie-Admin nas alterações.
+- Content-Type, tamanho e estrutura do conteúdo são validados.
+- Login aceita somente os campos esperados.
+- Operações SQL utilizam parâmetros para os dados recebidos.
+- Edição e mudança de situação verificam a versão da peça.
+- Uploads exigem autorização e validação no servidor.
+
+ADMIN_ORIGIN deve ser exatamente a origem do ambiente,
+sem barra no final.
+
+Por esse motivo, o painel deve ser acessado pelo endereço fixo
+de produção ou prévia, não por um endereço de deploy com prefixo.
+
+## Configuração
+
+Servidor:
+- FIREBASE_WEB_API_KEY
+- AUTH_RATE_LIMIT_SECRET
+- ADMIN_ORIGIN
+- vínculo D1 chamado DB
+
+No desenvolvimento, utilizar .dev.vars.
+No Cloudflare, utilizar os campos de configuração do ambiente.
+
+ADMIN_LOCAL_TEST_IP é exclusivo dos testes HTTP locais em loopback.
+Não configurar essa variável na prévia remota ou em produção.
+
+Nunca usar prefixo VITE_ para credenciais do servidor.
 
 ## Ambientes
 
-- Testar primeiro localmente e depois na prévia.
-- Contas, sessões e tokens separados por banco.
-- Cookies restritos ao host para não compartilhar
-  sessões entre prévia e produção.
-- Não usar senhas de produção nos testes.
-- Não importar contas ou sessões por seeds públicos.
-- Alterações em produção exigem autorização específica.
+- Banco local separado dos bancos remotos.
+- Prévia e produção com bancos e projetos Firebase distintos.
+- Contas autorizadas cadastradas separadamente.
+- Cookies limitados ao host correspondente.
+- Senhas de produção não devem ser utilizadas nos testes.
 
-## Testes de aceite
+## Testes e limites
 
-- Credenciais corretas criam sessão.
-- Credenciais incorretas não criam sessão.
-- Quinta falha ativa o bloqueio aprovado.
-- Reiniciar o navegador não remove o bloqueio.
-- Tentativas concorrentes respeitam o limite.
-- Conta inexistente não é revelada pela resposta.
-- Sem sessão, APIs privadas recusam acesso.
-- Sessão expirada, revogada ou de conta inativa é recusada.
-- Logout invalida o acesso.
-- Requisições de origem indevida são rejeitadas.
-- Entradas semelhantes a SQL não alteram a consulta.
-- Recuperação expirada ou já utilizada é recusada.
-- Troca de senha invalida sessões anteriores.
-- Credenciais e tokens não aparecem nas respostas ou logs.
+Os testes cobrem tokens, cookies, sessões, revogação,
+controle de tentativas, reservas, concorrência e fluxo de login.
 
-## Prazos de autenticação
+Acesso sem sessão, login, atualização da página e logout foram
+conferidos também nos ambientes publicados.
 
-- Sessão expira após 2 horas sem requisições administrativas
-  autenticadas ou 24 horas após o login, o que ocorrer primeiro.
-- Recuperação de acesso válida por 15 minutos, com uso único.
-- Logout, troca de senha e desativação podem encerrar
-  o acesso antes desses prazos.
+Consulte tests/README.md para os comandos e os cenários disponíveis.
 
-## Referências
-
-- https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
-- https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
-- https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html
-- https://developers.cloudflare.com/d1/worker-api/prepared-statements/
-
-## Primeiro acesso
-
-- Contas criadas por procedimento controlado, sem cadastro público.
-- Cada pessoa recebe um link de uso único para definir sua senha.
-- Link válido por 15 minutos; se expirar, será necessário emitir outro.
-- Conta sem senha definida não pode autenticar.
-- Primeiro acesso não faz login automático.
-- Tokens não serão registrados em logs, Git ou documentação.
-
-## Resultado do teste remoto de PBKDF2
-
-- Node e runtime local aceitaram 600 mil iterações.
-- Runtime remoto recusou valores acima de 100 mil,
-  retornando NotSupportedError.
-- PBKDF2-HMAC-SHA256 com os parâmetros avaliados não será
-  adotado nessa arquitetura.
-- Não reduzir a proteção para contornar a restrição.
-- Função temporária removida do código.
-- Segredo AUTH_PROBE_SECRET removido da configuração de Preview.
-- Próxima avaliação: serviço de autenticação gratuito,
-  sem escolha ou contratação aprovada ainda.
-
-  ## Revisão da arquitetura — usuário e senha
-
-Esta seção substitui as propostas anteriores de login por
-e-mail visível e armazenamento próprio do hash de senha.
-
-- Interface apresenta Usuário e Senha.
-- Usuário associado internamente a uma identidade Firebase.
-- Firebase Authentication verifica e armazena as senhas.
-- D1 não armazena senha nem hash de senha.
-- Não haverá login com Google nesta versão.
-- Não haverá cadastro público de administradores.
-- Somente identidades previamente autorizadas e ativas
-  poderão receber uma sessão administrativa.
-- Associação por identificador estável do Firebase, não apenas
-  pelo e-mail informado em uma requisição.
-- Senha recebida somente por HTTPS e nunca registrada em logs.
-- Tokens do Firebase não serão enviados ao navegador
-  como credencial das nossas APIs administrativas.
-- Sessão própria por cookie protegido e controle no servidor.
-- Mantidos os prazos de 2 horas de inatividade e 24 horas máximas.
-- Mantido bloqueio de 15 minutos após 5 falhas em 15 minutos,
-  com proteção adicional por IP.
-- Recuperação assistida e primeiro acesso serão adaptados
-  aos mecanismos oficiais do provedor, sem compartilhar senhas.
-- Falha do provedor impede autenticação; não haverá
-  alternativa com senha local.
-- Usar plano Spark, sem vincular faturamento.
-- Produtos e imagens continuam no D1 e Cloudinary.
+As verificações realizadas não equivalem a uma auditoria independente
+completa de segurança, nem eliminam a necessidade de manutenção.

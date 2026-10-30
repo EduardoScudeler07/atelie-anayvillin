@@ -1268,3 +1268,67 @@ Validação:
   direciona para /catalogo usando React Router.
 - Navegação conferida localmente; lint e build sem erros.
 - Validação na prévia ainda pendente.
+
+### 2026-10-30 — Navegação e contato definitivo validados
+
+- Botão inicial direciona ao catálogo.
+- Número autorizado da cliente configurado em Production.
+- Destino e mensagens dos links da peça e do rodapé conferidos.
+- Site conferido no celular real, sem rolagem horizontal.
+- Rolagem relatada no simulador do navegador permanece
+  pendente de investigação por largura.
+
+  ### 2026-10-30 — Conferências finais e restauração do backup
+
+- Navegação por teclado, foco e controles dos filtros conferidos.
+- Painel e consultas administrativas recusam acesso sem sessão.
+- Backup atualizado exportado para .private, fora do Git.
+- Restauração executada em banco local isolado.
+- PRAGMA quick_check retornou ok.
+- PRAGMA foreign_key_check não retornou violações.
+- Conferidas 29 peças publicadas e 29 referências de imagens.
+- Nenhuma peça sem foto; contagens por coleção corretas.
+- Teste de restauração não alterou a produção.
+- Backup SQL não inclui os arquivos binários das fotos.
+
+### 2026-10-30 — Ajustes finais para entrega
+
+- Removida a indicação “catálogo em preparação” da descrição
+  do site em index.html.
+- Nova descrição apresenta os materiais e a personalização.
+- Build concluído sem erros.
+- Rolagem horizontal relatada no simulador deixou de ser
+  reproduzida ao reabrir a página.
+- Celular real conferido sem rolagem horizontal.
+- Nenhuma alteração de CSS aplicada por esse relato.
+
+### 2026-10-30 — Limpeza e organização do repositório
+
+- Removidas sobras sem uso do template inicial.
+- Removidos os experimentos de PBKDF2 abandonados.
+- Removidos diagnóstico inicial do Firebase e SQL de teste antigo.
+- Preservados os testes atuais de autenticação e administração.
+- Três ferramentas operacionais movidas de tests/auth para scripts/auth.
+- Acrescentadas instruções de organização e execução dos testes.
+- Fotos, logos e referências da cliente preservados.
+- Nenhuma alteração de dados nos bancos ou no Cloudinary.
+
+### 2026-10-30 — Ícones da identidade visual
+
+- Utilizado logo-simbolo-anayvillin.png por escolha de Eduardo.
+- Original preservado.
+- Geradas cópias quadradas em 48, 180, 192 e 512 px,
+  sem IA, sem cortes e sem redesenhar o símbolo.
+- Símbolo centralizado sobre fundo #faf4ef.
+- Configurados favicon, ícone do iPhone e manifesto web.
+- Site abre pela Home quando adicionado à tela inicial.
+- Nenhum service worker ou funcionamento offline acrescentado.
+- Build, arquivos dos ícones e manifesto conferidos localmente.
+- Teste na tela inicial do celular ainda pendente na prévia.
+- Ícone e abertura pela Home conferidos na tela inicial do celular
+  usando a prévia em HTTPS.
+- Navegação conferida após abrir pelo atalho.
+- Documentos de autenticação e banco atualizados para refletir
+  a implementação entregue, substituindo propostas antigas.
+- Explicitado que redefinir a senha no Firebase não revoga
+  automaticamente as sessões próprias armazenadas no D1.

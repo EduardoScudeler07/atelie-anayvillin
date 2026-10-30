@@ -1234,3 +1234,27 @@ Validação:
 - Rodapé e destinos dos links conferidos.
 - Nenhum problema relatado na conferência da prévia.
 - Produção ainda não atualizada com estes refinamentos.
+
+### 2026-10-29 — Refinamentos validados em produção
+
+- Transições das coleções e fechamento do filtro conferidos.
+- Novo rodapé e link do Instagram conferidos.
+- Catálogo preservado com 29 peças.
+- WhatsApp permanece oculto em produção, aguardando
+  configuração autorizada do contato definitivo.
+  - Conforme alinhamento com a cliente, Eduardo ficará responsável
+  pela administração e atualização do catálogo.
+- Conta administrativa da cliente adiada.
+
+### 2026-10-29 — Apresentação e acabamento da Home
+
+- Acrescentada apresentação dos terços sob encomenda e da personalização.
+- Botão inicial “Conheça as coleções” direciona à seção correspondente.
+- Ajustados os espaçamentos da primeira seção.
+- Adicionada divisão curva na entrada das coleções.
+- Ornamento floral entre história e personalização.
+- Entradas suaves ao rolar, somente na Home e uma vez por abertura.
+- Efeitos respeitam a preferência de reduzir movimentos.
+- Intensidade ajustada após avaliação visual local.
+- Lint e build concluídos sem erros.
+- Alterações ainda não publicadas na prévia.

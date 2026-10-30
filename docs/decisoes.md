@@ -1312,3 +1312,16 @@ Validação:
 - Acrescentadas instruções de organização e execução dos testes.
 - Fotos, logos e referências da cliente preservados.
 - Nenhuma alteração de dados nos bancos ou no Cloudinary.
+
+### 2026-10-30 — Ícones da identidade visual
+
+- Utilizado logo-simbolo-anayvillin.png por escolha de Eduardo.
+- Original preservado.
+- Geradas cópias quadradas em 48, 180, 192 e 512 px,
+  sem IA, sem cortes e sem redesenhar o símbolo.
+- Símbolo centralizado sobre fundo #faf4ef.
+- Configurados favicon, ícone do iPhone e manifesto web.
+- Site abre pela Home quando adicionado à tela inicial.
+- Nenhum service worker ou funcionamento offline acrescentado.
+- Build, arquivos dos ícones e manifesto conferidos localmente.
+- Teste na tela inicial do celular ainda pendente na prévia.

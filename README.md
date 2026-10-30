@@ -286,3 +286,14 @@ Documentação complementar:
 Guia de operação e manutenção: `docs/operacao.md`.
 
 Organização e execução dos testes: `tests/README.md`.
+
+## Ícone e tela inicial
+
+Os ícones em public/icons são derivados do símbolo da identidade
+visual, preservando o arquivo original.
+
+O manifesto em public/site.webmanifest define nome, cores e
+abertura pela Home ao adicionar o site à tela inicial.
+
+O site depende de internet. Não há funcionamento offline
+nem cache de páginas por service worker.

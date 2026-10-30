@@ -1290,3 +1290,14 @@ Validação:
 - Nenhuma peça sem foto; contagens por coleção corretas.
 - Teste de restauração não alterou a produção.
 - Backup SQL não inclui os arquivos binários das fotos.
+
+### 2026-10-30 — Ajustes finais para entrega
+
+- Removida a indicação “catálogo em preparação” da descrição
+  do site em index.html.
+- Nova descrição apresenta os materiais e a personalização.
+- Build concluído sem erros.
+- Rolagem horizontal relatada no simulador deixou de ser
+  reproduzida ao reabrir a página.
+- Celular real conferido sem rolagem horizontal.
+- Nenhuma alteração de CSS aplicada por esse relato.

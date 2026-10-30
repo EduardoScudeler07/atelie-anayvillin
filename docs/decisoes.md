@@ -1258,3 +1258,4 @@ Validação:
 - Intensidade ajustada após avaliação visual local.
 - Lint e build concluídos sem erros.
 - Alterações ainda não publicadas na prévia.
+- Ajustes da Home conferidos e aprovados na prévia em HTTPS.

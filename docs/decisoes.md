@@ -1259,3 +1259,9 @@ Validação:
 - Lint e build concluídos sem erros.
 - Alterações ainda não publicadas na prévia.
 - Ajustes da Home conferidos e aprovados na prévia em HTTPS.
+
+### Pendência para a revisão final
+
+- Alterar o destino do botão inicial “Conheça as coleções”
+  para /catalogo, em vez da seção interna da Home.
+- Mudança ainda não implementada.

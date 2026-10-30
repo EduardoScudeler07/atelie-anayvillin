@@ -1259,3 +1259,12 @@ Validação:
 - Lint e build concluídos sem erros.
 - Alterações ainda não publicadas na prévia.
 - Ajustes da Home conferidos e aprovados na prévia em HTTPS.
+
+### Pendência para a revisão final
+
+- Alterar o destino do botão inicial “Conheça as coleções”
+  para /catalogo, em vez da seção interna da Home.
+- Implementado em 2026-10-30: botão “Conheça as coleções”
+  direciona para /catalogo usando React Router.
+- Navegação conferida localmente; lint e build sem erros.
+- Validação na prévia ainda pendente.

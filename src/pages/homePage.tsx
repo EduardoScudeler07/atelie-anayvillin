@@ -3,6 +3,7 @@ import StorySection from '../components/storySection'
 import CustomizationSection from '../components/customizationSection'
 import HowToOrderSection from '../components/howToOrderSection'
 import { useHomeReveal } from '../hooks/useHomeReveal'
+import { Link } from 'react-router'
 import './homePage.css'
 
 function HomePage() {
@@ -32,13 +33,13 @@ function HomePage() {
               parte da sua história.
             </p>
 
-            <a
-              href="#colecoes"
+            <Link
+              to="/catalogo"
               className="home-hero-link"
             >
               Conheça as coleções
-              <span aria-hidden="true">↓</span>
-            </a>
+              <span aria-hidden="true">→</span>
+            </Link>
           </div>
         </div>
       </section>

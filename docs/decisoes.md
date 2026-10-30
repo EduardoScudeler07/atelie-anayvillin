@@ -1325,3 +1325,10 @@ Validação:
 - Nenhum service worker ou funcionamento offline acrescentado.
 - Build, arquivos dos ícones e manifesto conferidos localmente.
 - Teste na tela inicial do celular ainda pendente na prévia.
+- Ícone e abertura pela Home conferidos na tela inicial do celular
+  usando a prévia em HTTPS.
+- Navegação conferida após abrir pelo atalho.
+- Documentos de autenticação e banco atualizados para refletir
+  a implementação entregue, substituindo propostas antigas.
+- Explicitado que redefinir a senha no Firebase não revoga
+  automaticamente as sessões próprias armazenadas no D1.

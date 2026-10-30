@@ -1,50 +1,49 @@
-# Banco de dados — planejamento V1
+# Banco de dados — V1
 
-## Objetivo
+## Responsabilidades
 
-Substituir os dados locais do catálogo por dados persistentes
-no Cloudflare D1, acessados por uma API.
-
-O navegador não acessará o banco diretamente.
-A API validará as operações e retornará somente dados públicos
-nas rotas do catálogo.
-
-## Divisão de responsabilidades
-
-- D1: produtos, coleções, materiais e referências das imagens.
-- Cloudinary: arquivos de mídia, após configuração própria.
+- Cloudflare D1: produtos, coleções, materiais, referências de imagens
+  e controle administrativo.
+- Cloudinary: arquivos das fotografias enviadas pelo painel.
+- Firebase Authentication: autenticação por senha.
+- Pages Functions: acesso aos dados, validação e autorização.
 - React: apresentação e interação.
-- API: consultas, validação e autorização administrativa.
 
-## Ambientes propostos
+O navegador não acessa diretamente o D1.
 
-- Local: desenvolvimento no computador.
-- Prévia: banco remoto separado para testes.
-- Produção: banco remoto com os dados oficiais.
+## Ambientes
 
-Prévia e produção não devem compartilhar o mesmo banco.
+| Ambiente | Banco | Configuração |
+|---|---|---|
+| Local | atelie-anayvillin-local | wrangler.local.jsonc |
+| Prévia | atelie-anayvillin-preview | wrangler.preview.jsonc |
+| Produção | atelie-anayvillin-production | wrangler.production.jsonc |
 
-## Modelo aprovado
+O vínculo utilizado pelas Functions é DB.
+
+Os bancos são separados. Commit, push ou merge não copiam dados
+entre ambientes nem aplicam automaticamente migrações.
+
+O ambiente local das Pages Functions utiliza DB=DB e a persistência
+em .wrangler/state, conforme as instruções do README.
+
+## Tabelas do catálogo
 
 ### colecoes
 
-Campos previstos:
+- id: identificador interno.
+- nome: nome exibido.
+- slug: identificador único para URLs e filtros.
+- descricao: apresentação da coleção.
+- ordem: ordem de exibição.
+- ativo: disponibilidade da coleção.
 
-- id
-- nome
-- slug único
-- descricao
-- ordem
-- ativo
+Coleções cadastradas:
+Essência, Promessa, Luz, Graça, Raízes e Infantil.
 
-Coleções: Essência, Promessa, Luz, Graça, Raízes e Infantil.
-
-Infantil permanece prevista, embora ainda não apareça
-no carrossel da Home.
+Infantil permanece desativada e adiada.
 
 ### materiais
-
-Campos previstos:
 
 - id
 - nome
@@ -53,15 +52,11 @@ Campos previstos:
 
 Materiais: Pérolas, Cristais e Madeira.
 
-Raízes é uma coleção; Madeira é um material.
-
 ### produtos
 
-Campos previstos:
-
-- id
-- colecao_id
-- material_id
+- id: identificador interno.
+- colecao_id: referência à coleção.
+- material_id: referência ao material.
 - nome
 - slug único
 - descricao
@@ -69,21 +64,21 @@ Campos previstos:
 - criado_em
 - atualizado_em
 
-Cada produto pertence a uma coleção e possui um material.
-Peças com vários materiais não fazem parte da modelagem V1.
+Cada produto possui uma coleção e um material.
 
-Status permitidos:
+Situações:
+- rascunho: fora do catálogo e disponível para edição.
+- publicado: disponível no catálogo quando as demais condições
+  públicas estiverem atendidas.
+- arquivado: fora do catálogo, preservando os dados.
 
-- rascunho
-- publicado
-- arquivado
+Os nomes podem se repetir; os slugs não.
+O nome não altera automaticamente a descrição.
+A edição preserva o slug da peça.
 
-Despublicar retorna o produto para rascunho.
-Arquivar preserva o registro sem exibi-lo publicamente.
+Datas dos produtos utilizam texto em formato ISO UTC.
 
 ### produto_imagens
-
-Campos previstos:
 
 - id
 - produto_id
@@ -92,90 +87,173 @@ Campos previstos:
 - texto_alternativo
 - ordem
 
-Um produto pode ter várias imagens.
-A primeira na ordem da galeria será a capa.
+A combinação produto_id e ordem é única.
 
-A transição das imagens locais para Cloudinary será definida
-antes da implementação das migrações e da importação dos dados.
+A foto com menor ordem é utilizada como capa.
+O modelo aceita várias imagens, mas o acervo atual possui uma por peça.
 
-## Relacionamentos
+Não há exclusão ou reordenação de imagens pelo painel nesta versão.
 
-- Uma coleção pode ter vários produtos.
-- Um material pode estar associado a vários produtos.
-- Um produto pode ter várias imagens.
+## Compatibilidade entre coleção e material
 
-## Regras aprovadas
+- Essência e Promessa: Pérolas.
+- Luz e Graça: Cristais.
+- Raízes: Madeira.
 
-- Produto deve ter nome, slug, coleção e material válidos.
-- Slugs de produtos não podem se repetir.
-- Publicação exige descrição e pelo menos uma foto.
-- Rascunhos podem ficar sem descrição e fotos.
-- API pública retorna somente produtos publicados.
-- Coleções e materiais associados a produtos não podem
-  ser excluídos sem resolver essas associações.
-- Fotos precisam de texto alternativo e ordem de exibição.
+A compatibilidade é validada no servidor.
+Ativar Infantil no banco não substitui a revisão das regras e da interface
+necessárias para disponibilizar essa coleção futuramente.
 
-As regras serão distribuídas entre restrições do banco
-e validações da API, conforme sua responsabilidade.
+## Publicação e consultas públicas
 
-## Descrições
+Rascunhos podem ficar sem descrição e foto.
 
-Cada produto terá descrição própria e editável.
+A publicação pelo painel exige:
+- nome e descrição válidos;
+- pelo menos uma foto com texto alternativo;
+- coleção e material ativos e compatíveis;
+- administrador ativo e sessão autorizada;
+- versão atual da peça.
 
-O padrão será afetivo e acolhedor, com informações reais
-sobre material, cor e características confirmadas.
+A restrição do banco exige descrição não vazia para status publicado.
+As demais regras de publicação são verificadas pela API.
 
-Alterar o nome não reescreverá a descrição automaticamente.
-Não presumir detalhes de medalhas, acabamento ou personalização.
+A listagem pública retorna produtos publicados, com coleção e material
+ativos e imagem de capa cadastrada.
 
-## Fora do escopo
+Arquivar ou voltar a rascunho retira a peça do catálogo.
+Essas ações preservam endereço, descrição e fotos.
 
-Não criar campos ou tabelas de:
+Consultas SQL utilizam parâmetros para os valores recebidos.
+Operações de edição e situação verificam atualizado_em para impedir
+que uma confirmação antiga sobrescreva uma alteração mais recente.
 
-- preços
-- estoque
-- carrinho
-- pagamentos
-- frete
-- pedidos
+## Tabelas administrativas
 
-Contas administrativas e sessões serão modeladas
-na etapa de autenticação.
+### administradores
 
-## Plano gratuito verificado em 24/10/2026
+Contém nome, usuário, e-mail interno do Firebase, UID, situação ativa
+e datas de cadastro e atualização.
 
-D1 no Workers Free:
+Não contém senha nem hash de senha.
+Usuário, e-mail e UID possuem restrições de unicidade.
 
-- 5 milhões de linhas lidas por dia.
-- 100 mil linhas gravadas por dia.
-- 500 MB por banco.
-- 5 GB de armazenamento total por conta.
-- 10 bancos por conta.
-- 7 dias de recuperação pelo Time Travel.
+### sessoes_administrativas
 
-As cotas são compartilhadas pelos bancos da conta.
-Linhas lidas não equivalem a visitas.
+Contém o hash do token aleatório, referência ao administrador,
+criação, última atividade, expiração e revogação.
 
-Ao atingir as cotas diárias de leitura ou escrita,
-as consultas podem falhar até a renovação da cota.
-Não foi autorizado ativar plano pago.
+Os tempos de sessão utilizam segundos Unix.
+O token original não é armazenado no banco.
 
-Os limites da API e as condições dos demais serviços
-serão verificados nas etapas correspondentes.
+### tentativas_login
 
-Fontes:
+Contém escopo, chave derivada, quantidade de falhas, início da janela,
+prazo de bloqueio e atualização.
 
+A chave composta distingue os controles de usuário e IP.
+As chaves são derivadas com HMAC, utilizando segredo do ambiente.
+
+### reservas_login
+
+Contém reservas temporárias por usuário e IP para controlar concorrência.
+
+As reservas possuem prazo limitado e identificação própria da tentativa,
+para impedir que uma execução antiga remova ou conclua outra tentativa.
+
+### envios_imagens
+
+Registra produto, administrador, identificador do Cloudinary,
+texto alternativo, situação, código de falha e datas.
+
+Situações:
+- pendente
+- concluido
+- falhou
+
+O registro permite acompanhar o resultado do envio e da associação.
+Não contém o arquivo binário da fotografia.
+
+A integração entre Cloudinary e D1 não é uma única transação.
+Uma falha após o envio pode deixar um arquivo no Cloudinary sem
+associação concluída. Conferir o registro e a galeria antes de repetir.
+
+Não há exclusão automática desses arquivos nesta entrega.
+
+## Migrações
+
+- 0001_catalogo.sql: estrutura do catálogo.
+- 0002_colecoes_materiais.sql: coleções e materiais iniciais.
+- 0003_administradores.sql: administradores.
+- 0004_sessoes_administrativas.sql: sessões.
+- 0005_tentativas_login.sql: controle de falhas.
+- 0006_reservas_login.sql: reservas.
+- 0007_envios_imagens.sql: acompanhamento dos uploads.
+
+Essas migrações foram aplicadas nos ambientes de desenvolvimento,
+prévia e produção durante a implementação.
+
+Novas migrações devem ser testadas localmente e na prévia,
+com backup e autorização antes da aplicação em produção.
+
+Os arquivos em seeds correspondem aos cinco produtos iniciais.
+Não devem ser executados novamente por rotina ou para sincronizar
+o acervo entre ambientes.
+
+## Exclusões e preservação
+
+As relações usam chaves estrangeiras e restrições para proteger
+registros associados.
+
+A V1 utiliza arquivamento no lugar da exclusão de peças pelo painel.
+Não excluir diretamente fotos, coleções ou materiais sem verificar
+as referências e o impacto.
+
+Não guardar preços, pagamentos, estoque, carrinho ou pedidos neste banco.
+
+## Acervo conferido
+
+Na conferência de 2026-10-30:
+- Essência: 6.
+- Promessa: 6.
+- Luz: 7.
+- Graça: 9.
+- Raízes: 1.
+
+Total: 29 produtos publicados e 29 referências de imagens.
+
+Essa contagem é um registro da entrega, não um limite do sistema.
+
+## Backup e restauração
+
+O backup SQL inclui estrutura e dados administrativos.
+Guardar em local privado, fora do repositório público.
+
+O backup de 2026-10-30 foi restaurado em banco local isolado:
+- quick_check retornou ok;
+- foreign_key_check não retornou violações;
+- 29 produtos publicados;
+- 29 referências de imagens;
+- nenhum produto sem foto;
+- contagens por coleção correspondentes.
+
+A restauração testada não alterou produção.
+
+O SQL não contém os arquivos das fotos. Preservar também o acervo
+original e editado e as configurações necessárias à recuperação.
+
+Não conectar o banco restaurado com dados de produção a um servidor
+de testes público ou compartilhá-lo como exemplo do projeto.
+
+## Limites e manutenção
+
+Monitorar consumo e capacidade no painel do Cloudflare.
+As cotas da conta também podem ser utilizadas por outros projetos.
+
+Consultar as condições atuais antes de mudanças de infraestrutura.
+Não ativar faturamento ou plano pago sem autorização.
+
+Referências:
 - https://developers.cloudflare.com/d1/platform/pricing/
 - https://developers.cloudflare.com/d1/platform/limits/
-
-## Pendências antes da implementação
-
-- Definir tipos SQL, IDs, índices e restrições.
-- Definir atualização das datas.
-- Definir ordenação única das fotos por produto.
-- Planejar migrações e dados iniciais.
-- Definir a transição das imagens locais.
-- Configurar e verificar os ambientes separadamente.
-- Planejar exportação e testar recuperação.
-- Conferir condições aplicáveis ao uso comercial
-  antes de criar os recursos.
+- https://developers.cloudflare.com/d1/best-practices/import-export-data/

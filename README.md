@@ -60,6 +60,7 @@ não substituem os endereços fixos acima para acessar o painel.
 - `seeds`: cadastros iniciais executados manualmente.
 - `tests`: verificações automatizadas e bancos isolados.
 - `docs`: decisões e documentação técnica.
+- `scripts/auth`: ferramentas de preparação administrativa.
 
 ## Executar localmente
 
@@ -283,3 +284,5 @@ Documentação complementar:
 - `docs/banco-de-dados.md`
 
 Guia de operação e manutenção: `docs/operacao.md`.
+
+Organização e execução dos testes: `tests/README.md`.

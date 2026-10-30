@@ -1301,3 +1301,14 @@ Validação:
   reproduzida ao reabrir a página.
 - Celular real conferido sem rolagem horizontal.
 - Nenhuma alteração de CSS aplicada por esse relato.
+
+### 2026-10-30 — Limpeza e organização do repositório
+
+- Removidas sobras sem uso do template inicial.
+- Removidos os experimentos de PBKDF2 abandonados.
+- Removidos diagnóstico inicial do Firebase e SQL de teste antigo.
+- Preservados os testes atuais de autenticação e administração.
+- Três ferramentas operacionais movidas de tests/auth para scripts/auth.
+- Acrescentadas instruções de organização e execução dos testes.
+- Fotos, logos e referências da cliente preservados.
+- Nenhuma alteração de dados nos bancos ou no Cloudinary.

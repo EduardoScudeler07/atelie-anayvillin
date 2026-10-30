@@ -1,5 +1,5 @@
 .home-hero {
-  padding: 40px 0 64px;
+  padding: 32px 0 40px;
 }
 
 .home-hero-content {
@@ -9,7 +9,7 @@
 }
 
 .home-hero-label {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -22,6 +22,12 @@
   overflow-wrap: break-word;
 }
 
+.home-hero-description {
+  max-width: 560px;
+  margin: 20px auto 0;
+  font-size: 14px;
+  line-height: 1.8;
+}
 
 .home-hero-link {
   display: inline-flex;
@@ -30,7 +36,7 @@
   gap: 14px;
   min-height: 48px;
   max-width: 100%;
-  margin-top: 32px;
+  margin-top: 24px;
   padding: 12px 24px;
   border: 1px solid var(--color-text);
   border-radius: 999px;
@@ -50,11 +56,47 @@
   outline-offset: 4px;
 }
 
+.home-collections-anchor {
+  scroll-margin-top: 24px;
+}
+
 @media (min-width: 768px) {
   .home-hero {
-    padding: 56px 0 88px;
+    padding: 44px 0 56px;
+  }
+
+  .home-hero-description {
+    font-size: 16px;
   }
 }
 
+.home-section-divider {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  height: 0;
+  pointer-events: none;
+}
 
+.home-section-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: 40px;
+  color: var(--color-accent);
+  transform: translateY(-50%);
+}
 
+.home-ornament-line {
+  display: block;
+  width: clamp(48px, 12vw, 100px);
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0.7;
+}
+
+.home-section-ornament svg {
+  flex-shrink: 0;
+}

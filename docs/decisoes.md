@@ -1214,3 +1214,16 @@ Validação:
 - Contagens por coleção e total conferidas no catálogo.
 - Páginas individuais de novas peças conferidas.
 - Infantil permanece adiado.
+
+### 2026-10-29 — Refinamentos de interface e rodapé
+
+- Fechamento do filtro com animação de saída e fundo suave.
+- Troca dos cards de coleções com deslocamento e transparência.
+- Animações respeitam a preferência de reduzir movimentos.
+- Botão da peça alterado para “Solicitar Encomenda”.
+- Rodapé com Instagram @atelie_anayvillin e contato pelo WhatsApp.
+- WhatsApp do rodapé utiliza mensagem geral sobre encomendas.
+- Visual e destinos dos links conferidos localmente, sem envio
+  de mensagens.
+- Lint e build concluídos sem erros.
+- Contato definitivo da cliente ainda pendente.

@@ -4,8 +4,8 @@ type ProductContact = {
   slug: string
 }
 
-export function createProductWhatsAppLink(
-  product: ProductContact,
+export function createWhatsAppLink(
+  message: string,
 ): string | null {
   const phone = (
     import.meta.env.VITE_WHATSAPP_NUMBER ?? ''
@@ -15,6 +15,15 @@ export function createProductWhatsAppLink(
     return null
   }
 
+  const whatsappUrl = new URL(`https://wa.me/${phone}`)
+  whatsappUrl.searchParams.set('text', message)
+
+  return whatsappUrl.href
+}
+
+export function createProductWhatsAppLink(
+  product: ProductContact,
+): string | null {
   const productUrl = new URL(
     `/produto/${encodeURIComponent(product.slug)}`,
     window.location.origin,
@@ -26,8 +35,5 @@ export function createProductWhatsAppLink(
     `Link da peça: ${productUrl.href}`,
   ].join('\n')
 
-  const whatsappUrl = new URL(`https://wa.me/${phone}`)
-  whatsappUrl.searchParams.set('text', message)
-
-  return whatsappUrl.href
+  return createWhatsAppLink(message)
 }

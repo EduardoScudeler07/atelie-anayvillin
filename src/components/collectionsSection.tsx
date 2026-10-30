@@ -1,21 +1,42 @@
-import { useRef , useState } from 'react'
+import { useRef, useState } from 'react'
 import { collections } from '../data/collections'
 import CollectionCard from './collectionCard'
 import './collectionsSection.css'
 
 function CollectionsSection() {
   const [activeIndex, setActiveIndex] = useState(0)
+
+  const touchStart = useRef<{
+    x: number
+    y: number
+  } | null>(null)
+
   const activeCollection = collections[activeIndex]
-  const touchStart = useRef<{ x: number; y: number } | null>(null)
 
   function previousCollection() {
-    setActiveIndex((current) =>
-      (current - 1 + collections.length) % collections.length,
+    setActiveIndex(
+      (current) =>
+        (current - 1 + collections.length) %
+        collections.length,
     )
   }
 
   function nextCollection() {
-    setActiveIndex((current) => (current + 1) % collections.length)
+    setActiveIndex(
+      (current) => (current + 1) % collections.length,
+    )
+  }
+
+  function slidePosition(index: number) {
+    const distance =
+      (index - activeIndex + collections.length) %
+      collections.length
+
+    if (distance === 0) return 'active'
+
+    return distance <= Math.floor(collections.length / 2)
+      ? 'after'
+      : 'before'
   }
 
   return (
@@ -26,7 +47,9 @@ function CollectionsSection() {
       <div className="container">
         <div className="collections-inner">
           <header className="collections-heading">
-            <h2 id="collections-title">Nossas coleções</h2>
+            <h2 id="collections-title">
+              Nossas coleções
+            </h2>
           </header>
 
           <div
@@ -38,6 +61,7 @@ function CollectionsSection() {
               }
 
               const touch = event.touches[0]
+              if (!touch) return
 
               touchStart.current = {
                 x: touch.clientX,
@@ -58,7 +82,8 @@ function CollectionsSection() {
 
               const isHorizontalSwipe =
                 Math.abs(distanceX) >= 50 &&
-                Math.abs(distanceX) > Math.abs(distanceY) * 1.5
+                Math.abs(distanceX) >
+                  Math.abs(distanceY) * 1.5
 
               if (!isHorizontalSwipe) return
 
@@ -72,7 +97,23 @@ function CollectionsSection() {
               touchStart.current = null
             }}
           >
-            <CollectionCard {...activeCollection} />
+            <div className="collections-slides">
+              {collections.map((collection, index) => {
+                const isActive = index === activeIndex
+
+                return (
+                  <div
+                    key={collection.slug}
+                    className="collections-slide"
+                    data-position={slidePosition(index)}
+                    aria-hidden={!isActive}
+                    inert={!isActive}
+                  >
+                    <CollectionCard {...collection} />
+                  </div>
+                )
+              })}
+            </div>
           </div>
 
           <div className="collections-controls">
@@ -114,8 +155,13 @@ function CollectionsSection() {
             </button>
           </div>
 
-          <p className="collections-status" role="status">
-            {activeCollection.name} — {activeIndex + 1} de {collections.length}
+          <p
+            className="collections-status"
+            role="status"
+            aria-atomic="true"
+          >
+            {activeCollection.name} — {activeIndex + 1} de{' '}
+            {collections.length}
           </p>
         </div>
       </div>

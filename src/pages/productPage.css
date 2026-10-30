@@ -72,3 +72,57 @@
   line-height: 1.8;
 }
 
+.product-contact {
+  margin-top: 24px;
+}
+
+.product-whatsapp-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 48px;
+  max-width: 100%;
+  padding: 14px 24px;
+  border: 1px solid var(--color-text);
+  border-radius: 999px;
+  background-color: var(--color-text);
+  color: var(--color-background);
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    opacity 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.product-whatsapp-link:hover {
+  color: var(--color-background);
+  opacity: 0.9;
+}
+
+.product-whatsapp-link:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 4px;
+}
+
+.product-contact-note {
+  max-width: 380px;
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+@media (max-width: 575px) {
+  .product-whatsapp-link {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-whatsapp-link {
+    transition: none;
+  }
+}
+

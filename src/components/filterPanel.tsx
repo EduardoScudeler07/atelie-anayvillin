@@ -8,29 +8,99 @@ type FilterPanelProps = {
   children: ReactNode
 }
 
-function FilterPanel({ open, onClose, children }: FilterPanelProps) {
+function FilterPanel({
+  open,
+  onClose,
+  children,
+}: FilterPanelProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
+  const previousOverflowRef = useRef<string | null>(null)
+
+ useEffect(() => {
+  const dialog = dialogRef.current
+
+  return () => {
+    dialog?.close()
+
+    if (previousOverflowRef.current !== null) {
+      document.body.style.overflow =
+        previousOverflowRef.current
+
+      previousOverflowRef.current = null
+    }
+  }
+}, [])
 
   useEffect(() => {
     const dialog = dialogRef.current
-
     if (!dialog) return
 
-    if (open && !dialog.open) {
-      dialog.showModal()
-    } else if (!open && dialog.open) {
-      dialog.close()
+    function finishClosing() {
+      dialog?.close()
+      dialog?.classList.remove('filter-panel-closing')
+
+      if (previousOverflowRef.current !== null) {
+        document.body.style.overflow =
+          previousOverflowRef.current
+
+        previousOverflowRef.current = null
+      }
     }
-  }, [open])
 
-  useEffect(() => {
-    if (!open) return
+    if (open) {
+      dialog.classList.remove('filter-panel-closing')
 
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+      if (!dialog.open) {
+        dialog.showModal()
+      }
+
+      if (previousOverflowRef.current === null) {
+        previousOverflowRef.current =
+          document.body.style.overflow
+
+        document.body.style.overflow = 'hidden'
+      }
+
+      return
+    }
+
+    if (!dialog.open) return
+
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+
+    if (reducedMotion) {
+      finishClosing()
+      return
+    }
+
+    dialog.classList.add('filter-panel-closing')
+
+    function handleAnimationEnd(event: AnimationEvent) {
+      if (
+        event.target === dialog &&
+        event.animationName === 'filter-panel-exit'
+      ) {
+        finishClosing()
+      }
+    }
+
+    dialog.addEventListener(
+      'animationend',
+      handleAnimationEnd,
+    )
+
+    // Garante o fechamento mesmo se o navegador
+    // não emitir o evento de término da animação.
+    const timeout = window.setTimeout(finishClosing, 400)
 
     return () => {
-      document.body.style.overflow = previousOverflow
+      window.clearTimeout(timeout)
+      dialog.removeEventListener(
+        'animationend',
+        handleAnimationEnd,
+      )
     }
   }, [open])
 
@@ -46,7 +116,9 @@ function FilterPanel({ open, onClose, children }: FilterPanelProps) {
       onClick={(event) => {
         if (event.target !== event.currentTarget) return
 
-        const bounds = event.currentTarget.getBoundingClientRect()
+        const bounds =
+          event.currentTarget.getBoundingClientRect()
+
         const clickedOutside =
           event.clientX < bounds.left ||
           event.clientX > bounds.right ||

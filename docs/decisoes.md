@@ -1124,3 +1124,113 @@ Validação:
 - SQL administrativo e segredo gerado mantidos em .private,
   fora do Git.
 - Login e upload no painel oficial ainda aguardam publicação e teste.
+
+### 2026-10-29 — Painel administrativo validado em produção
+
+- Login, permanência da sessão após atualizar e saída conferidos.
+- Cinco peças publicadas preservadas no catálogo oficial.
+- Terço Pérola Azul Claro cadastrado como rascunho em produção.
+- Upload da foto real concluído e permanência conferida.
+- Painel com seis peças; catálogo público com cinco.
+- Nova peça mantida como rascunho.
+- Publicação, arquivamento e retorno a rascunho previamente
+  validados no ambiente de prévia.
+
+  ### 2026-10-29 — Contato pelo WhatsApp na página da peça
+
+- Adicionado botão “Encomendar pelo WhatsApp”, com ícone e sem seta.
+- Mensagem inclui nome, coleção e link da peça.
+- Mensagem preenchida para revisão, sem envio automático.
+- Número configurado por VITE_WHATSAPP_NUMBER.
+- Número ausente ou com formato inválido oculta o botão.
+- Número de teste mantido no arquivo local, fora do Git.
+- Destino e mensagem conferidos localmente com o número de Eduardo.
+- Lint e build concluídos sem erros.
+- Publicação na prévia com o número de teste ainda pendente.
+- Número da cliente será configurado somente após os testes
+  e com autorização.
+
+  ### 2026-10-29 — WhatsApp validado na prévia
+
+- Botão conferido em HTTPS com o número de teste de Eduardo.
+- Destino, nome da peça, coleção, acentos e link conferidos.
+- Mensagem preenchida sem envio automático.
+- Número configurado somente no ambiente Preview.
+- Produção e contato da cliente não alterados.
+
+### 2026-10-29 — Acervo da coleção Essência cadastrado
+
+- Coleção Essência com seis peças em produção.
+- Terço Pérola Azul permanece publicado.
+- Azul Claro, Branca com Rosas, Preta, Verde Claro e Verde Escuro
+  mantidos como rascunho.
+- Novos cadastros com descrição, foto real e texto alternativo.
+- Dados e fotos conferidos após atualizar a página.
+- Publicação dos rascunhos aguarda revisão.
+
+### 2026-10-29 — Acervo da coleção Promessa cadastrado
+
+- Coleção Promessa com seis peças em produção.
+- Terço Pérola Branca permanece publicado.
+- Azul, Lilás, Marrom, Preta e Rosa Claro mantidos como rascunho.
+- Novos cadastros com descrição, foto real e texto alternativo.
+- Dados e fotos conferidos após atualizar a página.
+- Publicação dos rascunhos aguarda revisão.
+
+### 2026-10-29 — Acervo da coleção Luz cadastrado
+
+- Coleção Luz com sete peças em produção.
+- Terço Cristal Azul Royal permanece publicado.
+- Seis novas peças mantidas como rascunho, com descrição,
+  foto real e texto alternativo.
+- “Tons de Azul”, “Tons de Rosa” e “Tons de Vermelho”
+  identificam variações de cores, mantendo o material Cristais.
+- Dados e fotos conferidos após atualizar a página.
+- Publicação dos rascunhos aguarda revisão.
+
+### 2026-10-29 — Acervo da coleção Graça cadastrado
+
+- Coleção Graça com nove peças em produção.
+- Terço Cristal Rosa Claro permanece publicado.
+- Oito novas peças mantidas como rascunho, com descrição,
+  foto real e texto alternativo.
+- Dados e fotos conferidos após atualizar a página.
+- Publicação dos rascunhos aguarda revisão.
+
+### 2026-10-29 — Conferência do acervo disponível
+
+- Acervo de produção com 29 peças: 5 publicadas e 24 rascunhos.
+- Essência: 6; Promessa: 6; Luz: 7; Graça: 9; Raízes: 1.
+- Raízes mantém somente o Terço Madeira Marrom já publicado.
+- Nenhum cadastro duplicado necessário para Raízes.
+- Infantil permanece adiado.
+- Novas peças aguardam revisão antes da publicação.
+
+### 2026-10-29 — Publicação do acervo revisado
+
+- Publicados os 24 rascunhos após revisão e autorização.
+- Catálogo oficial com 29 peças publicadas:
+  Essência 6, Promessa 6, Luz 7, Graça 9 e Raízes 1.
+- Contagens por coleção e total conferidas no catálogo.
+- Páginas individuais de novas peças conferidas.
+- Infantil permanece adiado.
+
+### 2026-10-29 — Refinamentos de interface e rodapé
+
+- Fechamento do filtro com animação de saída e fundo suave.
+- Troca dos cards de coleções com deslocamento e transparência.
+- Animações respeitam a preferência de reduzir movimentos.
+- Botão da peça alterado para “Solicitar Encomenda”.
+- Rodapé com Instagram @atelie_anayvillin e contato pelo WhatsApp.
+- WhatsApp do rodapé utiliza mensagem geral sobre encomendas.
+- Visual e destinos dos links conferidos localmente, sem envio
+  de mensagens.
+- Lint e build concluídos sem erros.
+- Contato definitivo da cliente ainda pendente.
+
+### 2026-10-29 — Refinamentos conferidos na prévia
+
+- Transições das coleções e fechamento do filtro conferidos em HTTPS.
+- Rodapé e destinos dos links conferidos.
+- Nenhum problema relatado na conferência da prévia.
+- Produção ainda não atualizada com estes refinamentos.
